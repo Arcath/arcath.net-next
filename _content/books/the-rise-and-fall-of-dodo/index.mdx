@@ -1,0 +1,18 @@
+---
+title: The Rise and Fall of D.O.D.O
+author: Neal Stephenson & Nicole Galland
+link: https://amzn.to/2Cz9OwP
+date: 2018-12-04T18:00:00Z
+---
+[[floatLeft]]
+| ![Cover](./cover.jpg)
+
+The Rise and Fall of D.O.D.O was a fantasic read that took up most of my Summer this year.
+
+The way they fit magic into the _real_ world and explain it in a midly scientific manner was very amusing.
+
+The last Neal Sephenson book I read was Seveneves whcih was amazing and is still one of my favourite books so I went into this with high hopes and it did not disapoint.
+
+The first part of the book is a study of how magic works and why it stopped working. I wont spoil it here but it all feels very plausible.
+
+The middle of the book does get bogged down in a lot of bureaucracy in the middle that is entertaining but does get a little fustrating at times. I did like it being there as there is no way a _time travel_ wing of the government would exist without tonnes of oversight and management.
