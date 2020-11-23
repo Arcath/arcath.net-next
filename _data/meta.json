@@ -1,0 +1,19 @@
+{
+  "name": "Adam Laycock",
+  "description": "IT Engineer, Developer & Blogger",
+  "productionUrl": "https://www.arcath.net",
+  "author": {
+    "name": "Adam Laycock",
+    "about": "I am an IT Engineer & Software Developer from the North West of England. I work for a small company supporting Primary Schools in Lancashire & Cumbria. Through this work I build websites and other software.",
+    "email": "adam@arcath.net",
+    "social": {
+      "twitter": "https://www.twitter.com/ArcathWhitefall",
+      "twitterHandle": "@ArcathWhitefall",
+      "github": "https://www.github.com/Arcath",
+      "instagram": "https://www.instagram.com/arcathwhitefall/",
+      "youtube": "https://www.youtube.com/channel/UCl1Mn3_rVPbheyk_aOXFrSA",
+      "dev": "https://dev.to/arcath",
+      "medium": "https://medium.com/@arcathwhitefall"
+    }
+  }
+}

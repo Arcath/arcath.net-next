@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply p-0;
+  @apply min-h-screen;
+  @apply min-w-full;
+  @apply overflow-x-hidden;
+
+  background-image:linear-gradient(0deg, theme('colors.brand.light'), theme('colors.brand.dark'));
+}
+
+h1, h2, h3, h4, h5, h6{
+  @apply font-headings;
+}
+
+.top-skew {
+  @apply h-32;
+  @apply bg-white;
+  @apply dark:bg-gray-800;
+  @apply -mb-28;
+
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+}
+.top-skew:after {
+  @apply h-20;
+  @apply xl:h-32;
+
+  background: inherit;
+  top: 0;
+  content: '';
+  display: block;
+  left: 0;
+  position: absolute;
+  right: 0;
+  transform: skewY(3deg);
+  transform-origin: 100% 0;
+  z-index: -1;
+}
+
+.bottom-skew {
+  @apply h-32;
+  @apply bg-white;
+  @apply dark:bg-gray-800;
+  @apply mb-32;
+  @apply -mt-28;
+
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+}
+.bottom-skew:after {
+  @apply h-20;
+  @apply xl:h-32;
+
+  background: inherit;
+  bottom: 0;
+  content: '';
+  display: block;
+  left: 0;
+  position: absolute;
+  right: 0;
+  transform: skewY(-3deg);
+  transform-origin: 100%;
+  z-index: -1;
+}

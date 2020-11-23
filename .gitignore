@@ -1,0 +1,9 @@
+## Next folders
+.next/
+
+## Node Folders
+node_modules/
+
+## Content
+# Drafts
+_content/**/*-draft/
