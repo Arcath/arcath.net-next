@@ -1,5 +1,5 @@
 import fs from 'fs'
-import {defaults, asyncMap, pick, ArrayElement, indexedBy, asyncForEach} from '@arcath/utils'
+import {defaults, asyncMap, pick, ArrayElement, indexedBy} from '@arcath/utils'
 import path from 'path'
 import matter from 'gray-matter'
 
