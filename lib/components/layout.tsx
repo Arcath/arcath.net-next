@@ -1,5 +1,6 @@
 import React from 'react'
 import useDarkMode from 'use-dark-mode'
+import Link from 'next/link'
 
 import meta from '../../_data/meta.json'
 
@@ -23,7 +24,7 @@ export const Layout: React.FC = ({children}) => {
     <div className="grid grid-cols-content">
       <header className="h-64 col-span-full grid grid-cols-content">
         <div className="col-start-2 col-end-3">
-          <h1 className="text-white text-3xl">{meta.name}</h1>
+          <Link href="/"><h1 className="text-white text-3xl">{meta.name}</h1></Link>
           <h2>{meta.description}</h2>
         </div>
       </header>
@@ -32,7 +33,7 @@ export const Layout: React.FC = ({children}) => {
         {children}
       </div>
       <div className="bottom-skew" />
-      <div className="col-start-2 col-end-5 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 text-white">
+      <div className="col-start-2 col-end-5 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 text-white mb-20">
         <div>
           <img src="/img/profile.jpg" className="rounded-full w-64 mx-auto" />
         </div>

@@ -8,7 +8,7 @@ export default class MainDocument extends Document{
     return <Html lang="en">
       <Head />
       <body>
-        <script src="noflash.js" />
+        <script src="/noflash.js" />
         <Main />
         <NextScript />
       </body>

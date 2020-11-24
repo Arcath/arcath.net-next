@@ -7,6 +7,7 @@ body {
   @apply min-h-screen;
   @apply min-w-full;
   @apply overflow-x-hidden;
+  @apply bg-fixed;
 
   background-image:linear-gradient(0deg, theme('colors.brand.light'), theme('colors.brand.dark'));
 }
@@ -66,4 +67,22 @@ h1, h2, h3, h4, h5, h6{
   transform: skewY(-3deg);
   transform-origin: 100%;
   z-index: -1;
+}
+
+.content-positioning p, 
+.content-positioning ol,
+.content-positioning h1,
+.content-positioning h2,
+.content-positioning h3,
+.content-positioning h4,
+.content-positioning h5,
+.content-positioning h6 {
+  @apply col-start-3;
+}
+
+.content-positioning table,
+.content-positioning pre,
+.content-positioning blockquote {
+  @apply col-start-2;
+  @apply col-end-5;
 }

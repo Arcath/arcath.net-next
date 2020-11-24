@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "clean": "rimraf .next/"
   },
   "author": "Adam Laycock <adam@arcath.net>",
   "license": "ISC",
@@ -13,18 +14,23 @@
     "@mdx-js/loader": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
     "@mdx-js/runtime": "^1.6.21",
+    "@tailwindcss/typography": "^0.3.1",
     "fontsource-montserrat": "^3.0.9",
     "gray-matter": "^4.0.2",
     "next": "^10.0.3",
+    "next-images": "^1.6.2",
     "next-mdx-remote": "^1.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "remark-images": "^2.0.0",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^3.0.0",
     "@types/node": "^14.14.9",
     "@types/react": "^17.0.0",
     "postcss-preset-env": "^6.7.0",
+    "rimraf": "^3.0.2",
     "tailwindcss": "^2.0.1",
     "typescript": "^4.1.2"
   }

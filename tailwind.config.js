@@ -4,7 +4,7 @@ module.exports = {
     // purgeLayersByDefault: true,
   },
   darkMode: 'class',
-  purge: [],
+  purge: false,
   theme: {
     extend: {
       colors: {
@@ -31,5 +31,7 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography')
+  ],
 }

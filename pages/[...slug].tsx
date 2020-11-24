@@ -2,7 +2,7 @@ import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType
 
 import {getPostBySlug, getPosts} from '../lib/data/posts'
 
-import {MDX} from '../lib/components/mdx'
+import {Content} from '../lib/components/mdx'
 import {Layout} from '../lib/components/layout'
 
 import {prepareMDX} from '../lib/functions/prepare-mdx'
@@ -36,8 +36,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const MDXPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({post, source}) => {
   return <Layout>
-    <h1>{post.title}</h1>
-    <MDX source={source} />
+    <Content source={source} heading={post.title} />
   </Layout>
 }
 

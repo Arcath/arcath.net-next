@@ -1,0 +1,10 @@
+{
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#4834d4",
+    "titleBar.activeBackground": "#686de0",
+    "titleBar.activeForeground": "#FDF9F8"
+  },
+  "[mdx]": {
+    "editor.wordWrap": "on"
+  }
+}
