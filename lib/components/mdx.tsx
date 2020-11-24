@@ -6,12 +6,25 @@ import hydrate from 'next-mdx-remote/hydrate'
 import {CONTENT_COMPONENTS} from '../../_content/components'
 
 const Img: React.FC<any> = (props) => {
-  return <Image {...props} layout="fill" />
+  const {src} = props
+
+  return <div className="relative max-h-screen h-auto"><Image {...props} src={src} layout="fill" /></div>
+}
+
+const Paragraph: React.FC<any> = (props) => {  
+  if(props.children.props){
+    if(props.children.props.originalType === 'img'){
+      return <>{props.children}</>
+    }
+  }
+
+  return <p {...props} />
 }
 
 export const components = {
   ...CONTENT_COMPONENTS,
-  img: Img
+  //img: Img,
+  p: Paragraph
 }
 
 export const MDX: React.FC<{source: string}> = ({source}) => {

@@ -86,3 +86,9 @@ h1, h2, h3, h4, h5, h6{
   @apply col-start-2;
   @apply col-end-5;
 }
+
+.content-positioning img{
+  @apply col-start-1;
+  @apply col-end-6;
+  @apply mx-auto;
+}

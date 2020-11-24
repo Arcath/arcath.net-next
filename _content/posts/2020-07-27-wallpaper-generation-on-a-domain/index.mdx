@@ -73,7 +73,7 @@ PowerShell needs some setup before it can run scripts without warnings. In a GPO
 
 > If you download the script directly from GitHub you might find that Windows flags it as a remote script even if its copied to each computer. You can fix this by going into properties of the script on the server and ticking _Unblock_
 
-![Unblock the file](./unblock.png)
+![Unblock the file](/img/posts/2020-07-27-wallpaper-generation-on-a-domain/unblock.png)
 
 Once all the files are deployed its then a simple matter to use a GPO to add a Starup and Logon _PowerShell_ script. I found that trying to use `$PSScriptRoot` doesn't work as expected in statup and logon which resulting in errors. So whilst there is an option to use it in the file paths I don't and instead specify the full path to the wallpaper. `##` to use the temp directory works fine which I use in the output of users wallpapers.
 
@@ -85,8 +85,8 @@ Some examples of the output.
 
 A Lock Screen:
 
-![Excuse the default hostname](./lock.jpg)
+![Excuse the default hostname](/img/posts/2020-07-27-wallpaper-generation-on-a-domain/lock.jpg)
 
 A users wallpaper:
 
-![Logged onto a server](./user.jpg)
+![Logged onto a server](/img/posts/2020-07-27-wallpaper-generation-on-a-domain/user.jpg)

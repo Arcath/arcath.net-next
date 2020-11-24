@@ -1,3 +1,5 @@
+// Look at: https://github.com/tailwindlabs/tailwindcss-typography/issues/69
+
 module.exports = {
   future: {
     // removeDeprecatedGapUtilities: true,
@@ -6,6 +8,7 @@ module.exports = {
   darkMode: 'class',
   purge: false,
   theme: {
+
     extend: {
       colors: {
         brand: {
@@ -32,6 +35,8 @@ module.exports = {
   },
   variants: {},
   plugins: [
-    require('@tailwindcss/typography')
+    require('@tailwindcss/typography')({
+      modifiers: []
+    })
   ],
 }
