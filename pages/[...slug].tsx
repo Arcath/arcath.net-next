@@ -1,4 +1,5 @@
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
+import Head from 'next/head'
 
 import {getPostBySlug, getPosts} from '../lib/data/posts'
 
@@ -36,6 +37,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const MDXPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({post, source}) => {
   return <Layout>
+    <Head>
+      <title>{post.title}</title>
+    </Head>
     <Content source={source} heading={post.title} />
   </Layout>
 }

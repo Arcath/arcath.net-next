@@ -1,15 +1,58 @@
-// Look at: https://github.com/tailwindlabs/tailwindcss-typography/issues/69
-
 module.exports = {
+  experimental: {
+    darkModeVariant: true,
+  },
   future: {
     // removeDeprecatedGapUtilities: true,
     // purgeLayersByDefault: true,
   },
   darkMode: 'class',
+  dark: 'class',
   purge: false,
   theme: {
-
     extend: {
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            color: theme("colors.gray.900"),
+            a: {
+              color: theme("colors.brand.dark"),
+              transition: 'color 0.2s',
+              textDecoration: "none",
+              "&:hover": {
+                color: theme("colors.brand.light")
+              }
+            },
+          }
+        },
+
+        dark: {
+          css: {
+            color: theme('colors.gray.300'),
+            h1: {
+              color: theme("colors.gray.400")
+            },
+            h2: {
+              color: theme("colors.gray.400")
+            },
+            h3: {
+              color: theme("colors.gray.400")
+            },
+            h4: {
+              color: theme("colors.gray.400")
+            },
+            h5: {
+              color: theme("colors.gray.400")
+            },
+            h6: {
+              color: theme("colors.gray.400")
+            },
+            blockquote: {
+              color: theme('colors.gray.300')
+            }
+          },
+        },
+      }),
       colors: {
         brand: {
           light: 'rgb(104, 109, 224)',
@@ -31,12 +74,12 @@ module.exports = {
       rotate: {
         gl: '-25deg'
       }
-    },
+    }
   },
-  variants: {},
+  variants: {
+    typography: ["dark"],
+  },
   plugins: [
-    require('@tailwindcss/typography')({
-      modifiers: []
-    })
+    require('@tailwindcss/typography')
   ],
 }

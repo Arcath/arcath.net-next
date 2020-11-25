@@ -8,7 +8,7 @@ tags:
 ---
 I've been spending a bit of time recently thinking about wallpapers and lock screens for domain computers. For a long time I've used a static image for the computer's lock screen and then [BGInfo](https://docs.microsoft.com/en-us/sysinternals/downloads/bginfo) for the user's wallpaper. The problem is that, at least in my experience, BGInfo seems to fail for everyone's first logon to a machine. This leaves users with the default Windows 10 wallpaper which isn't bad, but it isn't the branded photo they should be getting.
 
-So to cut a long story short I decided it was time to find a new way of doing wallpapers, and ideally creating a lock screen image with the computers hostname on it.
+So to cut a long story short I decided it was time to find a new way of doing wallpapers, and ideally creating a lock screen image with the computer's hostname on it.
 
 ## PowerShell
 
@@ -20,9 +20,9 @@ The first issue I had with it was purely cosmetic, a transparent box background 
 
 The second problem was that it needed you to edit the `.ps1` file to change the settings. Not an issue for me but within [Ed-IT Solutions](https://www.ed-itsolutions.com) I like to operate a _no code edits_ system where scripts always take no more than 2 or 3 options to do a job.
 
-What I'm leading upto here is that I've created [my own script](https://github.com/Ed-ITSolutions/wallpaper-scripts). Full Credit to [DJ-1701](https://github.com/DJ-1701) for their original work, its safe to say I wouldn't have this script working as well as it does without the leg up they gave me.
+What I'm leading up to here is that I've created [my own script](https://github.com/Ed-ITSolutions/wallpaper-scripts). Full Credit to [DJ-1701](https://github.com/DJ-1701) for their original work, its safe to say I wouldn't have this script working as well as it does without the leg up they gave me.
 
-The big difference is the way it accepts config. My script uses an `.ini` file like the one below to configure the output.
+The big difference is the way it accepts config. My script uses a `.ini` file like the one below to configure the output.
 
 I also swapped out the system for getting the screen resolution to one that uses a WMI query. Might be less reliable than the original method but all my test machines haven't had an issue with it, and it works both at boot and during logon removing the need to dump the values into registry.
 
@@ -57,7 +57,7 @@ text = Logged On: %time
 alignment = left
 ```
 
-The above file would create an image and apply it to the current users wallpaper. Setting `applyTouser` to `0` would turn this off and have it only save the output to a file.
+The above file would create an image and apply it to the current user's wallpaper. Setting `applyTouser` to `0` would turn this off and have it only save the output to a file.
 
 There is an example [logon.ini](https://github.com/Ed-ITSolutions/wallpaper-scripts/blob/master/logon.ini) and [boot.ini](https://github.com/Ed-ITSolutions/wallpaper-scripts/blob/master/boot.ini) in the repository.
 
@@ -75,9 +75,9 @@ PowerShell needs some setup before it can run scripts without warnings. In a GPO
 
 ![Unblock the file](/img/posts/2020-07-27-wallpaper-generation-on-a-domain/unblock.png)
 
-Once all the files are deployed its then a simple matter to use a GPO to add a Starup and Logon _PowerShell_ script. I found that trying to use `$PSScriptRoot` doesn't work as expected in statup and logon which resulting in errors. So whilst there is an option to use it in the file paths I don't and instead specify the full path to the wallpaper. `##` to use the temp directory works fine which I use in the output of users wallpapers.
+Once all the files are deployed its then a simple matter to use a GPO to add a Start-up and Logon _PowerShell_ script. I found that trying to use `$PSScriptRoot` doesn't work as expected in start-up and logon which resulting in errors. So whilst there is an option to use it in the file paths I don't and instead specify the full path to the wallpaper. `##` to use the temp directory works fine which I use in the output of users wallpapers.
 
-With all that I'm now getting realiable images generated every logon and startup.
+With all that I'm now getting reliable images generated every logon and startup.
 
 ## Examples
 

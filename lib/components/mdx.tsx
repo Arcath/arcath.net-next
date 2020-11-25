@@ -34,7 +34,7 @@ export const MDX: React.FC<{source: string}> = ({source}) => {
 }
 
 export const Content: React.FC<{source: string, heading: string}> = ({source, heading}) => {
-  return <div className="grid grid-cols-content content-positioning prose max-w-none">
+  return <div className="grid grid-cols-content content-positioning prose dark:prose-dark max-w-none">
     <h1>{heading}</h1>
     <MDX source={source} />
   </div>
