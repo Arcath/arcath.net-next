@@ -1,11 +1,17 @@
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
+import Youtube from 'react-youtube'
+import {asyncMap} from '@arcath/utils'
 
 import {getBooks} from '../lib/data/books'
 import {getPosts} from '../lib/data/posts'
 import {getProjects} from '../lib/data/projects'
+import {getVideos} from '../lib/data/videos'
 
 import {Layout} from '../lib/components/layout'
+import {MDX} from '../lib/components/mdx'
+
+import {prepareMDX} from '../lib/functions/prepare-mdx'
 
 import meta from '../_data/meta.json'
 
@@ -28,19 +34,30 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
   const posts = await getPosts(['slug', 'title', 'href', 'year', 'month', 'day', 'lead'])
   const books = await getBooks(['title', 'href'])
   const projects = await getProjects(['title', 'href'], {order: 'DESC'})
+  let videos = await getVideos(['title', 'videoId', 'href', 'source', 'sourceAddress', 'content'], {limit: 1})
+
+  videos = await asyncMap(videos, async (video) => {
+    const content = await prepareMDX(video.content)
+
+    return {
+      ...video,
+      content
+    }
+  })
 
   return {
     props: {
       posts,
       books,
-      projects
+      projects,
+      videos
     }
   }
 }
 
-const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({posts, books, projects}) => (
+const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({posts, books, projects, videos}) => (
   <Layout>
-    <div className="grid grid-cols-content prose max-w-none">
+    <div className="grid grid-cols-content prose dark:prose-dark max-w-none">
       <h2 className="col-start-3">Recent Posts</h2>
       {posts.map(({title, href, day, month, year, lead}) => {
         return [
@@ -55,8 +72,17 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
           </div>
         ]
       })}
+      <h2 className="col-start-3">Currently Watching</h2>
+      {videos.map(({title, videoId, content}) => {
+        return [
+          <h3 className="col-start-3">{title}</h3>,
+          <Youtube videoId={videoId} className="w-full min-h-1/2" containerClassName="col-start-2 col-end-5" />,
+          <div className="col-start-3">
+            <MDX source={content} />
+          </div>
+        ]
+      })}
       <div className="col-start-3">
-        <h2>Currently Watching</h2>
         <h2>Currently Playing</h2>
         <h2>Currently Reading</h2>
         {books.map(({href, title}) => {

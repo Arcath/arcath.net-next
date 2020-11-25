@@ -71,6 +71,10 @@ module.exports = {
       height: {
         dbl: '200vh'
       },
+      minHeight: {
+        '1/4': '25vh',
+        '1/2': '50vh'
+      },
       rotate: {
         gl: '-25deg'
       }

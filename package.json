@@ -22,12 +22,13 @@
     "next-mdx-remote": "^1.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-youtube": "^7.13.0",
     "remark-images": "^2.0.0",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^3.0.0",
-    "@types/node": "^14.14.9",
+    "@types/node": "^14.14.10",
     "@types/react": "^17.0.0",
     "postcss-preset-env": "^6.7.0",
     "rimraf": "^3.0.2",
