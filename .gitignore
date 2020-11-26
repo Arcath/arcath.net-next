@@ -1,5 +1,7 @@
 ## Next folders
 .next/
+/out_publish/
+/out_functions/
 
 ## Node Folders
 node_modules/

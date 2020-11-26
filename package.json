@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
+    "postbuild": "next-on-netlify",
     "start": "next start",
     "clean": "rimraf .next/"
   },
@@ -30,6 +31,7 @@
     "@fullhuman/postcss-purgecss": "^3.0.0",
     "@types/node": "^14.14.10",
     "@types/react": "^17.0.0",
+    "next-on-netlify": "^2.6.3",
     "postcss-preset-env": "^6.7.0",
     "rimraf": "^3.0.2",
     "tailwindcss": "^2.0.1",

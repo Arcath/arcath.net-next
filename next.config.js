@@ -1,2 +1,8 @@
 const withImages = require('next-images')
-module.exports = withImages()
+
+
+const nextConfig = {
+  target: 'serverless'
+}
+
+module.exports = withImages(nextConfig)

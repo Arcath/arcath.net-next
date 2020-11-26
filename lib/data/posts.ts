@@ -31,11 +31,13 @@ interface Post extends BasePost{
 interface ContentQueryParams{
   limit: number | false
   orderBy: keyof Post
+  skip: number
 }
 
 const defaultQueryParams: ContentQueryParams = {
   limit: 5,
-  orderBy: 'internalDate'
+  orderBy: 'internalDate',
+  skip: 0
 }
 
 const getPostFiles = async (): Promise<BasePost[]> => {
@@ -74,14 +76,14 @@ const getPost = async (basePost: BasePost): Promise<Post> => {
 }
 
 export const getPosts = async <K extends (keyof Post)[]>(fields: K, options: Partial<ContentQueryParams> = {}): Promise<Pick<Post, ArrayElement<K>>[]> => {
-  const {limit, orderBy} = defaults(options, defaultQueryParams)
+  const {limit, orderBy, skip} = defaults(options, defaultQueryParams)
 
   const basePosts = await getPostFiles()
 
   let sorted = basePosts.sort((a, b) => a[orderBy] - b[orderBy]).reverse()
 
   if(limit){
-    sorted = sorted.slice(0, limit)
+    sorted = sorted.slice(skip, skip + limit)
   }
 
   return asyncMap(sorted, async (basePost) => {
