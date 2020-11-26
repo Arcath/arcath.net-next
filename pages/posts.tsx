@@ -1,14 +1,9 @@
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 
-import {getPosts} from '../lib/data/posts'
+import {getPosts, Post} from '../lib/data/posts'
 
 import {Layout} from '../lib/components/layout'
-import {MDX} from '../lib/components/mdx'
-
-import {prepareMDX} from '../lib/functions/prepare-mdx'
-
-import meta from '../_data/meta.json'
 
 const MONTH_FROM_STRING = {
   '01': 'January',
@@ -25,8 +20,10 @@ const MONTH_FROM_STRING = {
   '12': 'December'
 }
 
+export const POST_FIELDS: (keyof Post)[] = ['slug', 'title', 'href', 'year', 'month', 'day', 'lead']
+
 export const getStaticProps = async ({}: GetStaticPropsContext) => {
-  const posts = await getPosts(['slug', 'title', 'href', 'year', 'month', 'day', 'lead'])
+  const posts = await getPosts(POST_FIELDS)
 
   return {
     props: {
