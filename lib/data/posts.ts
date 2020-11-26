@@ -20,7 +20,7 @@ interface BasePost{
   href: string
 }
 
-interface Post extends BasePost{
+export interface Post extends BasePost{
   title: string
   content: string
   date: string

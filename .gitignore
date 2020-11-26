@@ -9,3 +9,5 @@ node_modules/
 ## Content
 # Drafts
 _content/**/*-draft/
+# Generated Data Folders
+pages/_data/**/data.json
