@@ -6,7 +6,7 @@
     "build": "next build",
     "postbuild": "next-on-netlify",
     "start": "next start",
-    "clean": "rimraf .next/"
+    "clean": "rimraf .next/ && rimraf out_publish/ && rimraf out_functions/"
   },
   "author": "Adam Laycock <adam@arcath.net>",
   "license": "ISC",

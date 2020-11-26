@@ -1,5 +1,8 @@
+/* purgecss start ignore */
 @tailwind base;
 @tailwind components;
+/* purgecss end ignore */
+
 @tailwind utilities;
 
 body {
@@ -69,6 +72,7 @@ h1, h2, h3, h4, h5, h6{
   z-index: -1;
 }
 
+/* purgecss start ignore */
 .content-positioning p, 
 .content-positioning ol,
 .content-positioning h1,
@@ -92,3 +96,4 @@ h1, h2, h3, h4, h5, h6{
   @apply col-end-6;
   @apply mx-auto;
 }
+/* purgecss end ignore */
