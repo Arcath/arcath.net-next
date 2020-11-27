@@ -1,9 +1,9 @@
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
 
-import {getBooks, getBookBySlug} from '../../lib/data/books'
+import {getBooks, getBookBySlug} from '~/lib/data/books'
 
-import {MDX} from '../../lib/components/mdx'
-import {Layout} from '../../lib/components/layout'
+import {MDX} from '~/lib/components/mdx'
+import {Layout} from '~/lib/components/layout'
 
 import {prepareMDX} from '../../lib/functions/prepare-mdx'
 

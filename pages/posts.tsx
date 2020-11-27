@@ -2,11 +2,10 @@ import React, {useState} from 'react'
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import useSWR from 'swr'
-import {ArrayElement} from '@arcath/utils'
 
-import {getPosts, Post} from '../lib/data/posts'
+import {getPosts, Post} from '~/lib/data/posts'
 
-import {Layout} from '../lib/components/layout'
+import {Layout} from '~/lib/components/layout'
 
 const MONTH_FROM_STRING = {
   '01': 'January',

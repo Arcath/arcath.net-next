@@ -2,7 +2,7 @@ import React from 'react'
 import useDarkMode from 'use-dark-mode'
 import Link from 'next/link'
 
-import meta from '../../_data/meta.json'
+import meta from '~/data/meta.json'
 
 export const Layout: React.FC = ({children}) => {
   const {toggle, value: darkMode} = useDarkMode(false, {

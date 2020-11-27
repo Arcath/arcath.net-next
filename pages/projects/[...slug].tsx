@@ -1,11 +1,11 @@
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
 
-import {getProjects, getProjectBySlug} from '../../lib/data/projects'
+import {getProjects, getProjectBySlug} from '~/lib/data/projects'
 
-import {MDX} from '../../lib/components/mdx'
-import {Layout} from '../../lib/components/layout'
+import {MDX} from '~/lib/components/mdx'
+import {Layout} from '~/lib/components/layout'
 
-import {prepareMDX} from '../../lib/functions/prepare-mdx'
+import {prepareMDX} from '~/lib/functions/prepare-mdx'
 
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
   if(params?.slug && Array.isArray(params.slug)){

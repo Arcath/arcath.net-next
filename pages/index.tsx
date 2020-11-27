@@ -1,19 +1,20 @@
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
+import Head from 'next/head'
 import Youtube from 'react-youtube'
 import {asyncMap} from '@arcath/utils'
 
-import {getBooks} from '../lib/data/books'
-import {getPosts} from '../lib/data/posts'
-import {getProjects} from '../lib/data/projects'
-import {getVideos} from '../lib/data/videos'
+import {getBooks} from '~/lib/data/books'
+import {getPosts} from '~/lib/data/posts'
+import {getProjects} from '~/lib/data/projects'
+import {getVideos} from '~/lib/data/videos'
 
-import {Layout} from '../lib/components/layout'
-import {MDX} from '../lib/components/mdx'
+import {Layout} from '~/lib/components/layout'
+import {MDX} from '~/lib/components/mdx'
 
-import {prepareMDX} from '../lib/functions/prepare-mdx'
+import {prepareMDX} from '~/lib/functions/prepare-mdx'
 
-import meta from '../_data/meta.json'
+import meta from '~/data/meta.json'
 
 const MONTH_FROM_STRING = {
   '01': 'January',
@@ -57,6 +58,9 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
 
 const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({posts, books, projects, videos}) => (
   <Layout>
+    <Head>
+      <title>{meta.name} / {meta.description}</title>
+    </Head>
     <div className="grid grid-cols-content prose dark:prose-dark max-w-none">
       <h2 className="col-start-3">Recent Posts</h2>
       {posts.map(({title, href, day, month, year, lead}) => {
@@ -72,6 +76,7 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
           </div>
         ]
       })}
+      <div className="col-start-3"><Link href="/posts">More...</Link></div>
       <h2 className="col-start-3">Currently Watching</h2>
       {videos.map(({title, videoId, content}) => {
         return [

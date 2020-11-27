@@ -1,12 +1,13 @@
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
 import Head from 'next/head'
 
-import {getPostBySlug, getPosts} from '../lib/data/posts'
+import {getPostBySlug, getPosts} from '~/lib/data/posts'
 
-import {Content} from '../lib/components/mdx'
-import {Layout} from '../lib/components/layout'
+import {Content} from '~/lib/components/mdx'
+import {Layout} from '~/lib/components/layout'
 
-import {prepareMDX} from '../lib/functions/prepare-mdx'
+import {pageTitle} from '~/lib/functions/page-title'
+import {prepareMDX} from '~/lib/functions/prepare-mdx'
 
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
   if(params?.slug && Array.isArray(params.slug)){
@@ -38,7 +39,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const MDXPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({post, source}) => {
   return <Layout>
     <Head>
-      <title>{post.title}</title>
+      <title>{pageTitle(post.title)}</title>
     </Head>
     <Content source={source} heading={post.title} />
   </Layout>
