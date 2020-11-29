@@ -2,7 +2,7 @@ import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType
 
 import {getProjects, getProjectBySlug} from '~/lib/data/projects'
 
-import {MDX} from '~/lib/components/mdx'
+import {Content} from '~/lib/components/mdx'
 import {Layout} from '~/lib/components/layout'
 
 import {prepareMDX} from '~/lib/functions/prepare-mdx'
@@ -36,8 +36,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const MDXProject: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({project, source}) => {
   return <Layout>
-    <h1>{project.title}</h1>
-    <MDX source={source} />
+    <Content source={source} heading={project.title} />
   </Layout>
 }
 

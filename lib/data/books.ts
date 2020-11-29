@@ -19,6 +19,9 @@ interface Book extends BaseBook{
   title: string
   content: string
   date: string
+  author: string
+  link: string
+  cover: string
 }
 
 interface ContentQueryParams{
