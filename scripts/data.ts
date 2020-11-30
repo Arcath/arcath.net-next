@@ -1,11 +1,15 @@
 import fs from 'fs'
 import path from 'path'
-import {createCanvas} from 'canvas'
+import {createCanvas, registerFont, loadImage} from 'canvas'
 import {asyncForEach} from '@arcath/utils'
 
 import {getPosts, Post} from '../lib/data/posts'
 
-const POST_FIELDS: (keyof Post)[] = ['title', 'href', 'year', 'month', 'day', 'lead']
+import {formatAsDate} from '../lib/functions/format'
+
+import meta from '../_data/meta.json'
+
+const POST_FIELDS: (keyof Post)[] = ['title', 'href', 'year', 'month', 'day', 'lead', 'date']
 
 const {writeFile, mkdir} = fs.promises
 
@@ -18,6 +22,8 @@ const main = async () => {
   const posts = await getPosts(POST_FIELDS, {limit: false})
 
   await writeFile(path.join(process.cwd(), 'pages', '_data', 'posts', 'data.json'), JSON.stringify(posts))
+
+  registerFont(path.join(process.cwd(), 'fonts', 'montserrat-latin-300-normal.ttf'), {family: 'Montserrat'})
 
   asyncForEach(posts, async (post) => {
     const canvas = createCanvas(WIDTH, HEIGHT)
@@ -37,6 +43,56 @@ const main = async () => {
     context.fillRect(-100,0,WIDTH + 200, HEIGHT * 0.75)
 
     context.rotate(-25)
+
+    context.font = '50pt Montserrat'
+    context.textAlign = 'left'
+    context.fillStyle = '#fff'
+    context.textBaseline = 'top'
+
+    const lines: string[] = []
+    const words = post.title.split(' ')
+    let line: string[] = []
+    while(words.length !== 0){
+      const nextLine = [...line, words[0]].join(' ')
+
+      if(context.measureText(nextLine).width > (WIDTH - 20)){
+        lines.push(line.join(' '))
+        line = []
+      }else{
+        line = [...line, words.shift()]
+
+        if(words.length === 0){
+          lines.push(line.join(' '))
+        }
+      }
+    }
+
+    let cursor = 10
+
+    lines.forEach((line) => {
+      context.fillText(line, 10, cursor)
+      cursor += 80
+    })
+
+    cursor += 10
+
+    context.font = '20pt Montserrat'
+    context.fillText(formatAsDate(new Date(post.date)), 20, cursor)
+
+    context.font = '25pt Montserrat'
+    context.textBaseline = 'bottom'
+    context.textAlign = 'right'
+    context.fillStyle = '#000'
+    context.fillText(meta.name, WIDTH - 10, HEIGHT - 10)
+
+    const profile = await loadImage(path.join(process.cwd(), 'public', 'img', 'profile.jpg'))
+
+    context.beginPath()
+    context.moveTo(WIDTH - 305, HEIGHT - 55)
+    context.arc(WIDTH - 280, HEIGHT - 30, 25, 0, 6.28)
+    context.clip()
+
+    context.drawImage(profile, WIDTH - 305, HEIGHT - 55, 50, 50)
 
     const buffer = canvas.toBuffer()
 
