@@ -4,7 +4,12 @@ import {components} from '../components/mdx'
 
 export const prepareMDX = async (source: string) => {
   const mdx = await renderToString(source, {
-    components
+    components,
+    mdxOptions: {
+      remarkPlugins: [
+        require('remark-prism')
+      ]
+    }
   })
 
   return mdx

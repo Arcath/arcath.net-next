@@ -91,6 +91,7 @@ a{
 
 .content-positioning table,
 .content-positioning pre,
+.content-positioning div,
 .content-positioning blockquote {
   @apply col-start-2;
   @apply col-end-5;
