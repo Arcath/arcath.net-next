@@ -1,6 +1,7 @@
 import React from 'react'
 import useDarkMode from 'use-dark-mode'
 import Link from 'next/link'
+import Head from 'next/head'
 
 import meta from '~/data/meta.json'
 
@@ -10,6 +11,9 @@ export const Layout: React.FC = ({children}) => {
   })
 
   return <>
+    <Head>
+      <link rel="icon" type="image/png" href="/img/512.png" />
+    </Head>
     <div className="w-8 absolute top-8 right-8 text-gray-300 dark:text-yellow-300" onClick={toggle}>
       {
         !darkMode
@@ -23,9 +27,26 @@ export const Layout: React.FC = ({children}) => {
     </div>
     <div className="grid grid-cols-content">
       <header className="h-64 col-span-full grid grid-cols-content">
-        <div className="col-start-2 col-end-3">
-          <Link href="/"><h1 className="text-white text-3xl">{meta.name}</h1></Link>
-          <h2>{meta.description}</h2>
+        <div className="grid grid-cols-2 col-start-2 col-end-5">
+          <div>
+            <Link href="/">
+              <a>
+                <h1 className="text-white text-3xl hover:text-brand-light">{meta.name}</h1>
+              </a>
+            </Link>
+            <h2>{meta.description}</h2>
+          </div>
+          <div className="text-right text-white">
+            <Link href="/about">
+              <a className="mx-2 my-8">About</a>
+            </Link>
+            <Link href="/uses">
+              <a className="mx-2 my-8">Uses</a>
+            </Link>
+            <Link href="/contact">
+              <a className="mx-2 my-8">Contact</a>
+            </Link>
+          </div>
         </div>
       </header>
       <div className="top-skew" />

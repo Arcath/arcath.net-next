@@ -9,5 +9,6 @@ node_modules/
 ## Content
 # Drafts
 _content/**/*-draft/
-# Generated Data Folders
+# Generated Files
 pages/_data/**/data.json
+public/img/social/*

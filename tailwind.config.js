@@ -64,6 +64,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         content: 'minmax(0.6rem, 1fr) minmax(0.6rem, 1fr) minmax(auto, 60ch) minmax(0.6rem, 1fr) minmax(0.6rem, 1fr)',
+        header: 'minmax(0.6rem, 1fr) minmax(auto, 60ch) minmax(0.6rem, 1fr)'
       },
       width: {
         dbl: '200vw'

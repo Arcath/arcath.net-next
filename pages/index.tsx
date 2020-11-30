@@ -95,13 +95,6 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
       })}
       <div className="col-start-3"><Link href="/books">More...</Link></div>
       <div className="col-start-3">
-        <h2>Currently Playing</h2>
-        <h2>Currently Reading</h2>
-        {books.map(({href, title}) => {
-          return <div key={href}>
-            <Link href={href}>{title}</Link>
-          </div>
-        })}
         <h2>Featured Projects</h2>
         {projects.map(({href, title}) => {
           return <div key={href}>
