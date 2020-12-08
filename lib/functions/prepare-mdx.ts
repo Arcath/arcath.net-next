@@ -1,4 +1,5 @@
 import renderToString from 'next-mdx-remote/render-to-string'
+import remarkHighlight from 'remark-highlight.js'
 
 import {components} from '../components/mdx'
 
@@ -7,7 +8,7 @@ export const prepareMDX = async (source: string) => {
     components,
     mdxOptions: {
       remarkPlugins: [
-        require('remark-prism')
+        remarkHighlight
       ]
     }
   })

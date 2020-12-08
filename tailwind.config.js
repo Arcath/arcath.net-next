@@ -49,6 +49,9 @@ module.exports = {
             },
             blockquote: {
               color: theme('colors.gray.300')
+            },
+            code: {
+              color: theme('colors.gray.500')
             }
           },
         },

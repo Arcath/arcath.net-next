@@ -33,7 +33,7 @@ const MONTH_FROM_STRING = {
 
 export const getStaticProps = async ({}: GetStaticPropsContext) => {
   const posts = await getPosts(['slug', 'title', 'href', 'year', 'month', 'day', 'lead'])
-  const books = await getBooks(['title', 'href'])
+  let books = await getBooks(['title', 'href', 'cover', 'content'], {limit: 2})
   const projects = await getProjects(['title', 'href'], {order: 'DESC'})
   let videos = await getVideos(['title', 'videoId', 'href', 'source', 'sourceAddress', 'content'], {limit: 1})
 
@@ -42,6 +42,15 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
 
     return {
       ...video,
+      content
+    }
+  })
+
+  books = await asyncMap(books, async (book) => {
+    const content = await prepareMDX(book.content)
+
+    return {
+      ...book,
       content
     }
   })
@@ -88,10 +97,18 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
         ]
       })}
       <h2 className="col-start-3">Currently Reading</h2>
-      {books.map(({href, title}, i) => {
-        return <div key={href} className="col-start-3">
-          <Link href={href}>{title}</Link>
-        </div>
+      {books.map(({href, title, cover, content}, i) => {
+        return [
+          <div key={`${href}-img`} className="col-start-2 pr-2">
+            <img src={cover} alt={title} className="mr-2" />
+          </div>,
+          <div key={`${href}-link`} className="col-start-3">
+            <Link href={href}>
+              <h3><a>{title}</a></h3>
+            </Link>
+            <MDX source={content} />
+          </div>
+        ]
       })}
       <div className="col-start-3"><Link href="/books">More...</Link></div>
       <div className="col-start-3">

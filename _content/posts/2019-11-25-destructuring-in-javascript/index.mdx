@@ -12,7 +12,7 @@ Destructuring allows you to assign values to variables in a quick shorthand inst
 
 A prime example of its use in the wild is React, take this function component.
 
-```tsx
+```ts
 const MyComponent: React.FC<{startCount: number}> = ({startCount}) => {
   const [count, setCount] = useState(startCount)
 
@@ -22,7 +22,7 @@ const MyComponent: React.FC<{startCount: number}> = ({startCount}) => {
 
 Without destructuring, it would look like this.
 
-```tsx
+```ts
 const MyComponent: React.FC<{startCount: number}> = (props) => {
   const countState = useState(props.startCount)
 

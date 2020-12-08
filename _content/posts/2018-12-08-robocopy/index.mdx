@@ -39,7 +39,7 @@ Thats a pretty good reduction although you do lose more than 7 seconds to opeing
 
 Robocopy can do more than just copy files/folders from one place to another. The quickest way to use robocopy is with `/MIR` e.g.
 
-```batch
+```dos
 robocopy C:\Data D:\Backup /MIR
 ```
 
@@ -47,7 +47,7 @@ robocopy C:\Data D:\Backup /MIR
 
 There are a multitude of options that can change the way robocopy works. I wont go into them all here `robocopy /?` will list them all for you. The options I use a lot is `/XD` which can exclude directories from your copy and `/XF` which does the same for files. These options are incredibly useful when copying a user profile.
 
-```batch
+```dos
 robocopy C:\Users\Adam D:\Backups\Adam /MIR /XD AppData /XF ntuser.dat
 ```
 
