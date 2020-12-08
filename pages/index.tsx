@@ -74,13 +74,15 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
       <h2 className="col-start-3">Recent Posts</h2>
       {posts.map(({title, href, day, month, year, lead}) => {
         return [
-          <div key={`${href}-meta`} className="col-start-2 grid grid-cols-2 gap-2">
-            <div className="text-3xl text-center col-span-2">{day}</div>
-            <div className="text-right">{MONTH_FROM_STRING[month]}</div>
-            <div className="">{year}</div>
+          <div key={`${href}-meta`} className="col-start-2">
+            <div className="w-32 text-center mb-8 float-right">
+              <div className="text-3xl">{day}</div>
+              <div className="mt-0">{MONTH_FROM_STRING[month]}</div>
+              <div>{year}</div>
+            </div>
           </div>,
           <div key={`${href}-data`} className="col-start-3">
-            <Link href={href}><h3 style={{marginTop: '0'}}>{title}</h3></Link>
+            <Link href={href}><h3 style={{marginTop: '0', cursor: 'pointer'}}><a>{title}</a></h3></Link>
             <p>{lead}</p>
           </div>
         ]

@@ -29,12 +29,13 @@
     "react-youtube": "^7.13.0",
     "remark-highlight.js": "^6.0.0",
     "remark-images": "^2.0.0",
+    "sodb": "^3.0.0-pre3",
     "swr": "^0.3.9",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^3.0.0",
-    "@types/node": "^14.14.10",
+    "@types/node": "^14.14.11",
     "@types/react": "^17.0.0",
     "canvas": "^2.6.1",
     "next-on-netlify": "^2.6.3",

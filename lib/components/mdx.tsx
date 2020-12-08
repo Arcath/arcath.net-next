@@ -34,8 +34,12 @@ export const MDX: React.FC<{source: string}> = ({source}) => {
 }
 
 export const Content: React.FC<{source: string, heading: string}> = ({source, heading}) => {
-  return <div className="grid grid-cols-content content-positioning prose dark:prose-dark max-w-none">
+  return <ContentContainer>
     <h1>{heading}</h1>
     <MDX source={source} />
-  </div>
+  </ContentContainer>
+}
+
+export const ContentContainer: React.FC = ({children}) => {
+  return <div className="grid grid-cols-content content-positioning prose dark:prose-dark max-w-none">{children}</div>
 }

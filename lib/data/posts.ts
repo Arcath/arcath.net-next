@@ -28,7 +28,7 @@ export interface Post extends BasePost{
   tags: string[]
 }
 
-interface ContentQueryParams{
+export interface ContentQueryParams{
   limit: number | false
   orderBy: keyof Post
   skip: number
