@@ -16,7 +16,7 @@ export const MONTH_FROM_STRING = {
 }
 
 export const PostDate: React.FC<{year: number | string, month: number | string, day: number | string}> = ({year, month, day}) => {
-  return <div className="w-32 text-center mb-8 float-right">
+  return <div className="w-full md:w-32 text-center mb-8 float-right">
     <div className="text-3xl">{day}</div>
     <div className="mt-0">{MONTH_FROM_STRING[month]}</div>
     <div>{year}</div>

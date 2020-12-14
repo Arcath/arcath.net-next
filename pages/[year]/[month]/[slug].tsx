@@ -49,8 +49,8 @@ const MDXPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({post
     </Head>
     <OpenGraph title={post.title} description={post.lead} image={`${meta.productionUrl}/img/social${post.href}/social.jpg`} />
     <ContentContainer>
-      <aside className="col-start-2 col-end-3 row-start-1 row-span-3">
-      <div className="w-32 text-center mb-8 float-right">
+      <aside className="col-start-3 md:col-start-2 col-end-3 row-start-1 row-span-3">
+        <div className="w-full md:w-32 text-center mb-8 float-right">
           <div className="text-3xl">{post.day}</div>
           <div className="mt-0">{MONTH_FROM_STRING[post.month]}</div>
           <div>{post.year}</div>
