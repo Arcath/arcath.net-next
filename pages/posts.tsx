@@ -6,21 +6,7 @@ import useSWR from 'swr'
 import {getPosts, Post} from '~/lib/data/posts'
 
 import {Layout} from '~/lib/components/layout'
-
-const MONTH_FROM_STRING = {
-  '01': 'January',
-  '02': 'February',
-  '03': 'March',
-  '04': 'April',
-  '05': 'May',
-  '06': 'June',
-  '07': 'July',
-  '08': 'August',
-  '09': 'September',
-  '10': 'October',
-  '11': 'November',
-  '12': 'December'
-}
+import {PostDate} from '~/lib/components/post-date'
 
 export const POST_FIELDS: (keyof Post)[] = ['slug', 'title', 'href', 'year', 'month', 'day', 'lead']
 
@@ -47,11 +33,7 @@ const PostsBlock: React.FC<{i: number}> = ({i}) => {
     {posts.map(({title, href, day, month, year, lead}) => {
       return [
         <div key={`${href}-meta`} className="col-start-2">
-          <div className="w-32 text-center mb-8 float-right">
-            <div className="text-3xl">{day}</div>
-            <div className="mt-0">{MONTH_FROM_STRING[month]}</div>
-            <div>{year}</div>
-          </div>
+          <PostDate year={year} month={month} day={day} />
         </div>,
         <div key={`${href}-data`} className="col-start-3">
           <Link href={href}><h3 style={{marginTop: '0'}}>{title}</h3></Link>

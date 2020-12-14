@@ -11,25 +11,11 @@ import {getVideos} from '~/lib/data/videos'
 
 import {Layout} from '~/lib/components/layout'
 import {MDX} from '~/lib/components/mdx'
+import {PostDate} from '~/lib/components/post-date'
 
 import {prepareMDX} from '~/lib/functions/prepare-mdx'
 
 import meta from '~/data/meta.json'
-
-const MONTH_FROM_STRING = {
-  '01': 'January',
-  '02': 'February',
-  '03': 'March',
-  '04': 'April',
-  '05': 'May',
-  '06': 'June',
-  '07': 'July',
-  '08': 'August',
-  '09': 'September',
-  '10': 'October',
-  '11': 'November',
-  '12': 'December'
-}
 
 export const getStaticProps = async ({}: GetStaticPropsContext) => {
   const posts = await getPosts(['slug', 'title', 'href', 'year', 'month', 'day', 'lead'])
@@ -75,11 +61,7 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
       {posts.map(({title, href, day, month, year, lead}) => {
         return [
           <div key={`${href}-meta`} className="col-start-2">
-            <div className="w-32 text-center mb-8 float-right">
-              <div className="text-3xl">{day}</div>
-              <div className="mt-0">{MONTH_FROM_STRING[month]}</div>
-              <div>{year}</div>
-            </div>
+            <PostDate year={year} month={month} day={day} />
           </div>,
           <div key={`${href}-data`} className="col-start-3">
             <Link href={href}><h3 style={{marginTop: '0', cursor: 'pointer'}}><a>{title}</a></h3></Link>

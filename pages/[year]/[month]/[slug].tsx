@@ -7,27 +7,13 @@ import {getPostBySlug, getPosts} from '~/lib/data/posts'
 import {ContentContainer, MDX} from '~/lib/components/mdx'
 import {Layout} from '~/lib/components/layout'
 import {OpenGraph} from '~/lib/components/open-graph'
+import {MONTH_FROM_STRING} from '~/lib/components/post-date'
 
 import {pageTitle} from '~/lib/functions/page-title'
 import {prepareMDX} from '~/lib/functions/prepare-mdx'
 import {tagHref} from '~/lib/functions/tag-href'
 
 import meta from '~/data/meta.json'
-
-const MONTH_FROM_STRING = {
-  '01': 'January',
-  '02': 'February',
-  '03': 'March',
-  '04': 'April',
-  '05': 'May',
-  '06': 'June',
-  '07': 'July',
-  '08': 'August',
-  '09': 'September',
-  '10': 'October',
-  '11': 'November',
-  '12': 'December'
-}
 
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
   if(params?.slug && params.year && params.month){
@@ -69,7 +55,9 @@ const MDXPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({post
           <div className="mt-0">{MONTH_FROM_STRING[post.month]}</div>
           <div>{post.year}</div>
           {post.tags.map((tag) => {
-            return <Link key={tag} href={tagHref(tag)}>{tag}</Link>
+            return <Link key={tag} href={tagHref(tag)}>
+              <a className="block my-2">{tag}</a>
+            </Link>
           })}
         </div>
       </aside>
