@@ -60,6 +60,12 @@ module.exports = {
         brand: {
           light: 'rgb(104, 109, 224)',
           dark: 'rgb(72, 52, 212)'
+        },
+        brands: {
+          dev: '#0a0a0a',
+          twitter: '#1da1f2',
+          github: '#181717',
+          youtube: '#ff0000'
         }
       },
       fontFamily: {
