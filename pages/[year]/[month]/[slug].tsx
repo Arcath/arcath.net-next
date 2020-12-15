@@ -8,6 +8,7 @@ import {ContentContainer, MDX} from '~/lib/components/mdx'
 import {Layout} from '~/lib/components/layout'
 import {OpenGraph} from '~/lib/components/open-graph'
 import {MONTH_FROM_STRING} from '~/lib/components/post-date'
+import {ShareButtons} from '~/lib/components/share-buttons'
 
 import {pageTitle} from '~/lib/functions/page-title'
 import {prepareMDX} from '~/lib/functions/prepare-mdx'
@@ -30,7 +31,7 @@ export const getStaticProps = async ({params}: GetStaticPropsContext) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await getPosts(['slug', 'year', 'month'], {limit: false})
+  const posts = await getPosts(['slug', 'year', 'month', 'href'], {limit: false})
 
   const paths = posts.map(({slug, year, month}) => {
     return {params: {slug: slug.pop(), year, month}}
@@ -63,6 +64,9 @@ const MDXPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({post
       </aside>
       <h1 className="mb-0 col-start-3">{post.title}</h1>
       <MDX source={source} />
+      <aside className="col-start-3">
+        <ShareButtons url={`${meta.productionUrl}${post.href}`} title={post.title} />
+      </aside>
     </ContentContainer>
   </Layout>
 }

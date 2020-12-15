@@ -65,7 +65,9 @@ module.exports = {
           dev: '#0a0a0a',
           twitter: '#1da1f2',
           github: '#181717',
-          youtube: '#ff0000'
+          youtube: '#ff0000',
+          facebook: '#1877f2',
+          reddit: '#ff4500'
         }
       },
       fontFamily: {
