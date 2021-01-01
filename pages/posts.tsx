@@ -1,7 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
+import Head from 'next/head'
 import useSWR from 'swr'
+
+import meta from '~/data/meta.json'
 
 import {getPosts, Post} from '~/lib/data/posts'
 
@@ -46,19 +49,49 @@ const PostsBlock: React.FC<{i: number}> = ({i}) => {
 
 const PostsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = () => {
   const [page, setPage] = useState(0)
+  const loader = useRef(null)
   
   const pages = []
   for(let i = 0; i <= page; i++){
     pages.push(<PostsBlock key={i} i={i} />)
   }
 
+  const handleObserver: IntersectionObserverCallback = (entities) => {
+    const target = entities[0]
+    if(target.isIntersecting){
+      setPage((page) => page + 1)
+    }
+  }
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: "20px",
+      threshold: 1.0
+    }
+
+    const observer = new IntersectionObserver(handleObserver, options);
+    if(loader.current){
+      observer.observe(loader.current)
+    }
+
+    return () => { observer.disconnect() }
+  }, [])
+
+
+
   return <Layout>
+    <Head>
+      <title>{meta.name} / Posts</title>
+    </Head>
     <div className="grid grid-cols-content prose dark:prose-dark max-w-none">
       <h2 className="col-start-3">Recent Posts</h2>
       {pages}
-      <button onClick={() => {
-        setPage(page + 1)
-      }}>Load More</button>
+      <div className="col-start-3 text-center">
+        <button ref={loader} onClick={() => {
+          setPage(page + 1)
+        }}>Load More</button>
+      </div>
     </div>
   </Layout>
 }
