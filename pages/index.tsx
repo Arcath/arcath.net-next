@@ -102,6 +102,9 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
             <Link href={href}>{title}</Link>
           </div>
         })}
+        <Link href="/projects">
+          <a>More...</a>
+        </Link>
       </div>
     </div>
   </Layout>
