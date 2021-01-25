@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-
 import hydrate from 'next-mdx-remote/hydrate'
 
 import {CONTENT_COMPONENTS} from '../../_content/components'
@@ -27,13 +26,13 @@ export const components = {
   p: Paragraph
 }
 
-export const MDX: React.FC<{source: string}> = ({source}) => {
+export const MDX: React.FC<{source: any}> = ({source}) => {
   return <>
     {hydrate(source, {components})}
   </>
 }
 
-export const Content: React.FC<{source: string, heading: string}> = ({source, heading}) => {
+export const Content: React.FC<{source: any, heading: string}> = ({source, heading}) => {
   return <ContentContainer>
     <h1>{heading}</h1>
     <MDX source={source} />

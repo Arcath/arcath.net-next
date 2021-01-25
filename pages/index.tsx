@@ -24,7 +24,7 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
   let videos = await getVideos(['title', 'videoId', 'href', 'source', 'sourceAddress', 'content'], {limit: 1})
 
   videos = await asyncMap(videos, async (video) => {
-    const content = await prepareMDX(video.content)
+    const content = await prepareMDX(video.content) as any
 
     return {
       ...video,
@@ -33,7 +33,7 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
   })
 
   books = await asyncMap(books, async (book) => {
-    const content = await prepareMDX(book.content)
+    const content = await prepareMDX(book.content) as any
 
     return {
       ...book,
@@ -95,8 +95,8 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
         ]
       })}
       <div className="col-start-3"><Link href="/books">More...</Link></div>
+      <h2 className="col-start-3">Featured Projects</h2>
       <div className="col-start-3">
-        <h2>Featured Projects</h2>
         {projects.map(({href, title}) => {
           return <div key={href}>
             <Link href={href}>{title}</Link>

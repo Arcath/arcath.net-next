@@ -2,13 +2,9 @@ module.exports = {
   experimental: {
     darkModeVariant: true,
   },
-  future: {
-    // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
-  },
   darkMode: 'class',
   dark: 'class',
-  purge: false,
+  purge: [],
   theme: {
     extend: {
       typography: (theme) => ({
