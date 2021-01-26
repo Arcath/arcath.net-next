@@ -39,7 +39,7 @@ const PostsBlock: React.FC<{i: number}> = ({i}) => {
           <PostDate year={year} month={month} day={day} />
         </div>,
         <div key={`${href}-data`} className="col-start-3">
-          <Link href={href}><h3 style={{marginTop: '0'}}>{title}</h3></Link>
+          <h3 style={{marginTop: '0'}}><Link href={href}><a>{title}</a></Link></h3>
           <p>{lead}</p>
         </div>
       ]

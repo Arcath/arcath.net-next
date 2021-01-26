@@ -64,7 +64,11 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
             <PostDate year={year} month={month} day={day} />
           </div>,
           <div key={`${href}-data`} className="col-start-3">
-            <Link href={href}><h3 style={{marginTop: '0', cursor: 'pointer'}}><a>{title}</a></h3></Link>
+            <h3 style={{marginTop: '0', cursor: 'pointer'}}>
+              <Link href={href}>
+                <a>{title}</a>
+              </Link>
+            </h3>
             <p>{lead}</p>
           </div>
         ]
@@ -87,9 +91,11 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
             <img src={cover} alt={title} className="mr-2" />
           </div>,
           <div key={`${href}-link`} className="col-start-3">
-            <Link href={href}>
-              <h3><a>{title}</a></h3>
-            </Link>
+            <h3>
+              <Link href={href}>
+                <a>{title}</a>
+              </Link>
+            </h3>
             <MDX source={content} />
           </div>
         ]
