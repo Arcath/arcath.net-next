@@ -56,7 +56,7 @@ export const Layout: React.FC = ({children}) => {
       <div className="bottom-skew" />
       <div className="col-start-2 col-end-5 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 text-white mb-20">
         <div>
-          <img src="/img/profile.jpg" className="rounded-full w-64 mx-auto" />
+          <img src="/img/profile.jpg" className="rounded-full w-64 mx-auto" alt="Adam Laycock" />
         </div>
         <div>
           <h2 className="text-2xl">{meta.name}</h2>
