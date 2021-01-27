@@ -19,6 +19,7 @@ interface Project extends BaseProject{
   title: string
   content: string
   year: string
+  lead: string
 }
 
 interface ContentQueryParams{

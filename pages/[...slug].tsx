@@ -5,6 +5,8 @@ import {getPageBySlug, getPages} from '~/lib/data/pages'
 
 import {Content} from '~/lib/components/mdx'
 import {Layout} from '~/lib/components/layout'
+import {OpenGraph} from '~/lib/components/open-graph'
+
 
 import {pageTitle} from '~/lib/functions/page-title'
 import {prepareMDX} from '~/lib/functions/prepare-mdx'
@@ -41,6 +43,7 @@ const MDXPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({page
     <Head>
       <title>{pageTitle(page.title)}</title>
     </Head>
+    <OpenGraph title={page.title} description={page.title} />
     <Content source={source} heading={page.title} />
   </Layout>
 }

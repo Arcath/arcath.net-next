@@ -10,6 +10,7 @@ import {getPosts, Post} from '~/lib/data/posts'
 
 import {Layout} from '~/lib/components/layout'
 import {PostDate} from '~/lib/components/post-date'
+import {OpenGraph} from '~/lib/components/open-graph'
 
 export const POST_FIELDS: (keyof Post)[] = ['slug', 'title', 'href', 'year', 'month', 'day', 'lead']
 
@@ -84,6 +85,7 @@ const PostsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = () =
     <Head>
       <title>{meta.name} / Posts</title>
     </Head>
+    <OpenGraph title={`${meta.name} / Posts`} description={meta.description} />
     <div className="grid grid-cols-content prose dark:prose-dark max-w-none">
       <h2 className="col-start-3">Recent Posts</h2>
       {pages}

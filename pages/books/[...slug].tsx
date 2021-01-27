@@ -4,6 +4,7 @@ import {getBooks, getBookBySlug} from '~/lib/data/books'
 
 import {MDX} from '~/lib/components/mdx'
 import {Layout} from '~/lib/components/layout'
+import {OpenGraph} from '~/lib/components/open-graph'
 
 import {prepareMDX} from '../../lib/functions/prepare-mdx'
 
@@ -37,6 +38,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const MDXBook: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({book, source}) => {
   return <Layout>
     <h1>{book.title}</h1>
+    <OpenGraph title={book.title} description={book.title} />
     <MDX source={source} />
   </Layout>
 }

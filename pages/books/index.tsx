@@ -7,6 +7,7 @@ import {getBooks} from '~/lib/data/books'
 
 import {Layout} from '~/lib/components/layout'
 import {MDX} from '~/lib/components/mdx'
+import {OpenGraph} from '~/lib/components/open-graph'
 
 import {pageTitle} from '~/lib/functions/page-title'
 import {prepareMDX} from '~/lib/functions/prepare-mdx'
@@ -32,6 +33,7 @@ const BooksPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({bo
     <Head>
       <title>{pageTitle('Books')}</title>
     </Head>
+    <OpenGraph title={`Books`} description={`Books`} />
     <div className="grid grid-cols-content prose dark:prose-dark max-w-none">
       {books.map(({title, href, cover, source, link}, i) => {
         return <div key={href} className="col-start-2 col-end-5 grid grid-cols-3 gap-4">

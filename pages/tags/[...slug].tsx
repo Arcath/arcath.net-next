@@ -6,6 +6,8 @@ import {getTag, getTags} from '~/lib/data/tags'
 
 import {Layout} from '~/lib/components/layout'
 import {PostDate} from '~/lib/components/post-date'
+import {OpenGraph} from '~/lib/components/open-graph'
+
 
 import {pageTitle} from '~/lib/functions/page-title'
 
@@ -39,6 +41,7 @@ export const TagPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> =
     <Head>
       <title>{pageTitle(`Tag / ${tag.name}`)}</title>
     </Head>
+    <OpenGraph title={`Tag / ${tag.name}`} description={`Posts tagged ${tag.name}`} />
     <div className="grid grid-cols-content prose dark:prose-dark max-w-none">
       <h2 className="col-start-3">{tag.name}</h2>
       {tag.posts.map(({title, href, day, month, year, lead}) => {

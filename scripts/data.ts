@@ -99,6 +99,71 @@ const main = async () => {
     await mkdir(path.join(SOCIAL_IMAGES_PATH, post.href), {recursive: true})
     await writeFile(path.join(SOCIAL_IMAGES_PATH, post.href, 'social.jpg'), buffer)
   })
+
+  const canvas = createCanvas(WIDTH, HEIGHT)
+  const context = canvas.getContext('2d')
+
+  context.fillStyle = '#fff'
+  context.fillRect(0, 0, WIDTH, HEIGHT)
+
+  context.rotate(25)
+  
+  const grd = context.createLinearGradient(0, 0, WIDTH, HEIGHT *0.75)
+  grd.addColorStop(0, 'rgb(104, 109, 224)')
+  grd.addColorStop(1, 'rgb(72, 52, 212)')
+
+  context.fillStyle = grd
+
+  context.fillRect(-100,0,WIDTH + 200, HEIGHT * 0.75)
+
+  context.rotate(-25)
+
+  context.font = '50pt Montserrat'
+  context.textAlign = 'left'
+  context.fillStyle = '#fff'
+  context.textBaseline = 'top'
+
+  const lines: string[] = []
+  const words = meta.name.split(' ')
+  let line: string[] = []
+  while(words.length !== 0){
+    const nextLine = [...line, words[0]].join(' ')
+
+    if(context.measureText(nextLine).width > (WIDTH - 20)){
+      lines.push(line.join(' '))
+      line = []
+    }else{
+      line = [...line, words.shift()]
+
+      if(words.length === 0){
+        lines.push(line.join(' '))
+      }
+    }
+  }
+
+  let cursor = 10
+
+  lines.forEach((line) => {
+    context.fillText(line, 10, cursor)
+    cursor += 80
+  })
+
+  cursor += 10
+
+  context.font = '20pt Montserrat'
+  context.fillText(meta.description, 20, cursor)
+
+  const profile = await loadImage(path.join(process.cwd(), 'public', 'img', 'profile.jpg'))
+
+  context.beginPath()
+  context.moveTo(WIDTH - 405, HEIGHT - 405)
+  context.arc(WIDTH - 280, HEIGHT - 200, 200, 0, 6.28)
+  context.clip()
+
+  context.drawImage(profile, WIDTH - 405, HEIGHT - 405, 400, 400)
+
+  const buffer = canvas.toBuffer()
+  await writeFile(path.join(SOCIAL_IMAGES_PATH, 'social.jpg'), buffer)
 }
 
 main()

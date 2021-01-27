@@ -9,6 +9,6 @@ export const OpenGraph: React.FC<{title: string, description: string, image?: st
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content={meta.name} />
     <meta property="description" content={description} />
-    {image ? <meta property="og:image" content={image} /> : ''}
+    <meta property="og:image" content={image ? image : `${meta.productionUrl}/img/social/social.jpg`} />
   </Head>
 }

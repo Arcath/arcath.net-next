@@ -14,6 +14,7 @@ import {getVideos} from '~/lib/data/videos'
 import {Layout} from '~/lib/components/layout'
 import {MDX} from '~/lib/components/mdx'
 import {PostDate} from '~/lib/components/post-date'
+import {OpenGraph} from '~/lib/components/open-graph'
 
 import {prepareMDX} from '~/lib/functions/prepare-mdx'
 
@@ -67,6 +68,7 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
     <Head>
       <title>{meta.name} / {meta.description}</title>
     </Head>
+    <OpenGraph title={meta.name} description={meta.description} />
     <div className="grid grid-cols-content prose dark:prose-dark max-w-none">
       <h2 className="col-start-3">Recent Posts</h2>
       {posts.map(({title, href, day, month, year, lead}) => {
