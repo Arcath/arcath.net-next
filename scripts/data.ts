@@ -163,6 +163,7 @@ const main = async () => {
   context.drawImage(profile, WIDTH - 405, HEIGHT - 405, 400, 400)
 
   const buffer = canvas.toBuffer()
+  await mkdir(path.join(SOCIAL_IMAGES_PATH), {recursive: true})
   await writeFile(path.join(SOCIAL_IMAGES_PATH, 'social.jpg'), buffer)
 }
 
