@@ -24,7 +24,7 @@ import meta from '~/data/meta.json'
 export const getStaticProps = async ({}: GetStaticPropsContext) => {
   const posts = await getPosts(['slug', 'title', 'href', 'year', 'month', 'day', 'lead'])
   let books = await getBooks(['title', 'href', 'cover', 'content'], {limit: 2})
-  const projects = await getProjects(['title', 'href'], {order: 'DESC'})
+  const projects = await getProjects(['title', 'href', 'year'], {order: 'DESC'})
   let videos = await getVideos(['title', 'videoId', 'href', 'source', 'sourceAddress', 'content'], {limit: 1})
 
   videos = await asyncMap(videos, async (video) => {
@@ -116,16 +116,16 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
       })}
       <div className="col-start-3"><Link href="/books">More...</Link></div>
       <h2 className="col-start-3">Featured Projects</h2>
-      <div className="col-start-3">
-        {projects.map(({href, title}) => {
-          return <div key={href}>
-            <Link href={href}>{title}</Link>
-          </div>
-        })}
-        <Link href="/projects">
-          <a>More...</a>
-        </Link>
-      </div>
+      {projects.map(({href, title, year}) => {
+        return <h3 key={href} className="col-start-3">
+          <Link href={href}>
+            <a>{title}</a>
+          </Link> ({year})
+        </h3>
+      })}
+      <Link href="/projects" >
+        <a className="col-start-3">More...</a>
+      </Link>
     </div>
   </Layout>
 }
