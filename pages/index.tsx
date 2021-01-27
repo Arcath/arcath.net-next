@@ -1,8 +1,10 @@
+import {useState, useEffect} from 'react'
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import Youtube from 'react-youtube'
 import {asyncMap} from '@arcath/utils'
+import {useInView} from 'react-intersection-observer'
 
 import {getBooks} from '~/lib/data/books'
 import {getPosts} from '~/lib/data/posts'
@@ -51,8 +53,17 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
   }
 }
 
-const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({posts, books, projects, videos}) => (
-  <Layout>
+const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({posts, books, projects, videos}) => {
+  const {ref: inViewRef, inView} = useInView()
+  const [videoOpen, setVideoOpen] = useState(false)
+
+  useEffect(() => {
+    if(!videoOpen && inView){
+      setVideoOpen(true)
+    }
+  }, [videoOpen, setVideoOpen, inView])
+
+  return <Layout>
     <Head>
       <title>{meta.name} / {meta.description}</title>
     </Head>
@@ -77,8 +88,8 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
       <h2 className="col-start-3">Currently Watching</h2>
       {videos.map(({title, videoId, content}) => {
         return [
-          <h3 className="col-start-3">{title}</h3>,
-          <Youtube videoId={videoId} className="w-full min-h-1/2" containerClassName="col-start-2 col-end-5" />,
+          <h3 className="col-start-3" ref={inViewRef}>{title}</h3>,
+          videoOpen ? <Youtube videoId={videoId} className="w-full min-h-1/2" containerClassName="col-start-2 col-end-5" /> : <div className="w-full min-h-1/2" />,
           <div className="col-start-3">
             <MDX source={content} />
           </div>
@@ -114,6 +125,6 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
       </div>
     </div>
   </Layout>
-)
+}
 
 export default IndexPage

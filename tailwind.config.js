@@ -4,7 +4,7 @@ module.exports = {
   },
   darkMode: 'class',
   dark: 'class',
-  purge: [],
+  purge: false,
   theme: {
     extend: {
       typography: (theme) => ({
