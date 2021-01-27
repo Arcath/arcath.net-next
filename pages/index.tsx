@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
+import Image from 'next/image'
 import Youtube from 'react-youtube'
 import {asyncMap} from '@arcath/utils'
 import {useInView} from 'react-intersection-observer'
@@ -100,8 +101,8 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
       <h2 className="col-start-3">Currently Reading</h2>
       {books.map(({href, title, cover, content}) => {
         return [
-          <div key={`${href}-img`} className="col-start-3 m-auto md:col-start-2 pr-2">
-            <img src={cover} alt={title} className="mr-2" />
+          <div key={`${href}-img`} className="col-start-3 m-auto md:col-start-2 pr-2 relative">
+            <Image src={cover} alt={title} className="mr-2 w-full h-full" width={200} height={300} />
           </div>,
           <div key={`${href}-link`} className="col-start-3">
             <h3>

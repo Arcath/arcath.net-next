@@ -2,6 +2,7 @@ import React from 'react'
 import useDarkMode from 'use-dark-mode'
 import Link from 'next/link'
 import Head from 'next/head'
+import Image from 'next/image'
 
 import meta from '~/data/meta.json'
 
@@ -56,7 +57,7 @@ export const Layout: React.FC = ({children}) => {
       <div className="bottom-skew" />
       <div className="col-start-2 col-end-5 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 text-white mb-20">
         <div>
-          <img src="/img/profile.jpg" className="rounded-full w-64 mx-auto" alt="Adam Laycock" />
+          <Image src="/img/profile.jpg" className="rounded-full w-64 mx-auto" alt="Adam Laycock" width={256} height={256} />
         </div>
         <div>
           <h2 className="text-2xl">{meta.name}</h2>
