@@ -25,6 +25,12 @@ module.exports = {
         dark: {
           css: {
             color: theme('colors.gray.300'),
+            a: {
+              color: theme("colors.brand.light"),
+              "&:hover": {
+                color: theme("colors.brand.dark")
+              }
+            },
             h1: {
               color: theme("colors.gray.400")
             },

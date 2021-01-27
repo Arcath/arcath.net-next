@@ -51,7 +51,7 @@ export const Layout: React.FC = ({children}) => {
         </div>
       </header>
       <div className="top-skew" />
-      <div className="bg-white col-span-full z-10 dark:bg-gray-800 dark:text-gray-300">
+      <div className="bg-white col-span-full z-10 dark:bg-gray-800 dark:text-gray-300 transition-all">
         {children}
       </div>
       <div className="bottom-skew" />

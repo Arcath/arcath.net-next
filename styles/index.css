@@ -28,6 +28,7 @@ a{
   @apply bg-white;
   @apply dark:bg-gray-800;
   @apply -mb-28;
+  @apply transition-all;
 
   position: relative;
   z-index: 1;
@@ -36,6 +37,7 @@ a{
 .top-skew:after {
   @apply h-20;
   @apply xl:h-32;
+  @apply transition-all;
 
   background: inherit;
   top: 0;
