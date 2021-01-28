@@ -1,7 +1,6 @@
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
-import Image from 'next/image'
 import {groupedBy} from '@arcath/utils'
 
 import {getProjects} from '~/lib/data/projects'

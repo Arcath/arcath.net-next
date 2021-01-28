@@ -5,9 +5,9 @@ import hydrate from 'next-mdx-remote/hydrate'
 import {CONTENT_COMPONENTS} from '../../_content/components'
 
 const Img: React.FC<any> = (props) => {
-  const {src} = props
-
-  return <div className="relative max-h-screen h-auto"><Image {...props} src={src} layout="fill" /></div>
+  return <div className="relative w-full">
+    <Image {...props} layout="fill" objectFit="none" />
+  </div>
 }
 
 const Paragraph: React.FC<any> = (props) => {  
