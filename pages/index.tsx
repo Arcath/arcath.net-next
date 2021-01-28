@@ -71,6 +71,13 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
     </Head>
     <OpenGraph title={meta.name} description={meta.description} />
     <div className="grid grid-cols-content prose dark:prose-dark max-w-none">
+      <h2 className="col-start-3">{meta.name}</h2>
+      <div className="col-start-3">
+        <div className="mx-auto" style={{width: '300px'}}>
+          <Image className="rounded-full mx-auto w-full" src="/img/profile.jpg" width={300} height={300} />
+        </div>
+      </div>
+      <p className="col-start-3">{meta.description}</p>
       <h2 className="col-start-3">Recent Posts</h2>
       {posts.map(({title, href, day, month, year, lead}) => {
         return [

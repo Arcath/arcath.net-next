@@ -218,3 +218,8 @@ Railscasts-like style (c) Visoft, Inc. (Damien White)
 .hljs-link {
   text-decoration: underline;
 }
+
+.center-next-image > div{
+  @apply mx-auto;
+  @apply w-full;
+}
