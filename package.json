@@ -5,7 +5,6 @@
     "dev": "next",
     "prebuild": "ts-node scripts/data.ts",
     "build": "next build",
-    "postbuild": "next-on-netlify",
     "start": "next start",
     "clean": "rimraf .next/ && rimraf out_publish/ && rimraf out_functions/"
   },
@@ -41,7 +40,6 @@
     "@types/node": "^14.14.22",
     "@types/react": "^17.0.0",
     "canvas": "^2.6.1",
-    "next-on-netlify": "^2.8.4",
     "postcss-preset-env": "^6.7.0",
     "rimraf": "^3.0.2",
     "tailwindcss": "^2.0.2",
