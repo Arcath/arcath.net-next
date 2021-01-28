@@ -8,7 +8,7 @@ export const OpenGraph: React.FC<{title: string, description: string, image?: st
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content={meta.name} />
-    <meta property="description" content={description} />
+    <meta name="description" content={description} />
     <meta property="og:image" content={image ? image : `${meta.productionUrl}/img/social/social.jpg`} />
   </Head>
 }

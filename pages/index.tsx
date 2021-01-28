@@ -74,7 +74,7 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({po
       <h2 className="col-start-3">{meta.name}</h2>
       <div className="col-start-3">
         <div className="mx-auto" style={{width: '300px'}}>
-          <Image className="rounded-full mx-auto w-full" src="/img/profile.jpg" width={300} height={300} />
+          <Image className="rounded-full mx-auto w-full" src="/img/profile.jpg" width={300} height={300} alt={meta.name} />
         </div>
       </div>
       <p className="col-start-3">{meta.description}</p>
