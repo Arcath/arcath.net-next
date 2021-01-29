@@ -1,7 +1,12 @@
 const withImages = require('next-images')
+const withPWA = require('next-pwa')
 
 const nextConfig = {
-  target: 'serverless'
+  target: 'serverless',
+  pwa: {
+    dest: 'public',
+    disable: process.env.NODE_ENV === 'development'
+  }
 }
 
-module.exports = withImages(nextConfig)
+module.exports = withPWA(withImages(nextConfig))

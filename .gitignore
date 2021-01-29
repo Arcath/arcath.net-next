@@ -12,3 +12,5 @@ _content/**/*-draft/
 # Generated Files
 pages/_data/**/data.json
 public/img/social/*
+public/sw.js
+public/workbox-*.js
