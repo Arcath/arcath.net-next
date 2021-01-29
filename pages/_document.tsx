@@ -4,7 +4,9 @@ import Document, {Head, Html, Main, NextScript} from 'next/document'
 export default class MainDocument extends Document{
   render(){
     return <Html lang="en">
-      <Head />
+      <Head>
+        <link rel='manifest' href='/manifest.json' />
+      </Head>
       <body>
         <script src="/noflash.js" />
         <Main />

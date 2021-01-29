@@ -1,0 +1,16 @@
+{
+  "name": "Adam Laycock",
+  "short_name": "adam-laycock",
+  "icons": [
+    {
+      "src": "/img/512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "rgb(104, 109, 224)",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
