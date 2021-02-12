@@ -55,7 +55,7 @@ const main = async () => {
     while(words.length !== 0){
       const nextLine = [...line, words[0]].join(' ')
 
-      if(context.measureText(nextLine).width > (WIDTH - 20)){
+      if(context.measureText(nextLine).width > (WIDTH - 60)){
         lines.push(line.join(' '))
         line = []
       }else{
@@ -70,29 +70,29 @@ const main = async () => {
     let cursor = 10
 
     lines.forEach((line) => {
-      context.fillText(line, 10, cursor)
+      context.fillText(line, 30, cursor)
       cursor += 80
     })
 
     cursor += 10
 
     context.font = '20pt Montserrat'
-    context.fillText(formatAsDate(new Date(post.date)), 20, cursor)
+    context.fillText(formatAsDate(new Date(post.date)), 40, cursor)
 
     context.font = '25pt Montserrat'
     context.textBaseline = 'bottom'
     context.textAlign = 'right'
     context.fillStyle = '#000'
-    context.fillText(meta.name, WIDTH - 10, HEIGHT - 10)
+    context.fillText(meta.name, WIDTH - 40, HEIGHT - 10)
 
     const profile = await loadImage(path.join(process.cwd(), 'public', 'img', 'profile.jpg'))
 
     context.beginPath()
     context.moveTo(WIDTH - 305, HEIGHT - 55)
-    context.arc(WIDTH - 280, HEIGHT - 30, 25, 0, 6.28)
+    context.arc(WIDTH - 315, HEIGHT - 30, 25, 0, 6.28)
     context.clip()
 
-    context.drawImage(profile, WIDTH - 305, HEIGHT - 55, 50, 50)
+    context.drawImage(profile, WIDTH - 340, HEIGHT - 55, 50, 50)
 
     const buffer = canvas.toBuffer()
 
@@ -129,7 +129,7 @@ const main = async () => {
   while(words.length !== 0){
     const nextLine = [...line, words[0]].join(' ')
 
-    if(context.measureText(nextLine).width > (WIDTH - 20)){
+    if(context.measureText(nextLine).width > (WIDTH - 60)){
       lines.push(line.join(' '))
       line = []
     }else{
@@ -144,23 +144,23 @@ const main = async () => {
   let cursor = 10
 
   lines.forEach((line) => {
-    context.fillText(line, 10, cursor)
+    context.fillText(line, 30, cursor)
     cursor += 80
   })
 
   cursor += 10
 
   context.font = '20pt Montserrat'
-  context.fillText(meta.description, 20, cursor)
+  context.fillText(meta.description, 30, cursor)
 
   const profile = await loadImage(path.join(process.cwd(), 'public', 'img', 'profile.jpg'))
 
   context.beginPath()
   context.moveTo(WIDTH - 405, HEIGHT - 405)
-  context.arc(WIDTH - 280, HEIGHT - 200, 200, 0, 6.28)
+  context.arc(WIDTH - 280, HEIGHT - 210, 200, 0, 6.28)
   context.clip()
 
-  context.drawImage(profile, WIDTH - 405, HEIGHT - 405, 400, 400)
+  context.drawImage(profile, WIDTH - 505, HEIGHT - 415, 450, 450)
 
   const buffer = canvas.toBuffer()
   await mkdir(path.join(SOCIAL_IMAGES_PATH), {recursive: true})
