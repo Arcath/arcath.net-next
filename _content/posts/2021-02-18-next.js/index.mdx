@@ -1,0 +1,60 @@
+---
+title: Next.JS
+lead: Rewriting this site in Next.JS
+date: 2021-02-18T20:28:42.802Z
+tags:
+  - Next.JS
+  - TailwindCSS
+  - Typescript
+---
+
+I've seen some anti-Gatsby sentiment bubbling around recently. I normally ignore articles like this when they come along. It seems like every few weeks there is an article telling me I should abandon [React](https://reactjs.org/) for [Vue](https://vuejs.org/), then that Vue is dead long live [Svelte](https://svelte.dev/), and a few weeks later another article saying React was fine. 
+
+A lot of the things I was reading made a lot of sense, and I agreed with the points. [Gatsby](https://www.gatsbyjs.com/) had annoyed me with the way it splits your site in two with the GraphQL API in the middle. I like GraphQL, I've written two full-blown APIs using it, but I find Gatsby's GraphQL API hard to extend and can sometimes trap you into having to pull in lots of data for a simple query.
+
+## Next.JS
+
+So why Next.JS? [Next.JS](https://nextjs.org/) separates rendering and generation within the same files, unlike Gatsby where you have to write an isolated `gatsby-node.js` and use plugins to parse/fetch data and then output a page list.
+
+I didn't start this rewrite expecting to go all the way to launch it. Whenever I want to try new technologies, I rebuild this site, it is relatively complex and has quite a few features which makes it a great _test case_. 
+
+This rewrite has shown how much work had gone into the old Gatsby site and how powerful that platform was, Saying that, I do find that this Next.js site just makes more sense.
+
+I went big into the Typescript in this site. One of my gripes with Gatsby, and GraphQL, in general, is that I have to manually type the result of queries which, of-course leads to bugs. 
+
+So what have I done here?
+
+Looking at posts, I have a `BasePost` interface that describes the basic data I have on the post before I parse it. `Post` extends `BasePost` with the data from the front matter and content of the post which requires actually reading the file. The functions that fetch the data then return this `Post` type. My data fetching functions take a `fields` argument so that I can limit the data being returned. Next.js creates a data file for each page, no need to have the whole page's content unless I need it. Fetching limited data then becomes as easy as calling one of the fetch functions.
+
+```ts
+// Home Page
+const posts = await getPosts(['slug', 'title', 'href', 'year', 'month', 'day', 'lead'])
+
+// Post page
+const post = await getPostBySlug(
+  [
+    params.year as string,
+    params.month as string,
+    params.slug as string
+  ], 
+  ['slug', 'title', 'content', 'lead', 'href', 'tags', 'year', 'month', 'day']
+)
+```
+
+Using `Pick<T>` allows me to make sure that the type exactly matches the data I am requesting. No more making sure I keep a query and type in sync.
+
+Because these data fetching functions are just typescript I can use them outside Next.js as well, in my [social image generator](/2019/01/generated-social-images) for example. That post is outdated now and I may re-visit it as my new method is a lot cleaner.
+
+## Tailwind
+
+The other new resource I wanted to try out this time was [Tailwind CSS](https://tailwindcss.com/). I had used it on a React App within the company before and wanted to give it a go on something more creative.
+
+I like Tailwind, I find it extremely powerful without getting in the way of what I want to do like other CSS frameworks. Tailwind requires you to know CSS, which I think is what I like about it. I found with Bootstrap and others that my own stylesheet was just me throwing `!important` at everything to make a buttons shadow slightly less obvious.
+
+Tailwind is more than just a framework, the stylesheet in use on this site is _generated_ by Tailwind. My colours, sizes, and any other units I have named are merged into the stylesheet. For example I added a width of `dbl`, with a value of `200vw`, which can be used with any width class in Tailwind like `w-dbl`, `max-w-dbl` and many more.
+
+I also use [purgecss](https://purgecss.com/) to remove all the unused classes and keep tailwind as light as possible for this site.
+
+## Source
+
+As with my Gatsby site I've made the [source code of this site available on GitHub](https://github.com/Arcath/arcath.net-next). You'll see my process of developing the site as I kept it private until launch.
