@@ -10,5 +10,7 @@ export const OpenGraph: React.FC<{title: string, description: string, image?: st
     <meta property="og:site_name" content={meta.name} />
     <meta name="description" content={description} />
     <meta property="og:image" content={image ? image : `${meta.productionUrl}/img/social/social.jpg`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content={meta.author.social.twitterHandle} />
   </Head>
 }
