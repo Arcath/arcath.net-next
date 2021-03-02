@@ -13,6 +13,7 @@ interface BaseBook{
   slugString: string
   file: string
   href: string
+  directory: string
 }
 
 interface Book extends BaseBook{
@@ -44,7 +45,8 @@ const getBookFiles = async (): Promise<BaseBook[]> => {
       slug: ['books', dir],
       slugString: ['books', dir].join('-'),
       href: `/books/${dir}`,
-      file: path.join(BOOKS_DIRECTORY, dir, 'index.mdx')
+      file: path.join(BOOKS_DIRECTORY, dir, 'index.mdx'),
+      directory: path.join(BOOKS_DIRECTORY, dir)
     }
   })
 }

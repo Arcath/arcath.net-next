@@ -1,17 +1,14 @@
-import renderToString from 'next-mdx-remote/render-to-string'
+import {bundleMDX} from 'mdx-bundler'
 import remarkHighlight from 'remark-highlight.js'
 
-import {components} from '../components/mdx'
 
-export const prepareMDX = async (source: string) => {
-  const mdx = await renderToString(source, {
-    components,
-    mdxOptions: {
-      remarkPlugins: [
-        remarkHighlight
-      ]
-    }
+export const prepareMDX = async (source: string, files?: Record<string, string>) => {
+  const {code} = await bundleMDX(source, {
+    files,
+    remarkPlugins: [
+      remarkHighlight
+    ]
   })
 
-  return mdx
+  return code
 }

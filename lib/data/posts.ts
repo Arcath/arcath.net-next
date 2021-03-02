@@ -18,6 +18,7 @@ interface BasePost{
   day: string
   file: string
   href: string
+  directory: string
 }
 
 export interface Post extends BasePost{
@@ -52,7 +53,8 @@ const getPostFiles = async (): Promise<BasePost[]> => {
       slugString: [year, month, slug.join('-')].join('-'),
       href: '/' + [year, month, slug.join('-')].join('/'),
       internalDate: `${year}-${month}-${day}`,
-      file: path.join(POSTS_DIRECTORY, dir, 'index.mdx')
+      file: path.join(POSTS_DIRECTORY, dir, 'index.mdx'),
+      directory: path.join(POSTS_DIRECTORY, dir)
     }
   })
 }

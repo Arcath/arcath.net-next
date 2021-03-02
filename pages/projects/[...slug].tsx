@@ -2,6 +2,7 @@ import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType
 import Head from 'next/head'
 
 import {getProjects, getProjectBySlug} from '~/lib/data/projects'
+import {getComponents} from '~/lib/data/component'
 
 import {Content} from '~/lib/components/mdx'
 import {Layout} from '~/lib/components/layout'
@@ -9,15 +10,19 @@ import {OpenGraph} from '~/lib/components/open-graph'
 
 import {prepareMDX} from '~/lib/functions/prepare-mdx'
 import {pageTitle} from '~/lib/functions/page-title'
+import { pick } from '@arcath/utils'
 
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
   if(params?.slug && Array.isArray(params.slug)){
-    const project = await getProjectBySlug(['projects', ...params.slug], ['slug', 'title', 'content', 'lead'])
-    const source = await prepareMDX(project.content)
+    const project = await getProjectBySlug(['projects', ...params.slug], ['slug', 'title', 'content', 'lead', 'directory'])
+
+    const components = await getComponents(project.directory)
+
+    const source = await prepareMDX(project.content, components)
 
     return {
       props: {
-        project,
+        project: pick(project, ['slug', 'title', 'lead']),
         source
       }
     }

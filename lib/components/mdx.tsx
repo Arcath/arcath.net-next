@@ -1,8 +1,7 @@
-import React from 'react'
+import React, {useMemo} from 'react'
 import Image from 'next/image'
-import hydrate from 'next-mdx-remote/hydrate'
-
-import {CONTENT_COMPONENTS} from '../../_content/components'
+import {MDXProvider} from '@mdx-js/react'
+import {getMDXComponent} from 'mdx-bundler/client'
 
 const Img: React.FC<any> = (props) => {
   return <div className="relative w-full">
@@ -21,15 +20,16 @@ const Paragraph: React.FC<any> = (props) => {
 }
 
 export const components = {
-  ...CONTENT_COMPONENTS,
   //img: Img,
   p: Paragraph
 }
 
 export const MDX: React.FC<{source: any}> = ({source}) => {
-  return <>
-    {hydrate(source, {components})}
-  </>
+  const Component = useMemo(() => getMDXComponent(source), [source])
+
+  return <MDXProvider components={components}>
+    <Component />
+  </MDXProvider>
 }
 
 export const Content: React.FC<{source: any, heading: string}> = ({source, heading}) => {

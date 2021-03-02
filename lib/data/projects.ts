@@ -13,6 +13,7 @@ interface BaseProject{
   slugString: string
   file: string
   href: string
+  directory: string
 }
 
 interface Project extends BaseProject{
@@ -42,7 +43,8 @@ const getProjectFiles = async (): Promise<BaseProject[]> => {
       slug: ['projects', dir],
       slugString: ['projects', dir].join('-'),
       href: `/projects/${dir}`,
-      file: path.join(PROJECTS_DIRECTORY, dir, 'index.mdx')
+      file: path.join(PROJECTS_DIRECTORY, dir, 'index.mdx'),
+      directory: path.join(PROJECTS_DIRECTORY, dir)
     }
   })
 }

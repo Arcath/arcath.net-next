@@ -1,8 +1,10 @@
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
+import {pick} from '@arcath/utils'
 
 import {getPostBySlug, getPosts} from '~/lib/data/posts'
+import {getComponents} from '~/lib/data/component'
 
 import {ContentContainer, MDX} from '~/lib/components/mdx'
 import {Layout} from '~/lib/components/layout'
@@ -18,12 +20,15 @@ import meta from '~/data/meta.json'
 
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
   if(params?.slug && params.year && params.month){
-    const post = await getPostBySlug([params.year as string, params.month as string, params.slug as string], ['slug', 'title', 'content', 'lead', 'href', 'tags', 'year', 'month', 'day'])
-    const source = await prepareMDX(post.content)
+    const post = await getPostBySlug([params.year as string, params.month as string, params.slug as string], ['slug', 'title', 'content', 'lead', 'href', 'tags', 'year', 'month', 'day', 'directory'])
+
+    const components = await getComponents(post.directory)
+
+    const source = await prepareMDX(post.content, components)
 
     return {
       props: {
-        post,
+        post: pick(post, ['slug', 'title', 'lead', 'href', 'tags', 'year', 'month', 'day']),
         source
       }
     }
