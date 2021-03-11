@@ -15,7 +15,7 @@ export const getComponents = async (directory: string) => {
     if(file.substr(-3) === 'tsx'){
       const fileBuffer = await readFile(path.join(directory, file))
 
-      components[`./${file}`] = fileBuffer.toString()
+      components[`./${file}`] = fileBuffer.toString().trim()
     }
   })
 
