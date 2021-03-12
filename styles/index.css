@@ -112,7 +112,6 @@ a{
 .prose blockquote p:last-of-type::before {
   content: '' !important;
 }
-/* purgecss end ignore */
 
 /*
 Railscasts-like style (c) Visoft, Inc. (Damien White)
@@ -223,3 +222,4 @@ Railscasts-like style (c) Visoft, Inc. (Damien White)
   @apply mx-auto;
   @apply w-full;
 }
+/* purgecss end ignore */
