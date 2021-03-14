@@ -6,11 +6,10 @@ tags:
   - MDX
   - Next.JS
 ---
-I've been using [mdx](/2020/03/moving-to-mdx) on this site for a little while now and with my move to [Next.JS](/2021/02/next.js) I went with [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote) to compile it. I felt that next-mdx-remote just wasn't quite what I was after. It forced me to do some _odd_ things to get components into MDX and all in all felt like MDX was a hinderance more than a help. However it was the only option I could see and it did work to a point so I stuck with it.
+I've been using [mdx](/2020/03/moving-to-mdx) on this site for a little while now and with my move to [Next.JS](/2021/02/next.js) I went with [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote) to compile it. I felt that next-mdx-remote just wasn't quite what I was after. It forced me to do some _odd_ things to get components into MDX and, all in all, felt like MDX was a hindrance more than a help. However it was the only option I could see and it did work to a point so I stuck with it.
 
-Then came [mdx-bundler](https://github.com/kentcdodds/mdx-bundler) which on paper almost sounded too good to be true. It supports import statements and bundling of any dependancies. I jumped to it and swapped out next-mdx-remote for mdx-bundler and got most things working pretty quickly.
+Then came [mdx-bundler](https://github.com/kentcdodds/mdx-bundler) which on paper almost sounded too good to be true. It supports import statements and bundling of any dependencies. I jumped to it and swapped out next-mdx-remote for mdx-bundler and got most things working pretty quickly.
 
-I have a whole other post in the works about the changes I helped make to bring in esbuild and the new API but for now lets focus on using mdx-bundler in Next.JS.
 
 ## Server Side
 
@@ -58,7 +57,7 @@ export const getComponents = async (directory: string) => {
 }
 ```
 
-Bringing this all together in `getStaticProps` I now fetch the post, its components and then pass that to `prepareMDX`
+Bringing this all together in `getStaticProps` I now fetch the post, its components and then pass that to `prepareMDX`.
 
 ```ts
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
@@ -109,15 +108,12 @@ Again I have a single component that takes the source and does everything I need
 
 ```ts
 import React, {useMemo} from 'react'
-import {MDXProvider} from '@mdx-js/react'
 import {getMDXComponent} from 'mdx-bundler/client'
 
 export const MDX: React.FC<{source: any}> = ({source}) => {
   const Component = useMemo(() => getMDXComponent(source), [source])
 
-  return <MDXProvider>
-    <Component />
-  </MDXProvider>
+  return <Component />
 }
 ```
 
