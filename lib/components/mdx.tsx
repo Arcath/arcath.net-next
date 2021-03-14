@@ -1,6 +1,5 @@
 import React, {useMemo, ReactHTMLElement} from 'react'
 import Image from 'next/image'
-import {MDXProvider} from '@mdx-js/react'
 import {getMDXComponent} from 'mdx-bundler/client'
 import Link from 'next/link'
 
@@ -10,11 +9,9 @@ const Img: React.FC<any> = (props) => {
   </div>
 }
 
-const Paragraph: React.FC<any> = (props) => {  
-  if(props.children.props){
-    if(props.children.props.originalType === 'img'){
-      return <>{props.children}</>
-    }
+const Paragraph: React.FC<any> = (props) => {
+  if(typeof props.children !== "string" && props.children.type === 'img'){
+    return <>{props.children}</>
   }
 
   return <p {...props} />
@@ -40,12 +37,10 @@ export const components = {
   a: Anchor
 }
 
-export const MDX: React.FC<{source: any}> = ({source}) => {
-  const Component = useMemo(() => getMDXComponent(source), [source])
+export const MDX: React.FC<{source: string}> = ({source}) => {
+  const Component: any = useMemo(() => getMDXComponent(source), [source])
 
-  return <MDXProvider components={components}>
-    <Component />
-  </MDXProvider>
+  return <Component components={components} />
 }
 
 export const Content: React.FC<{source: any, heading: string}> = ({source, heading}) => {

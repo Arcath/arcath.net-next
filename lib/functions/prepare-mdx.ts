@@ -11,9 +11,13 @@ export const prepareMDX = async (source: string, files?: Record<string, string>)
 
   const {code} = await bundleMDX(source, {
     files,
-    remarkPlugins: [
-      remarkHighlight
-    ]
+    xdmOptions: (input, options) => {
+      options.remarkPlugins = [
+        remarkHighlight
+      ]
+      
+      return options
+    }
   })
 
   return code

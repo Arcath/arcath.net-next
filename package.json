@@ -19,7 +19,7 @@
     "date-fns": "^2.18.0",
     "fontsource-montserrat": "^4.0.0",
     "gray-matter": "^4.0.2",
-    "mdx-bundler": "^2.0.0",
+    "mdx-bundler": "^3.1.1",
     "next": "^10.0.5",
     "next-images": "^1.7.0",
     "next-pwa": "^5.0.5",
@@ -33,7 +33,7 @@
     "remark-highlight.js": "^6.0.0",
     "remark-images": "^2.0.0",
     "sodb": "^3.0.0-pre3",
-    "swr": "^0.5.2",
+    "swr": "^0.5.3",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
