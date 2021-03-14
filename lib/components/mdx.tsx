@@ -38,7 +38,7 @@ export const components = {
 }
 
 export const MDX: React.FC<{source: string}> = ({source}) => {
-  const Component: any = useMemo(() => getMDXComponent(source), [source])
+  const Component = useMemo(() => getMDXComponent(source), [source])
 
   return <Component components={components} />
 }
