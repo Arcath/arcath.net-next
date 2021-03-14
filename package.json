@@ -12,9 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "@arcath/utils": "^0.7.0",
-    "@mdx-js/loader": "^1.6.22",
-    "@mdx-js/react": "^1.6.22",
-    "@mdx-js/runtime": "^1.6.22",
     "@tailwindcss/typography": "^0.4.0",
     "date-fns": "^2.18.0",
     "fontsource-montserrat": "^4.0.0",
