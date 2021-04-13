@@ -1,5 +1,6 @@
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
 import Head from 'next/head'
+import {pick} from '@arcath/utils'
 
 import {getPageBySlug, getPages} from '~/lib/data/pages'
 
@@ -18,7 +19,7 @@ export const getStaticProps = async ({params}: GetStaticPropsContext) => {
 
     return {
       props: {
-        page,
+        page: pick(page, ['title', 'slug']),
         source
       }
     }

@@ -1,5 +1,6 @@
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
 import Head from 'next/head'
+import {pick} from '@arcath/utils'
 
 import {getProjects, getProjectBySlug} from '~/lib/data/projects'
 import {getComponents} from '~/lib/data/component'
@@ -10,7 +11,6 @@ import {OpenGraph} from '~/lib/components/open-graph'
 
 import {prepareMDX} from '~/lib/functions/prepare-mdx'
 import {pageTitle} from '~/lib/functions/page-title'
-import { pick } from '@arcath/utils'
 
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
   if(params?.slug && Array.isArray(params.slug)){

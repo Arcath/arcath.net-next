@@ -2,7 +2,7 @@ import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
-import {asyncMap} from '@arcath/utils'
+import {asyncMap, pick} from '@arcath/utils'
 
 import {getBooks} from '~/lib/data/books'
 
@@ -19,7 +19,7 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
   const booksWithSource = await asyncMap(books, async(book) => {
     const source = await prepareMDX(book.content)
 
-    return {...book, source}
+    return pick({...book, source}, ['title', 'source', 'link', 'href', 'cover'])
   })
 
   return {
