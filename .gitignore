@@ -3,6 +3,9 @@
 /out_publish/
 /out_functions/
 
+## Tests
+coverage/
+
 ## Node Folders
 node_modules/
 

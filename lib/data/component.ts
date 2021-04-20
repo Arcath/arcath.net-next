@@ -17,7 +17,7 @@ export const getComponents = async (directory: string) => {
 
       components[`./${file}`] = fileBuffer.toString().trim()
     }
-  })
+  }, {inSequence: false})
 
   return components
 }

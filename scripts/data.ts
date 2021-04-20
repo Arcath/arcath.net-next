@@ -98,7 +98,7 @@ const main = async () => {
 
     await mkdir(path.join(SOCIAL_IMAGES_PATH, post.href), {recursive: true})
     await writeFile(path.join(SOCIAL_IMAGES_PATH, post.href, 'social.jpg'), buffer)
-  })
+  }, {inSequence: false})
 
   const canvas = createCanvas(WIDTH, HEIGHT)
   const context = canvas.getContext('2d')
