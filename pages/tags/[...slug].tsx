@@ -1,3 +1,4 @@
+import React from 'react'
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'

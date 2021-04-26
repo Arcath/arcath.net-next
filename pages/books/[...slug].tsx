@@ -1,3 +1,4 @@
+import React from 'react'
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
 import {pick} from '@arcath/utils'
 
@@ -16,7 +17,11 @@ export const getStaticProps = async ({params}: GetStaticPropsContext) => {
 
     const components = await getComponents(book.directory)
 
-    const source = await prepareMDX(book.content, components)
+    const source = await prepareMDX(book.content, {
+      files: components,
+      directory: book.directory,
+      imagesUrl: `/img/books/${params.slug.join('/')}/`
+    })
 
     return {
       props: {

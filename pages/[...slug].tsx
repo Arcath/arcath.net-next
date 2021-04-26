@@ -1,3 +1,4 @@
+import React from 'react'
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
 import Head from 'next/head'
 import {pick} from '@arcath/utils'
@@ -14,8 +15,12 @@ import {prepareMDX} from '~/lib/functions/prepare-mdx'
 
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
   if(params?.slug && Array.isArray(params.slug)){
-    const page = await getPageBySlug(params.slug, ['slug', 'title', 'content'])
-    const source = await prepareMDX(page.content)
+    const page = await getPageBySlug(params.slug, ['slug', 'title', 'content', 'directory'])
+
+    const source = await prepareMDX(page.content, {
+      directory: page.directory,
+      imagesUrl: `/img/pages/${params.slug.join('/')}/`
+    })
 
     return {
       props: {

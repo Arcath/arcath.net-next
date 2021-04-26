@@ -1,3 +1,4 @@
+import React from 'react'
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
@@ -5,6 +6,7 @@ import Image from 'next/image'
 import {asyncMap, pick} from '@arcath/utils'
 
 import {getBooks} from '~/lib/data/books'
+import {getComponents} from '~/lib/data/component'
 
 import {Layout} from '~/lib/components/layout'
 import {MDX} from '~/lib/components/mdx'
@@ -14,10 +16,16 @@ import {pageTitle} from '~/lib/functions/page-title'
 import {prepareMDX} from '~/lib/functions/prepare-mdx'
 
 export const getStaticProps = async ({}: GetStaticPropsContext) => {
-  const books = await getBooks(['title', 'href', 'cover', 'content', 'link'], {limit: false})
+  const books = await getBooks(['title', 'href', 'cover', 'content', 'link', 'directory', 'slug'], {limit: false})
 
   const booksWithSource = await asyncMap(books, async(book) => {
-    const source = await prepareMDX(book.content)
+    const components = await getComponents(book.directory)
+
+    const source = await prepareMDX(book.content, {
+      files: components,
+      directory: book.directory,
+      imagesUrl: `/img/books/${book.slug.join('/')}/`
+    })
 
     return pick({...book, source}, ['title', 'source', 'link', 'href', 'cover'])
   })

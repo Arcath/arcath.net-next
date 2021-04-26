@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
@@ -28,7 +28,7 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
   let videos = await getVideos(['title', 'videoId', 'href', 'source', 'sourceAddress', 'content'], {limit: 1})
 
   videos = await asyncMap(videos, async (video) => {
-    const content = await prepareMDX(video.content) as any
+    const content = await prepareMDX(video.content, {}) as any
 
     return {
       ...video,
@@ -37,7 +37,7 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
   })
 
   books = await asyncMap(books, async (book) => {
-    const content = await prepareMDX(book.content) as any
+    const content = await prepareMDX(book.content, {}) as any
 
     return {
       ...book,

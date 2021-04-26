@@ -13,6 +13,7 @@ interface BasePage{
   slugString: string
   file: string
   href: string
+  directory: string
 }
 
 interface Page extends BasePage{
@@ -40,7 +41,8 @@ const getPageFiles = async (): Promise<BasePage[]> => {
       slug: ['page', dir],
       slugString: ['page', dir].join('-'),
       href: `/page/${dir}`,
-      file: path.join(PAGES_DIRECTORY, dir)
+      file: path.join(PAGES_DIRECTORY, dir),
+      directory: PAGES_DIRECTORY
     }
   })
 }

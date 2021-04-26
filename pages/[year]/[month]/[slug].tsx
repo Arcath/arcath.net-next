@@ -1,3 +1,4 @@
+import React from 'react'
 import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
@@ -24,7 +25,11 @@ export const getStaticProps = async ({params}: GetStaticPropsContext) => {
 
     const components = await getComponents(post.directory)
 
-    const source = await prepareMDX(post.content, components)
+    const source = await prepareMDX(post.content, {
+      files: components,
+      directory: post.directory,
+      imagesUrl: `/img/posts/${post.slug.join('/')}/`
+    })
 
     return {
       props: {
