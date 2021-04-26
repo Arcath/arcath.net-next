@@ -3,6 +3,7 @@ import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import useSWR from 'swr'
+import {ArrayElement} from '@arcath/utils'
 
 import meta from '~/data/meta.json'
 
@@ -26,11 +27,19 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
 
 const fetcher = (resource, init) => fetch(resource, init).then(res => res.json())
 
-const PostsBlock: React.FC<{i: number}> = ({i}) => {
-  const {data: posts} = useSWR(`/_data/posts/${i * 5}.json`, fetcher)
+const PostsBlock: React.FC<{i: number, initialData?: Pick<Post, ArrayElement<typeof POST_FIELDS>>[]}> = ({i, initialData}) => {
+  let posts: Pick<Post, ArrayElement<typeof POST_FIELDS>>[]
 
-  if(!posts){
-    return <>Loading...</>
+  if(initialData){
+    posts = initialData
+  }else{
+    const {data} = useSWR(`/_data/posts/${i * 5}.json`, fetcher)
+
+    posts = data
+
+    if(!posts){
+      return <>Loading...</>
+    }
   }
 
   return <>
@@ -48,13 +57,13 @@ const PostsBlock: React.FC<{i: number}> = ({i}) => {
   </>
 }
 
-const PostsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = () => {
-  const [page, setPage] = useState(0)
+const PostsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({posts}) => {
+  const [page, setPage] = useState(1)
   const loader = useRef(null)
   
   const pages = []
   for(let i = 0; i <= page; i++){
-    pages.push(<PostsBlock key={i} i={i} />)
+    pages.push(<PostsBlock key={i} i={i} initialData={i === 0 ? posts : undefined} />)
   }
 
   const handleObserver: IntersectionObserverCallback = (entities) => {

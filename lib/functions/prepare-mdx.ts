@@ -22,6 +22,14 @@ export const prepareMDX = async (source: string, options: {
       options.remarkPlugins = [
         ...(options.remarkPlugins ?? []),
         remarkHighlight,
+        /* Soon™ bundle images with esbuild!
+        colocateImagesPlugin({
+          handleImage: async (src) => {
+            const imgSrc = import(src)
+
+            return imgSrc
+          }
+        })*/
         colocateImagesPlugin({
           diskRoot: directory,
           urlReplace: imagesUrl ? imagesUrl : '/img/',
