@@ -17,3 +17,4 @@ pages/_data/**/data.json
 public/img/social/*
 public/sw.js
 public/workbox-*.js
+public/img/posts/20*
