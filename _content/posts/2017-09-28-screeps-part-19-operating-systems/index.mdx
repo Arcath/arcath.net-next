@@ -90,7 +90,7 @@ This means that I never loop through all the creeps. Saving the CPU that is norm
 
 The old nearest room function was causing me some headaches. It simply sorted my rooms by their linear distance to the target room and picked the closest. It fell over when two rooms were adjacent but had no shared exit, the linear distance would be 1, but for a creep it would mean crossing 2 or more extra rooms to get there which would make another room the pathable closest.
 
-![Exmaple Map](/img/posts/2017-09-28-screeps-part-19-operating-systems/example-map.png)
+![Exmaple Map](./example-map.png)
 
 Considering the map above if for example I controlled I and G and asked for the nearest room to K I would get the G as the result. Technically yes G is only 1 room away from K but the path is rather long. I is only 2 away from K in a pathable way.
 
@@ -100,13 +100,13 @@ Instead, I opted to implement my own A* pathing algorithm which uses `Game.map.d
 
 Taking that example from before the Path from G to K looks like this:
 
-![Path from G to K](/img/posts/2017-09-28-screeps-part-19-operating-systems/g-path.png)
+![Path from G to K](./g-path.png)
 
 We start in G which has a score of 1, 1 tile from the target and 0 tiles from the start. C gets a score of 3, 2 from the target and 1 from the start. H gets a score of 2, 1 from the target and 1 from the start. So the path finder moves the current room to H. It then scores L the only exit from H at 2. L has a score lower than C so the path continues that way. Once we pass into the corridor the score ties with C which would mean C might be used again but once the path gets pushed out that way the scores will be higher again and it will return to this path. Following this through you get  a path 8 rooms long.
 
 Let’s run the same thing for I.
 
-![Path from I to K](/img/posts/2017-09-28-screeps-part-19-operating-systems/i-path.png)
+![Path from I to K](./i-path.png)
 
 The score for I is 2, 2 from the target, 0 from the start. E and J get scored with E getting 3 (2 from the target, 1 from start) and J getting 2 (1 from the target, 1 from start). We move to J which wouldn’t actually do any scoring because the target K is the available rooms list which stops it trying to path along F for an extra iteration.
 

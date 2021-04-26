@@ -17,7 +17,7 @@ This is where a WDS Discover Image comes into play. A Discover Image works by ge
 
 The first step is to create a Discover image on your WDS server. Hop into the WDS management console and go to your boot images, then right-click on your latest deployment image and click _Create Discover Image..._
 
-![Create a Discover Image](/img/posts/2021-01-05-creating-a-wds-discover-image/create-discover-image.png)
+![Create a Discover Image](./create-discover-image.png)
 
 This brings up a wizard to create the Discover Image, which needs a couple of bits of information from you.
 
@@ -26,11 +26,11 @@ Firstly where to save it, which I set to `C:\Discover\discover.wim` and then opt
 > *Update*
 > Further testing has shown that if you don't specify an address WDS auto-detection will only work if WDS and DHCP are not on the same server.
 
-![Choose where to save your image](/img/posts/2021-01-05-creating-a-wds-discover-image/save-to-disk.png)
+![Choose where to save your image](./save-to-disk.png)
 
 Once you click next your image will be created and exported to the supplied path.
 
-![Extracted the image](/img/posts/2021-01-05-creating-a-wds-discover-image/extracting-image.png)
+![Extracted the image](./extracting-image.png)
 
 Whilst this exports you can move on to creating the WinPE (Preinstallation Environment) Disk
 
@@ -42,11 +42,11 @@ To do this you need the _Deployment Service Tools_ and _WinPE Extension_ from [t
 
 When installing the ADK you only need to select _Deployment Tools_ from the list of available components.
 
-![Select Deployment Tools](/img/posts/2021-01-05-creating-a-wds-discover-image/deployment-tools.png)
+![Select Deployment Tools](./deployment-tools.png)
 
 Once that is installed you need the ADK's WinPE extensions.
 
-![WinPE Install](/img/posts/2021-01-05-creating-a-wds-discover-image/windows-pe-install.png)
+![WinPE Install](./windows-pe-install.png)
 
 With those tools installed it is just a case of waiting for the export of the image from earlier to finish.
 
@@ -84,7 +84,7 @@ With your USB stick in one USB port and a USB network adapter in the other it's 
 
 > On a GeoBook 1e you can get the boot menu by using the `f7` key.
 
-![Booting the laptop](/img/posts/2021-01-05-creating-a-wds-discover-image/booting.jpg)
+![Booting the laptop](./booting.jpg)
 
 Once it boots the WDS installer should find the WDS server on your network automatically (or will just connect to it if you manually supplied the address). From here it's pretty normal. WDS will use its normal answer files and give you all the images you have on your server.
 

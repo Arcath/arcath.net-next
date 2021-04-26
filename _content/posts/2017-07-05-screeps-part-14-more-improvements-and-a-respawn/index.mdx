@@ -61,7 +61,7 @@ The jobs database is an instance of SODB my database in an object module. It doe
 
 Going with the assumption that it has to be the lookup of the job which is causing the high CPU usage I decided the best solution would be to add an index to the database. SODB 1.2.5 supports the index option which is the name of the field to index. This creates an object with the index fields value as the key and the object id as the value. Changing my jobs.findOne calls to jobs.indexLookup has had a pretty significant impact.
 
-![CPU Usage](/img/posts/2017-07-05-screeps-part-14-more-improvements-and-a-respawn/cpu.png)
+![CPU Usage](./cpu.png)
 
 The jobs controller is now down with the majority of processes. Memory parsing and the creeps actor are now the highest users which I’m happy to live with.
 

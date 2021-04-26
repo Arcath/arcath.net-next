@@ -82,7 +82,7 @@ The CPU limit caused me a couple of little issues. Firstly I had misunderstood h
 
 Wanting to make my per tick CPU limit more dynamic and actually based on the level of my bucket I found a fantastic implementation in the Quorum bot.
 
-![CPU Limit](/img/posts/2017-11-22-screeps-part-21-optimizing-the-os/cpu-limit.png)
+![CPU Limit](./cpu-limit.png)
 
 As you can the CPU limit increases as the bucket level does. This means that I should always have something left in the bucket. In emergancies, I can do away with the limit and let the AI go nuts knowing that the normal limit code will have left something in the bucket for me.
 

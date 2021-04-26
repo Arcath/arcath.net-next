@@ -21,7 +21,7 @@ The solution I found was to set the _FilterType_ registry key to a number that d
 
 Open up _regedit_ and head to `HKEY_CURRENT_USER\Software\Microsoft\ColorFiltering` change the FilterType key to any number over 5 (I used 10).
 
-![Color Filter Registry Settings](/img/posts/2018-02-08-disable-windows-10-colour-filter-shortcut-with-a-gpo/color-filter-disable.png)
+![Color Filter Registry Settings](./color-filter-disable.png)
 
 ## Disable the Shortcut with a GPO
 
@@ -31,7 +31,7 @@ As this is a User registry key the policy needs to be applied to users.
 
 In your, GPO open `User Configuration/Preferences/Windows Settings/Registry` and add a new item with these settings.
 
-![GPP Registry Settings](/img/posts/2018-02-08-disable-windows-10-colour-filter-shortcut-with-a-gpo/gpp-registry.png)
+![GPP Registry Settings](./gpp-registry.png)
 
 This has to be a _replace_ action as the key doesn’t exist until the first time it is used.
 

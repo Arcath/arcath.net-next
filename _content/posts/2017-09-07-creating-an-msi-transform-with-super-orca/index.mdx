@@ -32,7 +32,7 @@ With those edits in place confirm that the MSIs are different using _Tools -> Co
 
 Set MSI File 2 to the original MSI and you should get a list of differences.
 
-![The MSI Changes](/img/posts/2017-09-07-creating-an-msi-transform-with-super-orca/msi-changes.png)
+![The MSI Changes](./msi-changes.png)
 
 ## Creating the Transform
 
@@ -40,7 +40,7 @@ Go to _Tools -> Transform_ Two Files and you will get the transform generator.
 
 Set the _Base MSI_ to the original MSI and _Modified MSI_ to your edited version.
 
-![Create the transform](/img/posts/2017-09-07-creating-an-msi-transform-with-super-orca/create-a-transform.png)
+![Create the transform](./create-a-transform.png)
 
 Hit _Create Transform_ and save the MST in the same folder. Once it generates the MST it will pop up an OK box next to the MSI selector.
 
@@ -48,7 +48,7 @@ Hit _Create Transform_ and save the MST in the same folder. Once it generates th
 
 Now that you have your transform open up the Group Policy in which you want to deploy the MSI and go to software installations. Add the MSI to the deployment list making sure that you select **Advanced** for the deployment type.
 
-![Deploying the MSI](/img/posts/2017-09-07-creating-an-msi-transform-with-super-orca/deploying-the-msi.png)
+![Deploying the MSI](./deploying-the-msi.png)
 
 Go to the **Modifications** tab and add your transform file. Once you’ve added your transform hit OK and your MSI will be added.
 

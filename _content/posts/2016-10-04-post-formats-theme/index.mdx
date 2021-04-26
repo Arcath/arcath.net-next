@@ -56,7 +56,7 @@ This of course means that if you want to display your gallery as a slider you wi
 
 Audio allows you to upload and audio file. The attachment id is then saved into the post meta.
 
-![Audio metabox](/img/posts/2016-10-04-post-formats-theme/post-format-audio-meta-box.png)
+![Audio metabox](./post-format-audio-meta-box.png)
 
 #### Using the Audio
 
@@ -72,7 +72,7 @@ $audioID = get_post_meta($post->ID, '_post_format_audio', true);
 
 The chat meta box needs to build an array of chat messages that you can then loop through on the page.
 
-![Chat metabox](/img/posts/2016-10-04-post-formats-theme/post-format-chat-meta-box.png)
+![Chat metabox](./post-format-chat-meta-box.png)
 
 #### Displaying the Chat
 
@@ -94,7 +94,7 @@ foreach($chat as $line):
 
 The gallery meta box needs to allow you to add infinite images and save the attachment ids into an array in the post meta. This is pretty easy with the built in media browser.
 
-![Gallery metabox](/img/posts/2016-10-04-post-formats-theme/post-format-gallery-meta-box.png)
+![Gallery metabox](./post-format-gallery-meta-box.png)
 
 #### Displaying the Images
 
@@ -114,7 +114,7 @@ To display these images on your page you would do something like this:
 
 The image meta box functions a lot like the gallery meta box only instead of adding to the selection it replaces the selected image.
 
-![Image metabox](/img/posts/2016-10-04-post-formats-theme/post-format-image-meta-box.png)
+![Image metabox](./post-format-image-meta-box.png)
 
 #### Displaying the Image
 
@@ -129,7 +129,7 @@ $image = get_post_meta($post->ID, '_post_format_image', true);
 
 The video meta box works the same as the audio one. The box lets you select a video from your library and saves its id into the post meta.
 
-![Video metabox](/img/posts/2016-10-04-post-formats-theme/post-format-video-meta-box.png)
+![Video metabox](./post-format-video-meta-box.png)
 
 ### Aside & Status
 

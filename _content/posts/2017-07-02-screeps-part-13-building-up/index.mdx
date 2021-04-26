@@ -54,7 +54,7 @@ This is the code I added at the top of my loop to make use of this.
 
 I added some profiling to my code to monitor how much each process is using. From here I can see where my code needs improving and watch my improvements go to work.
 
-![CPU Profiling](/img/posts/2017-07-02-screeps-part-13-building-up/cpu-profiling.png)
+![CPU Profiling](./cpu-profiling.png)
 
 Straight away I can see that my highest CPU user is the jobs controller (light blue). So much so that the overall CPU usage (orange) almost matches it higher up.
 
@@ -64,7 +64,7 @@ This cache brought the job controller usage down to the level of the other proce
 
 Looking a the graph now I need a more general increase in performance, but overall I don’t go over my limit much anymore.
 
-![Improvements](/img/posts/2017-07-02-screeps-part-13-building-up/improved.png)
+![Improvements](./improved.png)
 
 There is more to do getting my CPU down but for now, it’s low enough that I should be able to take a 6th room next week when my GCL goes up.
 
