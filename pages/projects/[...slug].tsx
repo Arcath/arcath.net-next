@@ -4,7 +4,6 @@ import Head from 'next/head'
 import {pick} from '@arcath/utils'
 
 import {getProjects, getProjectBySlug} from '~/lib/data/projects'
-import {getComponents} from '~/lib/data/component'
 
 import {Content} from '~/lib/components/mdx'
 import {Layout} from '~/lib/components/layout'
@@ -17,10 +16,7 @@ export const getStaticProps = async ({params}: GetStaticPropsContext) => {
   if(params?.slug && Array.isArray(params.slug)){
     const project = await getProjectBySlug(['projects', ...params.slug], ['slug', 'title', 'content', 'lead', 'directory'])
 
-    const components = await getComponents(project.directory)
-
     const source = await prepareMDX(project.content, {
-      files: components,
       directory: project.directory,
       imagesUrl: `/img/books/${project.slug.join('/')}/`
     })

@@ -6,7 +6,6 @@ import Image from 'next/image'
 import {asyncMap, pick} from '@arcath/utils'
 
 import {getBooks} from '~/lib/data/books'
-import {getComponents} from '~/lib/data/component'
 
 import {Layout} from '~/lib/components/layout'
 import {MDX} from '~/lib/components/mdx'
@@ -19,10 +18,7 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
   const books = await getBooks(['title', 'href', 'cover', 'content', 'link', 'directory', 'slug'], {limit: false})
 
   const booksWithSource = await asyncMap(books, async(book) => {
-    const components = await getComponents(book.directory)
-
     const source = await prepareMDX(book.content, {
-      files: components,
       directory: book.directory,
       imagesUrl: `/img/books/${book.slug.join('/')}/`
     })

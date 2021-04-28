@@ -1,7 +1,7 @@
 import path from 'path'
 import {bundleMDX} from 'mdx-bundler'
 import remarkHighlight from 'remark-highlight.js'
-import {colocateImagesPlugin} from 'remark-plugin-colocate-images'
+import {remarkMdxImages} from 'remark-mdx-images'
 
 export const prepareMDX = async (source: string, options: {
   files?: Record<string, string>,
@@ -14,29 +14,31 @@ export const prepareMDX = async (source: string, options: {
     process.env.ESBUILD_BINARY_PATH = path.join(process.cwd(), 'node_modules', 'esbuild', 'bin', 'esbuild')
   }
 
-  const {files, directory, imagesUrl} = options
+  const {directory, imagesUrl} = options
 
   const {code} = await bundleMDX(source, {
-    files,
+    cwd: directory,
     xdmOptions: (input, options) => {
       options.remarkPlugins = [
         ...(options.remarkPlugins ?? []),
         remarkHighlight,
-        /* Soon™ bundle images with esbuild!
-        colocateImagesPlugin({
-          handleImage: async (src) => {
-            const imgSrc = import(src)
-
-            return imgSrc
-          }
-        })*/
-        colocateImagesPlugin({
-          diskRoot: directory,
-          urlReplace: imagesUrl ? imagesUrl : '/img/',
-          diskReplace: imagesUrl ? path.join(process.cwd(), 'public', imagesUrl) : path.join(process.cwd(), 'public', 'img')
-        })
+        remarkMdxImages
       ]
       
+      return options
+    },
+    esbuildOptions: (options) => {
+      // Temp, bundle images as dataurls
+      options.outdir = path.join(process.cwd(), 'public', imagesUrl)
+      options.loader = {
+        ...options.loader,
+        '.png': 'dataurl',
+        '.jpg': 'dataurl',
+        '.gif': 'dataurl'
+      }
+      options.publicPath = imagesUrl
+      //options.write = true as any
+
       return options
     }
   })

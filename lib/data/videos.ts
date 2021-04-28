@@ -16,6 +16,7 @@ interface BaseVideo{
   year: string
   month: string
   day: string
+  directory: string
 }
 
 interface Video extends BaseVideo{
@@ -51,7 +52,8 @@ const getVideoFiles = async (): Promise<BaseVideo[]> => {
       slug: ['videos', year, month, slug.join('-')],
       slugString: ['videos', year, month, slug.join('-')].join('-'),
       href: '/' + [year, month, slug.join('-')].join('/'),
-      file: path.join(VIDEOS_DIRECTORY, dir, 'index.mdx')
+      file: path.join(VIDEOS_DIRECTORY, dir, 'index.mdx'),
+      directory: path.join(VIDEOS_DIRECTORY, dir)
     }
   })
 }
