@@ -1,5 +1,16 @@
 {
   "redirects": [
     {"source": "/articles", "destination": "/posts"}
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Permissions-Policy",
+          "value": "interest-cohort=()"
+        }
+      ]
+    }
   ]
 }
