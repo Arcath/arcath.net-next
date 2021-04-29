@@ -23,12 +23,12 @@ import meta from '~/data/meta.json'
 
 export const getStaticProps = async ({}: GetStaticPropsContext) => {
   const posts = await getPosts(['slug', 'title', 'href', 'year', 'month', 'day', 'lead'])
-  let books = await getBooks(['title', 'href', 'cover', 'content', 'directory'], {limit: 2})
+  let books = await getBooks(['title', 'href', 'cover', 'content', 'directory', 'slug'], {limit: 2})
   const projects = await getProjects(['title', 'href', 'year'], {order: 'DESC'})
-  let videos = await getVideos(['title', 'videoId', 'href', 'source', 'sourceAddress', 'content', 'directory'], {limit: 1})
+  let videos = await getVideos(['title', 'videoId', 'href', 'source', 'sourceAddress', 'content', 'directory', 'slug'], {limit: 1})
 
   videos = await asyncMap(videos, async (video) => {
-    const content = await prepareMDX(video.content, {directory: video.directory, imagesUrl: '/videos'})
+    const content = await prepareMDX(video.content, {directory: video.directory, imagesUrl: `/img/index/${video.slug.join('/')}`})
 
     return {
       ...video,
@@ -37,7 +37,7 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
   })
 
   books = await asyncMap(books, async (book) => {
-    const content = await prepareMDX(book.content, {directory: book.directory, imagesUrl: '/books'})
+    const content = await prepareMDX(book.content, {directory: book.directory, imagesUrl: `/img/index/${book.slug.join('/')}`})
 
     return {
       ...book,
