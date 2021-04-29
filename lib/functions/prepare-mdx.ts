@@ -2,6 +2,7 @@ import path from 'path'
 import {bundleMDX} from 'mdx-bundler'
 import remarkHighlight from 'remark-highlight.js'
 import {remarkMdxImages} from 'remark-mdx-images'
+import gfm from 'remark-gfm'
 
 export const prepareMDX = async (source: string, options: {
   files?: Record<string, string>,
@@ -22,22 +23,22 @@ export const prepareMDX = async (source: string, options: {
       options.remarkPlugins = [
         ...(options.remarkPlugins ?? []),
         remarkHighlight,
+        gfm,
         remarkMdxImages
       ]
       
       return options
     },
     esbuildOptions: (options) => {
-      // Temp, bundle images as dataurls
       options.outdir = path.join(process.cwd(), 'public', imagesUrl)
       options.loader = {
         ...options.loader,
-        '.png': 'dataurl',
-        '.jpg': 'dataurl',
-        '.gif': 'dataurl'
+        '.png': 'file',
+        '.jpg': 'file',
+        '.gif': 'file'
       }
       options.publicPath = imagesUrl
-      //options.write = true as any
+      options.write = true
 
       return options
     }
