@@ -92,7 +92,7 @@ The directories are specific to your site but here I supply a different folder f
 |Content|Post Directory|`outdir`|`publicPath`|
 |:------||:-------------|:-------|:-----------|
 |[This Post](/2021/04/images-with-mdx-bundler)|`<root>/_content/posts/2021-04-29-images-with-mdx-bundler`|`<root>/public/img/posts/2021/04/images-with-mdx-bundler`|`/img/posts/2021/04/images-with-mdx-bundler`|
-|[About Page](/about)|`<root>/_content/pages/`, `<root>/public/img/pages/about`|`/img/pages/about`|
+|[About Page](/about)|`<root>/_content/pages/`|`<root>/public/img/pages/about`|`/img/pages/about`|
 
 This prevents images from later builds overwriting earlier ones. You have to remember that each call to `bundleMDX` is isolated so esbuild can't tell if the image it wants to overwrite is from an another build or from the last time your site was built.
 
