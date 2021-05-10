@@ -37,7 +37,7 @@ To start with the `dataurl` loader will do the job, it inlines all the images as
 ```js
 const {code} = await bundleMDX(source, {
   cwd: '/posts/directory/on/disk',
-  xdmOptions: (input, options) => {
+  xdmOptions: (options) => {
     options.remarkPlugins = [
       ...(options.remarkPlugins ?? []),
       remarkMdxImages
@@ -63,7 +63,7 @@ As the `file` loader is copying files around it needs to know more details about
 ```js
 const {code} = await bundleMDX(source, {
   cwd: '/posts/directory/on/disk',
-  xdmOptions: (input, options) => {
+  xdmOptions: (options) => {
     options.remarkPlugins = [
       ...(options.remarkPlugins ?? []),
       remarkMdxImages

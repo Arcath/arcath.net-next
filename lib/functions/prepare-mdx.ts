@@ -19,7 +19,7 @@ export const prepareMDX = async (source: string, options: {
 
   const {code} = await bundleMDX(source, {
     cwd: directory,
-    xdmOptions: (input, options) => {
+    xdmOptions: (options) => {
       options.remarkPlugins = [
         ...(options.remarkPlugins ?? []),
         remarkHighlight,
