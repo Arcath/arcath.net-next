@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next",
     "prebuild": "ts-node scripts/data.ts",
-    "vercel-build": "yum install libuuid-devel libmount-devel && cp /lib64/{libuuid,libmount,libblkid}.so.1 node_modules/canvas/build/Release/ && npm run build",
+    "vercel-build": "yum install libuuid-devel libmount-devel zlib && cp /lib64/{libuuid,libmount,libblkid,libz}.so.1 node_modules/canvas/build/Release/ && npm run build",
     "build": "next build",
     "start": "next start",
     "clean": "rimraf .next/ && rimraf out_publish/ && rimraf out_functions/",
