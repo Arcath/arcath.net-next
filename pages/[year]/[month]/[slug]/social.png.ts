@@ -9,14 +9,22 @@ import {getPostBySlug} from '~/lib/data/posts'
 import {formatAsDate} from '~/lib/functions/format'
 import meta from '~/data/meta.json'
 
-export async function getServerSideProps({res, params}: GetServerSidePropsContext<{year: string, month: string, slug: string}>){
+export async function getServerSideProps({
+  res,
+  params
+}: GetServerSidePropsContext<{year: string; month: string; slug: string}>) {
   const {year, month, slug} = params
 
-  if(params?.slug && params.year && params.month){
-    registerFont(path.join(process.cwd(), 'fonts', 'montserrat-latin-300-normal.ttf'), {family: 'Montserrat'})
+  if (params?.slug && params.year && params.month) {
+    registerFont(
+      path.join(process.cwd(), 'fonts', 'montserrat-latin-300-normal.ttf'),
+      {family: 'Montserrat'}
+    )
 
-
-    const post = await getPostBySlug([year, month, slug], ['slug', 'title', 'date'])
+    const post = await getPostBySlug(
+      [year, month, slug],
+      ['slug', 'title', 'date']
+    )
     const canvas = createCanvas(WIDTH, HEIGHT)
     const context = canvas.getContext('2d')
 
@@ -24,14 +32,14 @@ export async function getServerSideProps({res, params}: GetServerSidePropsContex
     context.fillRect(0, 0, WIDTH, HEIGHT)
 
     context.rotate(25)
-    
-    const grd = context.createLinearGradient(0, 0, WIDTH, HEIGHT *0.75)
+
+    const grd = context.createLinearGradient(0, 0, WIDTH, HEIGHT * 0.75)
     grd.addColorStop(0, 'rgb(104, 109, 224)')
     grd.addColorStop(1, 'rgb(72, 52, 212)')
 
     context.fillStyle = grd
 
-    context.fillRect(-100,0,WIDTH + 200, HEIGHT * 0.75)
+    context.fillRect(-100, 0, WIDTH + 200, HEIGHT * 0.75)
 
     context.rotate(-25)
 
@@ -43,16 +51,16 @@ export async function getServerSideProps({res, params}: GetServerSidePropsContex
     const lines: string[] = []
     const words = post.title.split(' ')
     let line: string[] = []
-    while(words.length !== 0){
+    while (words.length !== 0) {
       const nextLine = [...line, words[0]].join(' ')
 
-      if(context.measureText(nextLine).width > (WIDTH - 60)){
+      if (context.measureText(nextLine).width > WIDTH - 60) {
         lines.push(line.join(' '))
         line = []
-      }else{
+      } else {
         line = [...line, words.shift()]
 
-        if(words.length === 0){
+        if (words.length === 0) {
           lines.push(line.join(' '))
         }
       }
@@ -60,7 +68,7 @@ export async function getServerSideProps({res, params}: GetServerSidePropsContex
 
     let cursor = 10
 
-    lines.forEach((line) => {
+    lines.forEach(line => {
       context.fillText(line, 30, cursor)
       cursor += 80
     })
@@ -76,7 +84,9 @@ export async function getServerSideProps({res, params}: GetServerSidePropsContex
     context.fillStyle = '#000'
     context.fillText(meta.name, WIDTH - 40, HEIGHT - 10)
 
-    const profile = await loadImage(path.join(process.cwd(), 'public', 'img', 'profile.jpg'))
+    const profile = await loadImage(
+      path.join(process.cwd(), 'public', 'img', 'profile.jpg')
+    )
 
     context.beginPath()
     context.moveTo(WIDTH - 305, HEIGHT - 55)

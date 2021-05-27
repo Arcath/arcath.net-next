@@ -9,7 +9,15 @@ import {formatAsDate} from '../lib/functions/format'
 
 import meta from '../_data/meta.json'
 
-const POST_FIELDS: (keyof Post)[] = ['title', 'href', 'year', 'month', 'day', 'lead', 'date']
+const POST_FIELDS: (keyof Post)[] = [
+  'title',
+  'href',
+  'year',
+  'month',
+  'day',
+  'lead',
+  'date'
+]
 
 const {writeFile, mkdir} = fs.promises
 
@@ -21,84 +29,99 @@ const HEIGHT = 640
 const main = async () => {
   const posts = await getPosts(POST_FIELDS, {limit: false})
 
-  await writeFile(path.join(process.cwd(), 'pages', '_data', 'posts', 'data.json'), JSON.stringify(posts))
+  await writeFile(
+    path.join(process.cwd(), 'pages', '_data', 'posts', 'data.json'),
+    JSON.stringify(posts)
+  )
 
-  registerFont(path.join(process.cwd(), 'fonts', 'montserrat-latin-300-normal.ttf'), {family: 'Montserrat'})
+  registerFont(
+    path.join(process.cwd(), 'fonts', 'montserrat-latin-300-normal.ttf'),
+    {family: 'Montserrat'}
+  )
 
-  asyncForEach(posts, async (post) => {
-    const canvas = createCanvas(WIDTH, HEIGHT)
-    const context = canvas.getContext('2d')
+  asyncForEach(
+    posts,
+    async post => {
+      const canvas = createCanvas(WIDTH, HEIGHT)
+      const context = canvas.getContext('2d')
 
-    context.fillStyle = '#fff'
-    context.fillRect(0, 0, WIDTH, HEIGHT)
+      context.fillStyle = '#fff'
+      context.fillRect(0, 0, WIDTH, HEIGHT)
 
-    context.rotate(25)
-    
-    const grd = context.createLinearGradient(0, 0, WIDTH, HEIGHT *0.75)
-    grd.addColorStop(0, 'rgb(104, 109, 224)')
-    grd.addColorStop(1, 'rgb(72, 52, 212)')
+      context.rotate(25)
 
-    context.fillStyle = grd
+      const grd = context.createLinearGradient(0, 0, WIDTH, HEIGHT * 0.75)
+      grd.addColorStop(0, 'rgb(104, 109, 224)')
+      grd.addColorStop(1, 'rgb(72, 52, 212)')
 
-    context.fillRect(-100,0,WIDTH + 200, HEIGHT * 0.75)
+      context.fillStyle = grd
 
-    context.rotate(-25)
+      context.fillRect(-100, 0, WIDTH + 200, HEIGHT * 0.75)
 
-    context.font = '50pt Montserrat'
-    context.textAlign = 'left'
-    context.fillStyle = '#fff'
-    context.textBaseline = 'top'
+      context.rotate(-25)
 
-    const lines: string[] = []
-    const words = post.title.split(' ')
-    let line: string[] = []
-    while(words.length !== 0){
-      const nextLine = [...line, words[0]].join(' ')
+      context.font = '50pt Montserrat'
+      context.textAlign = 'left'
+      context.fillStyle = '#fff'
+      context.textBaseline = 'top'
 
-      if(context.measureText(nextLine).width > (WIDTH - 60)){
-        lines.push(line.join(' '))
-        line = []
-      }else{
-        line = [...line, words.shift()]
+      const lines: string[] = []
+      const words = post.title.split(' ')
+      let line: string[] = []
+      while (words.length !== 0) {
+        const nextLine = [...line, words[0]].join(' ')
 
-        if(words.length === 0){
+        if (context.measureText(nextLine).width > WIDTH - 60) {
           lines.push(line.join(' '))
+          line = []
+        } else {
+          line = [...line, words.shift()]
+
+          if (words.length === 0) {
+            lines.push(line.join(' '))
+          }
         }
       }
-    }
 
-    let cursor = 10
+      let cursor = 10
 
-    lines.forEach((line) => {
-      context.fillText(line, 30, cursor)
-      cursor += 80
-    })
+      lines.forEach(line => {
+        context.fillText(line, 30, cursor)
+        cursor += 80
+      })
 
-    cursor += 10
+      cursor += 10
 
-    context.font = '20pt Montserrat'
-    context.fillText(formatAsDate(new Date(post.date)), 40, cursor)
+      context.font = '20pt Montserrat'
+      context.fillText(formatAsDate(new Date(post.date)), 40, cursor)
 
-    context.font = '25pt Montserrat'
-    context.textBaseline = 'bottom'
-    context.textAlign = 'right'
-    context.fillStyle = '#000'
-    context.fillText(meta.name, WIDTH - 40, HEIGHT - 10)
+      context.font = '25pt Montserrat'
+      context.textBaseline = 'bottom'
+      context.textAlign = 'right'
+      context.fillStyle = '#000'
+      context.fillText(meta.name, WIDTH - 40, HEIGHT - 10)
 
-    const profile = await loadImage(path.join(process.cwd(), 'public', 'img', 'profile.jpg'))
+      const profile = await loadImage(
+        path.join(process.cwd(), 'public', 'img', 'profile.jpg')
+      )
 
-    context.beginPath()
-    context.moveTo(WIDTH - 305, HEIGHT - 55)
-    context.arc(WIDTH - 315, HEIGHT - 30, 25, 0, 6.28)
-    context.clip()
+      context.beginPath()
+      context.moveTo(WIDTH - 305, HEIGHT - 55)
+      context.arc(WIDTH - 315, HEIGHT - 30, 25, 0, 6.28)
+      context.clip()
 
-    context.drawImage(profile, WIDTH - 340, HEIGHT - 55, 50, 50)
+      context.drawImage(profile, WIDTH - 340, HEIGHT - 55, 50, 50)
 
-    const buffer = canvas.toBuffer()
+      const buffer = canvas.toBuffer()
 
-    await mkdir(path.join(SOCIAL_IMAGES_PATH, post.href), {recursive: true})
-    await writeFile(path.join(SOCIAL_IMAGES_PATH, post.href, 'social.jpg'), buffer)
-  }, {inSequence: false})
+      await mkdir(path.join(SOCIAL_IMAGES_PATH, post.href), {recursive: true})
+      await writeFile(
+        path.join(SOCIAL_IMAGES_PATH, post.href, 'social.jpg'),
+        buffer
+      )
+    },
+    {inSequence: false}
+  )
 
   const canvas = createCanvas(WIDTH, HEIGHT)
   const context = canvas.getContext('2d')
@@ -107,14 +130,14 @@ const main = async () => {
   context.fillRect(0, 0, WIDTH, HEIGHT)
 
   context.rotate(25)
-  
-  const grd = context.createLinearGradient(0, 0, WIDTH, HEIGHT *0.75)
+
+  const grd = context.createLinearGradient(0, 0, WIDTH, HEIGHT * 0.75)
   grd.addColorStop(0, 'rgb(104, 109, 224)')
   grd.addColorStop(1, 'rgb(72, 52, 212)')
 
   context.fillStyle = grd
 
-  context.fillRect(-100,0,WIDTH + 200, HEIGHT * 0.75)
+  context.fillRect(-100, 0, WIDTH + 200, HEIGHT * 0.75)
 
   context.rotate(-25)
 
@@ -126,16 +149,16 @@ const main = async () => {
   const lines: string[] = []
   const words = meta.name.split(' ')
   let line: string[] = []
-  while(words.length !== 0){
+  while (words.length !== 0) {
     const nextLine = [...line, words[0]].join(' ')
 
-    if(context.measureText(nextLine).width > (WIDTH - 60)){
+    if (context.measureText(nextLine).width > WIDTH - 60) {
       lines.push(line.join(' '))
       line = []
-    }else{
+    } else {
       line = [...line, words.shift()]
 
-      if(words.length === 0){
+      if (words.length === 0) {
         lines.push(line.join(' '))
       }
     }
@@ -143,7 +166,7 @@ const main = async () => {
 
   let cursor = 10
 
-  lines.forEach((line) => {
+  lines.forEach(line => {
     context.fillText(line, 30, cursor)
     cursor += 80
   })
@@ -153,7 +176,9 @@ const main = async () => {
   context.font = '20pt Montserrat'
   context.fillText(meta.description, 30, cursor)
 
-  const profile = await loadImage(path.join(process.cwd(), 'public', 'img', 'profile.jpg'))
+  const profile = await loadImage(
+    path.join(process.cwd(), 'public', 'img', 'profile.jpg')
+  )
 
   context.beginPath()
   context.moveTo(WIDTH - 405, HEIGHT - 405)

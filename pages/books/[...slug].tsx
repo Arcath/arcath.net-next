@@ -1,5 +1,10 @@
 import React from 'react'
-import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
+import {
+  GetStaticPropsContext,
+  NextPage,
+  GetStaticPaths,
+  InferGetStaticPropsType
+} from 'next'
 import {pick} from '@arcath/utils'
 
 import {getBooks, getBookBySlug} from '~/lib/data/books'
@@ -11,8 +16,11 @@ import {OpenGraph} from '~/lib/components/open-graph'
 import {prepareMDX} from '../../lib/functions/prepare-mdx'
 
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
-  if(params?.slug && Array.isArray(params.slug)){
-    const book = await getBookBySlug(['books', ...params.slug], ['slug', 'title', 'content', 'directory'])
+  if (params?.slug && Array.isArray(params.slug)) {
+    const book = await getBookBySlug(
+      ['books', ...params.slug],
+      ['slug', 'title', 'content', 'directory']
+    )
 
     const source = await prepareMDX(book.content, {
       directory: book.directory,
@@ -41,12 +49,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-const MDXBook: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({book, source}) => {
-  return <Layout>
-    <h1>{book.title}</h1>
-    <OpenGraph title={book.title} description={book.title} />
-    <MDX source={source} />
-  </Layout>
+const MDXBook: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
+  book,
+  source
+}) => {
+  return (
+    <Layout>
+      <h1>{book.title}</h1>
+      <OpenGraph title={book.title} description={book.title} />
+      <MDX source={source} />
+    </Layout>
+  )
 }
 
 export default MDXBook

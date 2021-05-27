@@ -1,5 +1,10 @@
 import React from 'react'
-import {GetStaticPropsContext, NextPage, GetStaticPaths, InferGetStaticPropsType} from 'next'
+import {
+  GetStaticPropsContext,
+  NextPage,
+  GetStaticPaths,
+  InferGetStaticPropsType
+} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import {pick} from '@arcath/utils'
@@ -19,8 +24,22 @@ import {tagHref} from '~/lib/functions/tag-href'
 import meta from '~/data/meta.json'
 
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
-  if(params?.slug && params.year && params.month){
-    const post = await getPostBySlug([params.year as string, params.month as string, params.slug as string], ['slug', 'title', 'content', 'lead', 'href', 'tags', 'year', 'month', 'day', 'directory'])
+  if (params?.slug && params.year && params.month) {
+    const post = await getPostBySlug(
+      [params.year as string, params.month as string, params.slug as string],
+      [
+        'slug',
+        'title',
+        'content',
+        'lead',
+        'href',
+        'tags',
+        'year',
+        'month',
+        'day',
+        'directory'
+      ]
+    )
 
     const source = await prepareMDX(post.content, {
       directory: post.directory,
@@ -29,7 +48,16 @@ export const getStaticProps = async ({params}: GetStaticPropsContext) => {
 
     return {
       props: {
-        post: pick(post, ['slug', 'title', 'lead', 'href', 'tags', 'year', 'month', 'day']),
+        post: pick(post, [
+          'slug',
+          'title',
+          'lead',
+          'href',
+          'tags',
+          'year',
+          'month',
+          'day'
+        ]),
         source
       }
     }
@@ -37,7 +65,9 @@ export const getStaticProps = async ({params}: GetStaticPropsContext) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await getPosts(['slug', 'year', 'month', 'href'], {limit: false})
+  const posts = await getPosts(['slug', 'year', 'month', 'href'], {
+    limit: false
+  })
 
   const paths = posts.map(({slug, year, month}) => {
     return {params: {slug: slug.pop(), year, month}}
@@ -49,32 +79,46 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-const MDXPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({post, source}) => {
-  return <Layout>
-    <Head>
-      <title>{pageTitle(post.title)}</title>
-    </Head>
-    <OpenGraph title={post.title} description={post.lead} image={`${meta.productionUrl}/img/social${post.href}/social.jpg`} />
-    <ContentContainer>
-      <aside className="col-start-3 md:col-start-2 col-end-3 row-start-1 row-span-3">
-        <div className="w-full md:w-32 text-center mb-8 float-right">
-          <div className="text-3xl">{post.day}</div>
-          <div className="mt-0">{MONTH_FROM_STRING[post.month]}</div>
-          <div>{post.year}</div>
-          {post.tags.map((tag) => {
-            return <Link key={tag} href={tagHref(tag)}>
-              <a className="block my-2">{tag}</a>
-            </Link>
-          })}
-        </div>
-      </aside>
-      <h1 className="mb-0 col-start-3">{post.title}</h1>
-      <MDX source={source} />
-      <aside className="col-start-3">
-        <ShareButtons url={`${meta.productionUrl}${post.href}`} title={post.title} />
-      </aside>
-    </ContentContainer>
-  </Layout>
+const MDXPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
+  post,
+  source
+}) => {
+  return (
+    <Layout>
+      <Head>
+        <title>{pageTitle(post.title)}</title>
+      </Head>
+      <OpenGraph
+        title={post.title}
+        description={post.lead}
+        image={`${meta.productionUrl}/img/social${post.href}/social.jpg`}
+      />
+      <ContentContainer>
+        <aside className="col-start-3 md:col-start-2 col-end-3 row-start-1 row-span-3">
+          <div className="w-full md:w-32 text-center mb-8 float-right">
+            <div className="text-3xl">{post.day}</div>
+            <div className="mt-0">{MONTH_FROM_STRING[post.month]}</div>
+            <div>{post.year}</div>
+            {post.tags.map(tag => {
+              return (
+                <Link key={tag} href={tagHref(tag)}>
+                  <a className="block my-2">{tag}</a>
+                </Link>
+              )
+            })}
+          </div>
+        </aside>
+        <h1 className="mb-0 col-start-3">{post.title}</h1>
+        <MDX source={source} />
+        <aside className="col-start-3">
+          <ShareButtons
+            url={`${meta.productionUrl}${post.href}`}
+            title={post.title}
+          />
+        </aside>
+      </ContentContainer>
+    </Layout>
+  )
 }
 
 export default MDXPage
