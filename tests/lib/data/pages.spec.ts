@@ -1,35 +1,47 @@
-import {getPageBySlug, getPages} from '~/lib/data/pages'
+import path from 'path'
+
+import {getPage, getPages, PAGES_DIRECTORY} from '~/lib/data/pages'
 
 describe('Books', () => {
   it('should find books', async () => {
-    const pages = await getPages(['title', 'slug'])
+    const pages = await getPages()
 
-    expect(pages[0]).toHaveProperty('title')
-    expect(pages[0]).not.toHaveProperty('author')
+    expect(await pages[0].data).toHaveProperty('title')
 
-    const page = await getPageBySlug(pages[0].slug, ['title'])
+    const page = getPage(pages[0].file.path)
 
-    expect(page.title).toBe(pages[0].title)
+    expect((await page.data).title).toBe((await pages[0].data).title)
 
-    const sortedPages = await getPages(['title'], {
+    const sortedPages = await getPages({
       orderBy: 'title',
       limit: 1
     })
 
     expect(sortedPages).toHaveLength(1)
 
-    const reverseSortedPages = await getPages(['title'], {
+    const reverseSortedPages = await getPages({
       orderBy: 'title',
       order: 'DESC',
       limit: 1
     })
 
-    expect(reverseSortedPages[0].title).not.toBe(sortedPages[0].title)
+    expect((await reverseSortedPages[0].data).title).not.toBe(
+      (await sortedPages[0].data).title
+    )
 
-    const allPages = await getPages(['title'], {
+    const allPages = await getPages({
       limit: false
     })
 
     expect(allPages.length).toBeGreaterThan(1)
+  })
+
+  it('should have the right properties', () => {
+    const filePath = path.join(PAGES_DIRECTORY, 'about.mdx')
+
+    const page = getPage(filePath)
+
+    expect(page.properties.href).toBe('/about')
+    expect(page.properties.slug).toBe('about')
   })
 })

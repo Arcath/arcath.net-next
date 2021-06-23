@@ -3,28 +3,32 @@ import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import useSWR from 'swr'
-import {ArrayElement} from '@arcath/utils'
+import {ArrayElement, asyncMap, pick, replaceProperty} from '@arcath/utils'
 
 import meta from '~/data/meta.json'
 
-import {getPosts, Post} from '~/lib/data/posts'
+import {getPosts, PostFrontmatter, PostProperties} from '~/lib/data/posts'
 
 import {Layout} from '~/lib/components/layout'
 import {PostDate} from '~/lib/components/post-date'
 import {OpenGraph} from '~/lib/components/open-graph'
 
-export const POST_FIELDS: (keyof Post)[] = [
+export const POST_FIELDS: (keyof (PostFrontmatter & PostProperties))[] = [
   'slug',
   'title',
   'href',
-  'year',
-  'month',
-  'day',
+  'date',
   'lead'
 ]
 
 export const getStaticProps = async ({}: GetStaticPropsContext) => {
-  const posts = await getPosts(POST_FIELDS)
+  const postFiles = await getPosts()
+
+  const posts: PostData[] = await asyncMap(postFiles, async post => {
+    return replaceProperty(pick(await post.data, POST_FIELDS), 'date', date =>
+      date.toISOString()
+    )
+  })
 
   return {
     props: {
@@ -33,14 +37,21 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
   }
 }
 
+export type PostData = {
+  title: string
+  href: string
+  date: string
+  lead: string
+}
+
 const fetcher = (resource, init) =>
   fetch(resource, init).then(res => res.json())
 
 const PostsBlock: React.FC<{
   i: number
-  initialData?: Pick<Post, ArrayElement<typeof POST_FIELDS>>[]
+  initialData?: PostData[]
 }> = ({i, initialData}) => {
-  let posts: Pick<Post, ArrayElement<typeof POST_FIELDS>>[]
+  let posts: PostData[]
 
   if (initialData) {
     posts = initialData
@@ -56,10 +67,10 @@ const PostsBlock: React.FC<{
 
   return (
     <>
-      {posts.map(({title, href, day, month, year, lead}) => {
+      {posts.map(({title, href, date, lead}) => {
         return [
           <div key={`${href}-meta`} className="col-start-2">
-            <PostDate year={year} month={month} day={day} />
+            <PostDate date={date} />
           </div>,
           <div key={`${href}-data`} className="col-start-3">
             <h3 style={{marginTop: '0'}}>

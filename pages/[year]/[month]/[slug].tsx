@@ -7,9 +7,9 @@ import {
 } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
-import {pick} from '@arcath/utils'
+import {pick, replaceProperty} from '@arcath/utils'
 
-import {getPostBySlug, getPosts} from '~/lib/data/posts'
+import {getPostFromSlug, getPosts} from '~/lib/data/posts'
 
 import {ContentContainer, MDX} from '~/lib/components/mdx'
 import {Layout} from '~/lib/components/layout'
@@ -17,47 +17,38 @@ import {OpenGraph} from '~/lib/components/open-graph'
 import {MONTH_FROM_STRING} from '~/lib/components/post-date'
 import {ShareButtons} from '~/lib/components/share-buttons'
 
+import {log} from '~/lib/functions/log'
 import {pageTitle} from '~/lib/functions/page-title'
-import {prepareMDX} from '~/lib/functions/prepare-mdx'
 import {tagHref} from '~/lib/functions/tag-href'
 
 import meta from '~/data/meta.json'
 
-export const getStaticProps = async ({params}: GetStaticPropsContext) => {
-  if (params?.slug && params.year && params.month) {
-    const post = await getPostBySlug(
-      [params.year as string, params.month as string, params.slug as string],
-      [
-        'slug',
-        'title',
-        'content',
-        'lead',
-        'href',
-        'tags',
-        'year',
-        'month',
-        'day',
-        'directory'
-      ]
-    )
+export const getStaticProps = async ({
+  params
+}: GetStaticPropsContext<{year: string; month: string; slug: string}>) => {
+  if (params.year && params.month && params.slug) {
+    const post = getPostFromSlug(params.year, params.month, params.slug)
 
-    const source = await prepareMDX(post.content, {
-      directory: post.directory,
-      imagesUrl: `/img/posts/${post.slug.join('/')}/`
-    })
+    log('post', `rendering post /${params.year}/${params.month}/${params.slug}`)
+
+    const source = await post.bundle
 
     return {
       props: {
-        post: pick(post, [
-          'slug',
-          'title',
-          'lead',
-          'href',
-          'tags',
-          'year',
-          'month',
-          'day'
-        ]),
+        post: replaceProperty(
+          pick(await post.data, [
+            'slug',
+            'title',
+            'lead',
+            'href',
+            'tags',
+            'year',
+            'month',
+            'date'
+          ]),
+          'date',
+          date => date.toISOString()
+        ),
         source
       }
     }
@@ -65,12 +56,16 @@ export const getStaticProps = async ({params}: GetStaticPropsContext) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await getPosts(['slug', 'year', 'month', 'href'], {
-    limit: false
-  })
+  const posts = await getPosts({limit: false, orderBy: 'href'})
 
-  const paths = posts.map(({slug, year, month}) => {
-    return {params: {slug: slug.pop(), year, month}}
+  const paths = posts.map(({properties}) => {
+    return {
+      params: {
+        year: properties.year,
+        month: properties.month,
+        slug: properties.slug
+      }
+    }
   })
 
   return {
@@ -96,7 +91,7 @@ const MDXPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <ContentContainer>
         <aside className="col-start-3 md:col-start-2 col-end-3 row-start-1 row-span-3">
           <div className="w-full md:w-32 text-center mb-8 float-right">
-            <div className="text-3xl">{post.day}</div>
+            <div className="text-3xl">{new Date(post.date).getDate()}</div>
             <div className="mt-0">{MONTH_FROM_STRING[post.month]}</div>
             <div>{post.year}</div>
             {post.tags.map(tag => {

@@ -2,7 +2,7 @@ import {getTags, getTag} from '~/lib/data/tags'
 
 describe('Tag', () => {
   it('should get all tags', async () => {
-    const tags = await getTags(['title'])
+    const tags = await getTags()
 
     expect(tags.count()).toBeGreaterThan(1)
 
@@ -10,7 +10,7 @@ describe('Tag', () => {
 
     expect(tag.name).toBe('Next.JS')
 
-    const foundTag = await getTag('Next.JS', ['title'])
+    const foundTag = await getTag('Next.JS')
 
     expect(foundTag.name).toBe('Next.JS')
     expect(foundTag.posts).toHaveLength(tag.posts.length)

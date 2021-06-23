@@ -2,7 +2,7 @@ import React from 'react'
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
-import {groupedBy} from '@arcath/utils'
+import {asyncMap, groupedBy, pick} from '@arcath/utils'
 
 import {getProjects} from '~/lib/data/projects'
 
@@ -12,13 +12,24 @@ import {OpenGraph} from '~/lib/components/open-graph'
 import {pageTitle} from '~/lib/functions/page-title'
 
 export const getStaticProps = async ({}: GetStaticPropsContext) => {
-  const projects = await getProjects(['title', 'href', 'lead', 'year'], {
+  const projectFiles = await getProjects({
     limit: false
+  })
+
+  const projects = await asyncMap(projectFiles, async project => {
+    const data = await project.data
+
+    return data
   })
 
   return {
     props: {
-      projects: groupedBy('year', projects)
+      projects: groupedBy(
+        'year',
+        projects.map(project =>
+          pick(project, ['year', 'href', 'title', 'lead'])
+        )
+      )
     }
   }
 }

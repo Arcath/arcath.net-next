@@ -3,21 +3,11 @@ import path from 'path'
 import {createCanvas, registerFont, loadImage} from 'canvas'
 import {asyncForEach} from '@arcath/utils'
 
-import {getPosts, Post} from '../lib/data/posts'
+import {getPosts} from '../lib/data/posts'
 
 import {formatAsDate} from '../lib/functions/format'
 
 import meta from '../_data/meta.json'
-
-const POST_FIELDS: (keyof Post)[] = [
-  'title',
-  'href',
-  'year',
-  'month',
-  'day',
-  'lead',
-  'date'
-]
 
 const {writeFile, mkdir} = fs.promises
 
@@ -27,7 +17,7 @@ const WIDTH = 1280
 const HEIGHT = 640
 
 const main = async () => {
-  const posts = await getPosts(POST_FIELDS, {limit: false})
+  const posts = await getPosts({limit: false})
 
   await writeFile(
     path.join(process.cwd(), 'pages', '_data', 'posts', 'data.json'),
@@ -42,6 +32,8 @@ const main = async () => {
   asyncForEach(
     posts,
     async post => {
+      const {title, date, href} = await post.data
+
       const canvas = createCanvas(WIDTH, HEIGHT)
       const context = canvas.getContext('2d')
 
@@ -66,7 +58,7 @@ const main = async () => {
       context.textBaseline = 'top'
 
       const lines: string[] = []
-      const words = post.title.split(' ')
+      const words = title.split(' ')
       let line: string[] = []
       while (words.length !== 0) {
         const nextLine = [...line, words[0]].join(' ')
@@ -93,7 +85,7 @@ const main = async () => {
       cursor += 10
 
       context.font = '20pt Montserrat'
-      context.fillText(formatAsDate(new Date(post.date)), 40, cursor)
+      context.fillText(formatAsDate(new Date(date)), 40, cursor)
 
       context.font = '25pt Montserrat'
       context.textBaseline = 'bottom'
@@ -114,11 +106,8 @@ const main = async () => {
 
       const buffer = canvas.toBuffer()
 
-      await mkdir(path.join(SOCIAL_IMAGES_PATH, post.href), {recursive: true})
-      await writeFile(
-        path.join(SOCIAL_IMAGES_PATH, post.href, 'social.jpg'),
-        buffer
-      )
+      await mkdir(path.join(SOCIAL_IMAGES_PATH, href), {recursive: true})
+      await writeFile(path.join(SOCIAL_IMAGES_PATH, href, 'social.jpg'), buffer)
     },
     {inSequence: false}
   )

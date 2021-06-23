@@ -1,33 +1,34 @@
-import {ArrayElement, parameterize} from '@arcath/utils'
+import {ArrayElement, parameterize, asyncForEach} from '@arcath/utils'
 import {db} from 'sodb'
 
-import {getPosts, Post} from './posts'
+import {getPosts, PostFrontmatter, PostProperties} from './posts'
+import {File} from './file'
 
 import {tagHref} from '~/lib/functions/tag-href'
 
-interface Tag<K extends keyof Post>{
+interface Tag {
   name: string
   slug: string
   href: string
-  posts: Pick<Post, K>[]
+  posts: File<PostFrontmatter, PostProperties>[]
 }
 
-export const getTags = async <K extends (keyof Post)[]>(postFields: K) => {
-  const posts = await getPosts([...postFields, 'tags', 'slug'], {limit: false})
+export const getTags = async () => {
+  const posts = await getPosts({limit: false})
 
-  const tags = db<Tag<ArrayElement<K>>>([], {
+  const tags = db<Tag>([], {
     index: 'name'
   })
 
-  posts.forEach((post) => {
-    post.tags.forEach((tag) => {
-      if(tags.lookup(tag)){
+  await asyncForEach(posts, async post => {
+    ;(await post.data).tags.forEach(tag => {
+      if (tags.lookup(tag)) {
         const t = tags.lookup(tag)
 
         t.posts.push(post)
 
         tags.update(t)
-      }else{
+      } else {
         const t = {
           name: tag,
           slug: parameterize(tag),
@@ -43,8 +44,8 @@ export const getTags = async <K extends (keyof Post)[]>(postFields: K) => {
   return tags
 }
 
-export const getTag = async <K extends (keyof Post)[]>(tag: string, postFields: K) => {
-  const tags = await getTags(postFields)
+export const getTag = async (tag: string) => {
+  const tags = await getTags()
 
   const slug = parameterize(tag)
 

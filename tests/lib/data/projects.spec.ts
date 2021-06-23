@@ -1,32 +1,33 @@
-import {getProjectBySlug, getProjects} from '~/lib/data/projects'
+import {getProject, getProjects} from '~/lib/data/projects'
 
 describe('Books', () => {
   it('should find books', async () => {
-    const projects = await getProjects(['title', 'slug'])
+    const projects = await getProjects()
 
-    expect(projects[0]).toHaveProperty('title')
-    expect(projects[0]).not.toHaveProperty('author')
+    expect(await projects[0].data).toHaveProperty('title')
 
-    const project = await getProjectBySlug(projects[0].slug, ['title'])
+    const project = getProject(projects[0].file.path)
 
-    expect(project.title).toBe(projects[0].title)
+    expect((await project.data).title).toBe((await projects[0].data).title)
 
-    const sortedProjects = await getProjects(['title'], {
+    const sortedProjects = await getProjects({
       orderBy: 'title',
       limit: 1
     })
 
     expect(sortedProjects).toHaveLength(1)
 
-    const reverseSortedProjects = await getProjects(['title'], {
+    const reverseSortedProjects = await getProjects({
       orderBy: 'title',
       order: 'DESC',
       limit: 1
     })
 
-    expect(reverseSortedProjects[0].title).not.toBe(sortedProjects[0].title)
+    expect((await reverseSortedProjects[0].data).title).not.toBe(
+      (await sortedProjects[0].data).title
+    )
 
-    const allProjects = await getProjects(['title'], {
+    const allProjects = await getProjects({
       limit: false
     })
 

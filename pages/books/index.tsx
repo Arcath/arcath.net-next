@@ -12,21 +12,20 @@ import {MDX} from '~/lib/components/mdx'
 import {OpenGraph} from '~/lib/components/open-graph'
 
 import {pageTitle} from '~/lib/functions/page-title'
-import {prepareMDX} from '~/lib/functions/prepare-mdx'
 
 export const getStaticProps = async ({}: GetStaticPropsContext) => {
-  const books = await getBooks(
-    ['title', 'href', 'cover', 'content', 'link', 'directory', 'slug'],
-    {limit: false}
-  )
+  const books = await getBooks({limit: false})
 
   const booksWithSource = await asyncMap(books, async book => {
-    const source = await prepareMDX(book.content, {
-      directory: book.directory,
-      imagesUrl: `/img/books/${book.slug.join('/')}/`
-    })
+    const source = await book.bundle
 
-    return pick({...book, source}, ['title', 'source', 'link', 'href', 'cover'])
+    return pick({...(await book.data), source}, [
+      'title',
+      'source',
+      'link',
+      'href',
+      'cover'
+    ])
   })
 
   return {

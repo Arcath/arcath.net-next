@@ -1,6 +1,8 @@
 import {GetServerSidePropsContext} from 'next'
+import {asyncMap, replaceProperty, pick} from '@arcath/utils'
 
-import data from './data.json'
+import {getPosts} from '../../../lib/data/posts'
+import {PostData, POST_FIELDS} from '../../posts'
 
 export async function getServerSideProps({
   res,
@@ -8,7 +10,14 @@ export async function getServerSideProps({
 }: GetServerSidePropsContext<{skip: string}>) {
   const {skip} = params
 
-  const posts = data.slice(parseInt(skip), parseInt(skip) + 5)
+  const posts = await asyncMap(
+    await getPosts({skip: parseInt(skip), limit: 5}),
+    async (post): Promise<PostData> => {
+      return replaceProperty(pick(await post.data, POST_FIELDS), 'date', date =>
+        date.toISOString()
+      )
+    }
+  )
 
   res.end(JSON.stringify(posts))
   return {props: {}}

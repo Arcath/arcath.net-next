@@ -1,22 +1,10 @@
-import fs from 'fs'
-import {defaults, asyncMap, pick, ArrayElement, indexedBy} from '@arcath/utils'
 import path from 'path'
-import matter from 'gray-matter'
 
-const {readdir, readFile} = fs.promises
+import {file, getFiles, BaseProperties} from './file'
 
 const BOOKS_DIRECTORY = path.join(process.cwd(), '_content', 'books')
 
-interface BaseBook{
-  /** The posts slug, used for linking */
-  slug: string[]
-  slugString: string
-  file: string
-  href: string
-  directory: string
-}
-
-interface Book extends BaseBook{
+interface BookFrontmatter {
   title: string
   content: string
   date: string
@@ -25,79 +13,44 @@ interface Book extends BaseBook{
   cover: string
 }
 
-interface ContentQueryParams{
-  limit: number | false
-  orderBy: keyof Book,
-  order: 'ASC' | 'DESC'
+interface BookProperties extends BaseProperties {
+  slug: string
+  slugString: string
+  href: string
 }
 
-const defaultQueryParams: ContentQueryParams = {
-  limit: 5,
-  orderBy: 'date',
-  order: 'ASC'
-}
+const bookProperties = (filePath: string): BookProperties => {
+  const directory = path.dirname(filePath)
+  const dir = path.basename(directory)
 
-const getBookFiles = async (): Promise<BaseBook[]> => {
-  const dirs = await readdir(BOOKS_DIRECTORY)
-
-  return dirs.map((dir) => {
-    return {
-      slug: ['books', dir],
-      slugString: ['books', dir].join('-'),
-      href: `/books/${dir}`,
-      file: path.join(BOOKS_DIRECTORY, dir, 'index.mdx'),
-      directory: path.join(BOOKS_DIRECTORY, dir)
-    }
-  })
-}
-
-const getBook = async (baseBook: BaseBook): Promise<Book> => {
-  const {file} = baseBook
-
-  const contents = await readFile(file)
-
-  const {data, content} = matter(contents)
-
-  const book = {
-    ...baseBook,
-    ...data,
-    content
-  } as Book
-
-
-  return book
-}
-
-export const getBooks = async <K extends (keyof Book)[]>(fields: K, options: Partial<ContentQueryParams> = {}): Promise<Pick<Book, ArrayElement<K>>[]> => {
-  const {limit, orderBy, order} = defaults(options, defaultQueryParams)
-
-  const baseBooks = await getBookFiles()
-
-  let sorted = baseBooks.sort((a, b) => a[orderBy] - b[orderBy])
-
-  if(order === 'DESC'){
-    sorted = sorted.reverse()
+  return {
+    slug: dir,
+    slugString: ['books', dir].join('-'),
+    href: `/books/${dir}`,
+    bundleDirectory: `/img/books/${dir}/`
   }
-
-  if(limit){
-    sorted = sorted.slice(0, limit)
-  }
-
-  return asyncMap(sorted, async (baseBook) => {
-    const book = await getBook(baseBook)
-
-    return pick(book, fields)
-  })
 }
 
-export const getBookBySlug = async <K extends (keyof Book)[]>(slug: string[], fields: K): Promise<Pick<Book, ArrayElement<K>>> => {
-  const baseBooks = await getBookFiles()
+export const getBooks = getFiles<BookFrontmatter, BookProperties>({
+  getProperties: bookProperties,
+  directory: BOOKS_DIRECTORY,
+  defaultQueryParams: {
+    limit: 5,
+    orderBy: 'date',
+    order: 'ASC',
+    skip: 0
+  }
+})
 
-  const index = indexedBy('slugString', baseBooks)
+export const getBook = (filePath: string) => {
+  return file<BookFrontmatter, BookProperties>(
+    filePath,
+    bookProperties(filePath)
+  )
+}
 
-  const baseBook = index[slug.join('-')]
+export const getBookFromSlug = (slug: string) => {
+  const filePath = path.join(BOOKS_DIRECTORY, slug, 'index.mdx')
 
-  const book = await getBook(baseBook)
-
-  return pick(book, fields)
+  return getBook(filePath)
 }

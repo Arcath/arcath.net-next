@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
 import Youtube from 'react-youtube'
-import {asyncMap} from '@arcath/utils'
+import {asyncMap, pick, replaceProperty} from '@arcath/utils'
 import {useInView} from 'react-intersection-observer'
 
 import {getBooks} from '~/lib/data/books'
@@ -17,27 +17,44 @@ import {MDX} from '~/lib/components/mdx'
 import {PostDate} from '~/lib/components/post-date'
 import {OpenGraph} from '~/lib/components/open-graph'
 
-import {prepareMDX} from '~/lib/functions/prepare-mdx'
-
 import meta from '~/data/meta.json'
 
 export const getStaticProps = async ({}: GetStaticPropsContext) => {
-  const posts = await getPosts([
-    'slug',
-    'title',
-    'href',
-    'year',
-    'month',
-    'day',
-    'lead'
-  ])
-  let books = await getBooks(
-    ['title', 'href', 'cover', 'content', 'directory', 'slug'],
-    {limit: 2}
+  const posts = await asyncMap(await getPosts(), async post => {
+    return replaceProperty(
+      pick(await post.data, [
+        'slug',
+        'title',
+        'href',
+        'year',
+        'month',
+        'date',
+        'lead'
+      ]),
+      'date',
+      date => date.toISOString()
+    )
+  })
+  const books = await asyncMap(await getBooks({limit: 2}), async book => {
+    const data = pick(await book.data, [
+      'title',
+      'href',
+      'cover',
+      'content',
+      'slug'
+    ])
+    const content = await book.bundle
+
+    return {...data, content}
+  })
+  const projects = await asyncMap(
+    await getProjects({order: 'DESC'}),
+    async project => {
+      return pick(await project.data, ['title', 'href', 'year'])
+    }
   )
-  const projects = await getProjects(['title', 'href', 'year'], {order: 'DESC'})
-  let videos = await getVideos(
-    [
+  const videos = await asyncMap(await getVideos({limit: 1}), async video => {
+    const data = pick(await video.data, [
       'title',
       'videoId',
       'href',
@@ -46,32 +63,11 @@ export const getStaticProps = async ({}: GetStaticPropsContext) => {
       'content',
       'directory',
       'slug'
-    ],
-    {limit: 1}
-  )
+    ])
 
-  videos = await asyncMap(videos, async video => {
-    const content = await prepareMDX(video.content, {
-      directory: video.directory,
-      imagesUrl: `/img/index/${video.slug.join('/')}`
-    })
+    const content = await video.bundle
 
-    return {
-      ...video,
-      content
-    }
-  })
-
-  books = await asyncMap(books, async book => {
-    const content = await prepareMDX(book.content, {
-      directory: book.directory,
-      imagesUrl: `/img/index/${book.slug.join('/')}`
-    })
-
-    return {
-      ...book,
-      content
-    }
+    return {...data, content}
   })
 
   return {
@@ -122,10 +118,10 @@ const IndexPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         </div>
         <p className="col-start-3">{meta.description}</p>
         <h2 className="col-start-3">Recent Posts</h2>
-        {posts.map(({title, href, day, month, year, lead}) => {
+        {posts.map(({title, href, date, month, year, lead}) => {
           return [
             <div key={`${href}-meta`} className="col-start-3 md:col-start-2">
-              <PostDate year={year} month={month} day={day} />
+              <PostDate date={date} />
             </div>,
             <div key={`${href}-data`} className="col-start-3">
               <h3 style={{marginTop: '0', cursor: 'pointer'}}>

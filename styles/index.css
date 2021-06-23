@@ -12,14 +12,23 @@ body {
   @apply overflow-x-hidden;
   @apply bg-fixed;
 
-  background-image:linear-gradient(0deg, theme('colors.brand.light'), theme('colors.brand.dark'));
+  background-image: linear-gradient(
+    0deg,
+    theme('colors.brand.light'),
+    theme('colors.brand.dark')
+  );
 }
 
-h1, h2, h3, h4, h5, h6{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   @apply font-headings;
 }
 
-a{
+a {
   transition: color 0.2s;
 }
 
@@ -79,7 +88,7 @@ a{
 }
 
 /* purgecss start ignore */
-.content-positioning p, 
+.content-positioning p,
 .content-positioning ol,
 .content-positioning ul,
 .content-positioning h1,
@@ -99,7 +108,7 @@ a{
   @apply col-end-5;
 }
 
-.content-positioning img{
+.content-positioning img {
   @apply col-start-1;
   @apply col-end-6;
   @apply mx-auto;
@@ -111,6 +120,14 @@ a{
 .prose blockquote p:first-of-type::before,
 .prose blockquote p:last-of-type::before {
   content: '' !important;
+}
+
+.prose blockquote {
+  @apply border-brand-dark;
+}
+
+.prose pre {
+  padding: 0 !important;
 }
 
 /*
@@ -156,7 +173,6 @@ Railscasts-like style (c) Visoft, Inc. (Damien White)
 .hljs-type {
   color: #da4939;
 }
-
 
 .hljs-symbol,
 .hljs-bullet,
@@ -218,7 +234,7 @@ Railscasts-like style (c) Visoft, Inc. (Damien White)
   text-decoration: underline;
 }
 
-.center-next-image > div{
+.center-next-image > div {
   @apply mx-auto;
   @apply w-full;
 }

@@ -1,114 +1,66 @@
-import fs from 'fs'
-import {defaults, asyncMap, pick, ArrayElement, indexedBy} from '@arcath/utils'
 import path from 'path'
-import matter from 'gray-matter'
 
-const {readdir, readFile} = fs.promises
+import {file, getFiles, BaseProperties} from './file'
 
 const POSTS_DIRECTORY = path.join(process.cwd(), '_content', 'posts')
 
-interface BasePost{
-  /** `year-month-day` for sorting */
-  internalDate: string
+export interface PostProperties extends BaseProperties {
   /** The posts slug, used for linking */
-  slug: string[]
-  slugString: string
+  slug: string
   year: string
   month: string
-  day: string
-  file: string
   href: string
-  directory: string
 }
 
-export interface Post extends BasePost{
+export interface PostFrontmatter {
   title: string
   content: string
-  date: string
+  date: Date
   lead: string
   tags: string[]
 }
 
-export interface ContentQueryParams{
-  limit: number | false
-  orderBy: keyof Post
-  skip: number
-  order: 'ASC' | 'DESC'
-}
+const postProperties = (filePath: string): PostProperties => {
+  const directory = path.dirname(filePath)
+  const dir = path.basename(directory)
 
-const defaultQueryParams: ContentQueryParams = {
-  limit: 5,
-  orderBy: 'internalDate',
-  skip: 0,
-  order: 'DESC'
-}
+  const [year, month, ...slug] = dir.split('-')
 
-const getPostFiles = async (): Promise<BasePost[]> => {
-  const dirs = await readdir(POSTS_DIRECTORY)
+  const href = '/' + [year, month, slug.join('-')].join('/')
 
-  return dirs.map((dir) => {
-    const [year, month, day, ...slug] = dir.split('-')
-
-    return {
-      year, month, day,
-      slug: [year, month, slug.join('-')],
-      slugString: [year, month, slug.join('-')].join('-'),
-      href: '/' + [year, month, slug.join('-')].join('/'),
-      internalDate: `${year}-${month}-${day}`,
-      file: path.join(POSTS_DIRECTORY, dir, 'index.mdx'),
-      directory: path.join(POSTS_DIRECTORY, dir)
-    }
-  })
-}
-
-const getPost = async (basePost: BasePost): Promise<Post> => {
-  const {file, year, month, day} = basePost
-
-  const contents = await readFile(file)
-
-  const {data, content} = matter(contents)
-
-  const post = {
-    ...basePost,
-    ...data,
-    content
-  } as Post
-
-  post.date = new Date(`${year}-${month}-${day}`).toISOString()
-
-  return post
-}
-
-export const getPosts = async <K extends (keyof Post)[]>(fields: K, options: Partial<ContentQueryParams> = {}): Promise<Pick<Post, ArrayElement<K>>[]> => {
-  const {limit, orderBy, skip, order} = defaults(options, defaultQueryParams)
-
-  const basePosts = await getPostFiles()
-
-  let sorted = basePosts.sort((a, b) => a[orderBy] - b[orderBy])
-
-  if(order === 'DESC'){
-    sorted = sorted.reverse()
+  return {
+    year,
+    month,
+    slug: slug.join('-'),
+    href,
+    bundleDirectory: `/img/posts${href}/`
   }
-
-  if(limit){
-    sorted = sorted.slice(skip, skip + limit)
-  }
-
-  return asyncMap(sorted, async (basePost) => {
-    const post = await getPost(basePost)
-
-    return pick(post, fields)
-  })
 }
 
-export const getPostBySlug = async <K extends (keyof Post)[]>(slug: string[], fields: K): Promise<Pick<Post, ArrayElement<K>>> => {
-  const basePosts = await getPostFiles()
+export const getPosts = getFiles<PostFrontmatter, PostProperties>({
+  directory: POSTS_DIRECTORY,
+  getProperties: postProperties,
+  defaultQueryParams: {
+    limit: 5,
+    orderBy: 'date',
+    skip: 0,
+    order: 'DESC'
+  }
+})
 
-  const index = indexedBy('slugString', basePosts)
+export const getPost = (filePath: string) => {
+  return file<PostFrontmatter, PostProperties>(
+    filePath,
+    postProperties(filePath)
+  )
+}
 
-  const basePost = index[slug.join('-')]
+export const getPostFromSlug = (year: string, month: string, slug: string) => {
+  const filePath = path.join(
+    POSTS_DIRECTORY,
+    [year, month, slug].join('-'),
+    'index.mdx'
+  )
 
-  const post = await getPost(basePost)
-
-  return pick(post, fields)
+  return getPost(filePath)
 }

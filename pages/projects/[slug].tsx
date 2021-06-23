@@ -14,24 +14,19 @@ import {Content} from '~/lib/components/mdx'
 import {Layout} from '~/lib/components/layout'
 import {OpenGraph} from '~/lib/components/open-graph'
 
-import {prepareMDX} from '~/lib/functions/prepare-mdx'
 import {pageTitle} from '~/lib/functions/page-title'
 
-export const getStaticProps = async ({params}: GetStaticPropsContext) => {
-  if (params?.slug && Array.isArray(params.slug)) {
-    const project = await getProjectBySlug(
-      ['projects', ...params.slug],
-      ['slug', 'title', 'content', 'lead', 'directory']
-    )
+export const getStaticProps = async ({
+  params
+}: GetStaticPropsContext<{slug: string}>) => {
+  if (params?.slug) {
+    const project = getProjectBySlug(params.slug)
 
-    const source = await prepareMDX(project.content, {
-      directory: project.directory,
-      imagesUrl: `/img/books/${project.slug.join('/')}/`
-    })
+    const source = await project.bundle
 
     return {
       props: {
-        project: pick(project, ['slug', 'title', 'lead']),
+        project: pick(await project.data, ['slug', 'title', 'lead']),
         source
       }
     }
@@ -39,10 +34,10 @@ export const getStaticProps = async ({params}: GetStaticPropsContext) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const projects = await getProjects(['slug'], {limit: false})
+  const projects = await getProjects({limit: false})
 
-  const paths = projects.map(({slug}) => {
-    return {params: {slug: [slug[1]]}}
+  const paths = projects.map(({properties}) => {
+    return {params: {slug: properties.slug}}
   })
 
   return {

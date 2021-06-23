@@ -1,32 +1,34 @@
-import {getBookBySlug, getBooks} from '~/lib/data/books'
+import {getBook, getBooks} from '~/lib/data/books'
 
 describe('Books', () => {
   it('should find books', async () => {
-    const books = await getBooks(['title', 'slug'])
+    const books = await getBooks()
 
-    expect(books[0]).toHaveProperty('title')
-    expect(books[0]).not.toHaveProperty('author')
+    expect(books[0]).toHaveProperty('index')
+    expect(await books[0].data).toHaveProperty('author')
 
-    const book = await getBookBySlug(books[0].slug, ['title'])
+    const book = await getBook(books[0].file.path)
 
-    expect(book.title).toBe(books[0].title)
+    expect((await book.data).title).toBe((await books[0].data).title)
 
-    const sortedBooks = await getBooks(['title'], {
+    const sortedBooks = await getBooks({
       orderBy: 'title',
       limit: 1
     })
 
     expect(sortedBooks).toHaveLength(1)
 
-    const reverseSortedBooks = await getBooks(['title'], {
+    const reverseSortedBooks = await getBooks({
       orderBy: 'title',
       order: 'DESC',
       limit: 1
     })
 
-    expect(reverseSortedBooks[0].title).not.toBe(sortedBooks[0].title)
+    expect((await sortedBooks[0].data).title).not.toBe(
+      (await reverseSortedBooks[0].data).title
+    )
 
-    const allBooks = await getBooks(['title'], {
+    const allBooks = await getBooks({
       limit: false
     })
 

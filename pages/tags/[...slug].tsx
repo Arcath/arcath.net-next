@@ -7,6 +7,7 @@ import {
 } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
+import {pick, asyncMap, replaceProperty} from '@arcath/utils'
 
 import {getTag, getTags} from '~/lib/data/tags'
 
@@ -18,25 +19,23 @@ import {pageTitle} from '~/lib/functions/page-title'
 
 export const getStaticProps = async ({params}: GetStaticPropsContext) => {
   if (params?.slug && Array.isArray(params.slug)) {
-    const tag = await getTag(params.slug[0], [
-      'title',
-      'href',
-      'day',
-      'month',
-      'year',
-      'lead'
-    ])
+    const tag = await getTag(params.slug[0])
 
     return {
       props: {
-        tag
+        tag: pick(tag, ['name']),
+        posts: await asyncMap(tag.posts, async post => {
+          const data = await post.data
+
+          return replaceProperty(pick(data, ['title', 'href', 'date', 'lead']), 'date', (date) => date.toISOString())
+        })
       }
     }
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const tags = await getTags([])
+  const tags = await getTags()
 
   const paths = tags.all().map(({slug}) => {
     return {params: {slug: [slug]}}
@@ -49,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const TagPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> =
-  ({tag}) => {
+  ({tag, posts}) => {
     return (
       <Layout>
         <Head>
@@ -61,10 +60,10 @@ export const TagPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> =
         />
         <div className="grid grid-cols-content prose dark:prose-dark max-w-none">
           <h2 className="col-start-3">{tag.name}</h2>
-          {tag.posts.map(({title, href, day, month, year, lead}) => {
+          {posts.map(({title, href, date, lead}) => {
             return [
               <div key={`${href}-meta`} className="col-start-2">
-                <PostDate year={year} month={month} day={day} />
+                <PostDate date={date} />
               </div>,
               <div key={`${href}-data`} className="col-start-3">
                 <Link href={href}>
