@@ -45,6 +45,6 @@ jobs:
       - name: 📑 Update Github Profile
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: main
+          workflow: build
           repo: arcath/arcath
           token: ${{ secrets.PAT }}
