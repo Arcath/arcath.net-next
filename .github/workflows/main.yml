@@ -41,3 +41,10 @@ jobs:
 
       - name: ⬆️ Upload coverage report
         uses: codecov/codecov-action@v1
+
+      - name: 📑 Update Github Profile
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: main
+          repo: arcath/arcath
+          token: ${{ secrets.PAT }}
