@@ -48,4 +48,4 @@ jobs:
           workflow: build
           repo: arcath/arcath
           token: ${{ secrets.PAT }}
-          ref: 'refs/head/master'
+          ref: 'master'
