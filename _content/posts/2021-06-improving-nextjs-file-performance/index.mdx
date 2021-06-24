@@ -1,0 +1,207 @@
+---
+title: Improving Next.JS File Performance
+lead: Making this site run and build better.
+date: 2021-06-24T18:20:37.426Z
+tags:
+  - Next.JS
+  - MDX
+  - React
+---
+
+One thing static site generators can lure us into is not caring about build
+performance. If code works and the build passes quickly enough, it gets
+overlooked.
+
+I was building a new Code Component and, having to wait a minute for every
+refresh was making the feedback loop extremely slow. Couple that with having to
+restart the development server every few minutes and, it was unbearable.
+
+> I did discover after getting most of the work finished that Firefox was the
+> cause of the slow page loads. However, the improvements in this post are still
+> improvements.
+
+## Read all the Files.
+
+I started with the assumption that I was interacting with the disk too much.
+This felt like the right place to start and, I knew one place that was an issue.
+
+So the first problem area I want to look at is `getPostBySlug`.
+
+```ts#5
+export const getPostBySlug = async <K extends (keyof Post)[]>(
+  slug: string[],
+  fields: K
+): Promise<Pick<Post, ArrayElement<K>>> => {
+  const basePosts = await getPostFiles()
+
+  const index = indexedBy('slugString', basePosts)
+
+  const basePost = index[slug.join('-')]
+
+  const post = await getPost(basePost)
+
+  return pick(post, fields)
+}
+```
+
+This function works and does get a post from its slug. However, it does it in
+about the worse way it could.
+
+`getPostFiles` uses `fs.readdir` to get a list of all the folders in the posts
+directory. Which begs the question, why do I need to do it to get one post?
+
+Once it has every post, it uses `indexedBy` from
+[my utils library](https://utils.arcath.net/modules.html#indexedby) to create an
+object of posts indexed by their slug.
+
+That means two loops through every post on the site to get one post returned.
+
+`getPost` then actually reads in the file's contents and returns the MDX and the
+frontmatter.
+
+To solve this, I need to ask the question, why are posts not directly
+retrievable?
+
+The answer is that in the folder names I put the _day_ of the post as well as
+the year and month. The day is never used, and it would not be possible to use
+it in slugs or anything like that without invalidating all my current
+permalinks. So a quick rename of every folder to `year-month-slug` and
+`getPostBySlug` now looks a lot better.
+
+```ts#2-6
+export const getPostFromSlug = (year: string, month: string, slug: string) => {
+  const filePath = path.join(
+    POSTS_DIRECTORY,
+    [year, month, slug].join('-'),
+    'index.mdx'
+  )
+
+  return getPost(filePath)
+}
+```
+
+I can now _calculate_ the posts file path entirely from the data in the URL. No
+more loops just a direct return of a file object.
+
+## A File Proxy
+
+Speaking of file objects. There is a lot of duplication between each _type_ of
+content on this site. The main reason for this is to provide very acurate
+typings. I decided that if I was going to try and improve file performance the
+last thing I wanted to do was get it working for one content type and then have
+to copy it to the others.
+
+To that end I created a `File` object that handles all interaction with the
+disk.
+
+A `File` takes 2 type parameters. `Frontmatter` which is the data returned from
+parsing the frontmatter and `Properties` which is the primitive data I can get
+by parsing the file path.
+
+As an example of `Properties` these are the properties of this post.
+
+```js
+{
+  year: '2021',
+  month: '06',
+  slug: '2021-06-improving-nextjs-performance',
+  href: '/2021/06/improving-nextjs-performance'
+}
+```
+
+It doesn't really provide enough data to be useful to React but it is very
+useful for a `File`'s internals.
+
+A `File` has _getters_ for `content`, `data` and `bundle` which all return a
+promise for a `string` or in the case of `data` an object of
+`Frontmatter & Properties`.
+
+This means that the `getStaticProps` for a post is now a very clean get the
+post, bundle the post, return the post.
+
+```ts
+export const getStaticProps = async ({
+  params
+}: GetStaticPropsContext<{year: string; month: string; slug: string}>) => {
+  if (params.year && params.month && params.slug) {
+    const post = getPostFromSlug(params.year, params.month, params.slug)
+
+    const source = await post.bundle
+
+    return {
+      props: {
+        post: replaceProperty(
+          pick(await post.data, [
+            'slug',
+            'title',
+            'lead',
+            'href',
+            'tags',
+            'year',
+            'month',
+            'date'
+          ]),
+          'date',
+          date => date.toISOString()
+        ),
+        source
+      }
+    }
+  }
+}
+```
+
+Again `pick` and `replaceProperty` come from my utils library.
+
+## Caching
+
+I wanted to look at caching which given my data is already on disk meant working
+with an memory cache.
+
+When you do any research into Next.JS caching it is all geared towards keeping
+your CMS data on disk to reduce the number of fetches. As I said my content is
+already on the disk so that isn't a performance gain for me.
+
+An in memory cache has 2 problems in Next.JS.
+
+1. Next.JS runs its build in multiple global scopes so a simple cache wont
+   persist between build runs.
+1. The development server is a single process but the cache wont automatically
+   be invalidated by file changes.
+
+Ignoring both issues I created a simple global scope cache to hold file objects.
+
+```ts
+const fileCache: Record<string, File<any, any>> = {}
+
+export const file = <Frontmatter extends {}, Properties extends {}>(
+  filePath: string,
+  properties: Properties
+): File<Frontmatter, Properties> => {
+  if (!fileCache[filePath]) {
+    fileCache[filePath] = createFile(filePath, properties)
+  }
+
+  return fileCache[filePath] as File<Frontmatter, Properties>
+}
+```
+
+With this builds are slightly more effecient, but its not really noticable.
+
+Development is where this shines as being a single process this cache persists.
+`File` objects cache the contents and bundle within themselves so once the
+development site has read a file it doesn't have to again.
+
+A quick `fs.watch` file watcher can then be used to clear the files internal
+cache if the file on the disk changes.
+
+## Any Better?
+
+The build performance is about the same. Vercel did get the new site built
+quicker but 1 result isn't enough to go on.
+
+Development feels a lot better, pages compile faster and although the cache
+isn't used every time, it is used enough to notice an improvement.
+
+As always the updated source code is on
+[GitHub](https://github.com/Arcath/arcath.net-next) if you interested.
