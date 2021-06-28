@@ -56,6 +56,7 @@ const createFile = <Frontmatter extends {}, Properties extends BaseProperties>(
   let contents: string
   let frontmatter: Frontmatter
   let bundle: string
+  let bundlePromise: Promise<string>
 
   if (process.env.NODE_ENV === 'development') {
     fs.watch(filePath, {}, event => {
@@ -157,12 +158,14 @@ const createFile = <Frontmatter extends {}, Properties extends BaseProperties>(
         }
 
         if (typeof bundle !== 'string') {
-          const code = await prepareMDX(contents, {
-            directory: file.directory,
-            imagesUrl: properties.bundleDirectory
-          })
+          if (!bundlePromise) {
+            bundlePromise = prepareMDX(contents, {
+              directory: file.directory,
+              imagesUrl: properties.bundleDirectory
+            })
+          }
 
-          bundle = code
+          bundle = await bundlePromise
         }
 
         return bundle
