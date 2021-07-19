@@ -1,7 +1,8 @@
 {
-  "redirects": [
-    {"source": "/articles", "destination": "/posts"}
-  ],
+  "github": {
+    "enabled": false
+  },
+  "redirects": [{"source": "/articles", "destination": "/posts"}],
   "headers": [
     {
       "source": "/(.*)",
