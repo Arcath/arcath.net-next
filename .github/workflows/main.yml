@@ -58,6 +58,9 @@ jobs:
           vercel-project-id: ${{ secrets.PROJECT_ID}}
           working-directory: ./
 
+      - name: 💤 Wait a minute
+        run: sleep 1m
+
       - name: 📑 Update Github Profile
         uses: benc-uk/workflow-dispatch@v1
         with:
