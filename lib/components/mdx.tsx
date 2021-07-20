@@ -2,7 +2,7 @@ import React, {useMemo, ReactHTMLElement} from 'react'
 import Image from 'next/image'
 import {getMDXComponent} from 'mdx-bundler/client'
 import Link from 'next/link'
-import {omit} from '@arcath/utils'
+import {omit} from '@arcath/utils/lib/functions/pick'
 
 import {Code} from './code'
 

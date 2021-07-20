@@ -1,7 +1,8 @@
 import path from 'path'
 import fs from 'fs'
 import matter from 'gray-matter'
-import {defaults, asyncMap} from '@arcath/utils'
+import {defaults} from '@arcath/utils/lib/functions/defaults'
+import {asyncMap} from '@arcath/utils/lib/functions/async-map'
 
 import {log} from '../functions/log'
 import {prepareMDX} from '../functions/prepare-mdx'

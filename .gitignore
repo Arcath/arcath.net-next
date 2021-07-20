@@ -2,6 +2,7 @@
 .next/
 /out_publish/
 /out_functions/
+.vercel/
 
 ## Tests
 coverage/

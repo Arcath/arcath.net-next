@@ -1,5 +1,7 @@
 import {GetServerSidePropsContext} from 'next'
-import {asyncMap, replaceProperty, pick} from '@arcath/utils'
+import {asyncMap} from '@arcath/utils/lib/functions/async-map'
+import {replaceProperty} from '@arcath/utils/lib/functions/replace-property'
+import {pick} from '@arcath/utils/lib/functions/pick'
 
 import {getPosts} from '../../../lib/data/posts'
 import {PostData, POST_FIELDS} from '../../posts'

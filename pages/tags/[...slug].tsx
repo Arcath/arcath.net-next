@@ -7,7 +7,9 @@ import {
 } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
-import {pick, asyncMap, replaceProperty} from '@arcath/utils'
+import {replaceProperty} from '@arcath/utils/lib/functions/replace-property'
+import {asyncMap} from '@arcath/utils/lib/functions/async-map'
+import {pick} from '@arcath/utils/lib/functions/pick'
 
 import {getTag, getTags} from '~/lib/data/tags'
 
@@ -27,7 +29,11 @@ export const getStaticProps = async ({params}: GetStaticPropsContext) => {
         posts: await asyncMap(tag.posts, async post => {
           const data = await post.data
 
-          return replaceProperty(pick(data, ['title', 'href', 'date', 'lead']), 'date', (date) => date.toISOString())
+          return replaceProperty(
+            pick(data, ['title', 'href', 'date', 'lead']),
+            'date',
+            date => date.toISOString()
+          )
         })
       }
     }

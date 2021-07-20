@@ -7,7 +7,8 @@ import {
 } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
-import {pick, replaceProperty} from '@arcath/utils'
+import {replaceProperty} from '@arcath/utils/lib/functions/replace-property'
+import {pick} from '@arcath/utils/lib/functions/pick'
 
 import {getPostFromSlug, getPosts} from '~/lib/data/posts'
 

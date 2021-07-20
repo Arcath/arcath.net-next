@@ -3,7 +3,9 @@ import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import useSWR from 'swr'
-import {ArrayElement, asyncMap, pick, replaceProperty} from '@arcath/utils'
+import {replaceProperty} from '@arcath/utils/lib/functions/replace-property'
+import {pick} from '@arcath/utils/lib/functions/pick'
+import {asyncMap} from '@arcath/utils/lib/functions/async-map'
 
 import meta from '~/data/meta.json'
 

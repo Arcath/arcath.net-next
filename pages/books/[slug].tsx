@@ -5,7 +5,7 @@ import {
   GetStaticPaths,
   InferGetStaticPropsType
 } from 'next'
-import {pick} from '@arcath/utils'
+import {pick} from '@arcath/utils/lib/functions/pick'
 
 import {getBooks, getBookFromSlug} from '~/lib/data/books'
 

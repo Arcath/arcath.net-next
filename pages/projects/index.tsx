@@ -2,7 +2,9 @@ import React from 'react'
 import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
-import {asyncMap, groupedBy, pick} from '@arcath/utils'
+import {pick} from '@arcath/utils/lib/functions/pick'
+import {groupedBy} from '@arcath/utils/lib/functions/grouped-by'
+import {asyncMap} from '@arcath/utils/lib/functions/async-map'
 
 import {getProjects} from '~/lib/data/projects'
 

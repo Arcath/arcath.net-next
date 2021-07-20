@@ -6,7 +6,7 @@ import {
   InferGetStaticPropsType
 } from 'next'
 import Head from 'next/head'
-import {pick} from '@arcath/utils'
+import {pick} from '@arcath/utils/lib/functions/pick'
 
 import {getProjects, getProjectBySlug} from '~/lib/data/projects'
 

@@ -1,0 +1,15 @@
+---
+title: Github Actions & Vercel
+lead: Testing Next.JS using GitHub actions and deploying it to Vercel.
+date: 2021-07-20T18:20:37.426Z
+tags:
+  - GitHub
+  - Vercel
+  - Next.JS
+---
+
+This site is built and hosted by [Vercel](https://vercel.com), but by default, the build happens at the same time as tests on GitHub actions. This concurrency means the site can deploy whilst the tests are failing.
+
+## Testing
+
+Testing Next.JS isn't the easiest, you can see from the [relatively low coverage of this site](https://codecov.io/gh/Arcath/arcath.net-next/tree/814e3bfc8f29cdbb78a1b9640ffa753fa07725f2) that there are parts we just can't test using Jest. This doesn't stop us testing the constituent parts like the file parsing functions and even `getStaticProps`.

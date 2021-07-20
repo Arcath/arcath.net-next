@@ -1,4 +1,5 @@
-import {ArrayElement, parameterize, asyncForEach} from '@arcath/utils'
+import {parameterize} from '@arcath/utils/lib/functions/parameterize'
+import {asyncForEach} from '@arcath/utils/lib/functions/async-for-each'
 import {db} from 'sodb'
 
 import {getPosts, PostFrontmatter, PostProperties} from './posts'

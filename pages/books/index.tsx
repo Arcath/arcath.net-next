@@ -3,7 +3,8 @@ import {GetStaticPropsContext, NextPage, InferGetStaticPropsType} from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
-import {asyncMap, pick} from '@arcath/utils'
+import {pick} from '@arcath/utils/lib/functions/pick'
+import {asyncMap} from '@arcath/utils/lib/functions/async-map'
 
 import {getBooks} from '~/lib/data/books'
 
