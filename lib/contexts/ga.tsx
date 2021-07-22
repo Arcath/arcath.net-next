@@ -28,6 +28,8 @@ const TrackingProvider: React.FC = props => {
     if (!isInitialized) {
       ReactGA.initialize(TrackingID)
 
+      ReactGA.pageview(window.location.pathname)
+
       Router.events.on('routeChangeComplete', handleRouteChange)
 
       setAnalytics(prev => ({

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import {getMDXComponent} from 'mdx-bundler/client'
 import Link from 'next/link'
 import {omit} from '@arcath/utils/lib/functions/pick'
+import {OutboundLink} from 'react-ga'
 
 import {Code} from './code'
 
@@ -31,7 +32,11 @@ const Anchor: React.FC<Partial<ReactHTMLElement<HTMLAnchorElement>['props']>> =
     }
 
     if (href!.substr(0, 4) === 'http') {
-      return <a href={href!}>{children}</a>
+      return (
+        <OutboundLink eventLabel="Content Outbound Link" to={href!}>
+          {children}
+        </OutboundLink>
+      )
     }
 
     return (
