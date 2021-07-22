@@ -1,4 +1,4 @@
-import {getStaticPaths, getStaticProps} from '../../pages/[year]/[month]/[slug]'
+import {getStaticPaths} from '../../pages/[year]/[month]/[slug]'
 
 describe('Post page', () => {
   it('should generate static paths', async () => {
