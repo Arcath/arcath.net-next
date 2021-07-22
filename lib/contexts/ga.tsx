@@ -6,7 +6,7 @@ const TrackingID = 'UA-75492019-1'
 const TrackingContext =
   React.createContext<{logEvent: (event: ReactGA.EventArgs) => void}>(undefined)
 
-const TrackingProvider: React.FC = () => {
+const TrackingProvider: React.FC = props => {
   const [analytics, setAnalytics] = useState({
     isInitialized: false
   })
@@ -41,7 +41,7 @@ const TrackingProvider: React.FC = () => {
     }
   }, [])
 
-  return <TrackingContext.Provider value={{logEvent}} />
+  return <TrackingContext.Provider value={{logEvent}} {...props} />
 }
 
 const useTracking = () => React.useContext(TrackingContext)
