@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "clean": "rimraf .next/ && rimraf out_publish/ && rimraf out_functions/",
-    "test": "jest"
+    "test": "jest",
+    "update-check": "npm-check -u --ignore canvas"
   },
   "author": "Adam Laycock <adam@arcath.net>",
   "license": "ISC",
@@ -56,7 +57,7 @@
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.1",
     "@types/react": "^17.0.15",
-    "canvas": "^2.6.1",
+    "canvas": "2.6.1",
     "jest": "^27.0.6",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.3.2",
