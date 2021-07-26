@@ -13,10 +13,5 @@
         }
       ]
     }
-  ],
-  "functions": {
-    "pages/_data/posts/[skip].js": {
-      "includeFiles": "_content/posts/**"
-    }
-  }
+  ]
 }
