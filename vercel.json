@@ -15,7 +15,7 @@
     }
   ],
   "functions": {
-    "_data/posts/[skip].ts": {
+    "pages/_data/posts/[skip].ts": {
       "includeFiles": "_content/posts/**/index.mdx"
     }
   }
