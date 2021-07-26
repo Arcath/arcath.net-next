@@ -6,10 +6,10 @@ import * as SWR from 'swr'
 import PostsPage, {getStaticProps} from '../../pages/posts'
 
 describe('Posts Page', () => {
-  it('should select the first 5 posts', async () => {
+  it('should select the posts', async () => {
     const {props} = await getStaticProps({})
 
-    expect(props.posts).toHaveLength(5)
+    expect(props.posts.length).toBeGreaterThan(30)
   })
 
   it('should render content', async () => {
