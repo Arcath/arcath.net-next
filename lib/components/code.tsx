@@ -113,9 +113,9 @@ const calculateLinesToHighlight = (meta: string) => {
 export const Code: React.FC<{
   codeString: string
   language: any
-  metaString: string
-}> = ({codeString, language, metaString}) => {
-  const shouldHighlightLine = calculateLinesToHighlight(metaString)
+  line?: string
+}> = ({codeString, language, line}) => {
+  const shouldHighlightLine = calculateLinesToHighlight(line)
 
   const [show, setShow] = useState(false)
   const [copied, setCopied] = useState(false)

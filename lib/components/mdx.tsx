@@ -92,7 +92,7 @@ const preToCodeBlock = (
 ): {
   language: string
   codeString: string
-  metaString: string
+  line?: string
   className: string
 } => {
   if (
@@ -115,13 +115,10 @@ const preToCodeBlock = (
     return {
       codeString: codeString.trim(),
       className,
-      metaString:
-        matches && matches.groups && matches.groups.lang
-          ? matches.groups.lang.split('#')[1]
-          : '',
+      line: props.line,
       language:
         matches && matches.groups && matches.groups.lang
-          ? matches.groups.lang.split('#')[0]
+          ? matches.groups.lang
           : '',
       ...omit(props, ['children'])
     }

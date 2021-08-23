@@ -27,7 +27,7 @@ This felt like the right place to start and, I knew one place that was an issue.
 
 So the first problem area I want to look at is `getPostBySlug`.
 
-```ts#5
+```ts line=5
 export const getPostBySlug = async <K extends (keyof Post)[]>(
   slug: string[],
   fields: K
@@ -68,7 +68,7 @@ it in slugs or anything like that without invalidating all my current
 permalinks. So a quick rename of every folder to `year-month-slug` and
 `getPostBySlug` now looks a lot better.
 
-```ts#2-6
+```ts 2-6
 export const getPostFromSlug = (year: string, month: string, slug: string) => {
   const filePath = path.join(
     POSTS_DIRECTORY,

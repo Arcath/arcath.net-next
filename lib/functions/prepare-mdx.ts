@@ -1,7 +1,36 @@
 import path from 'path'
 import {bundleMDX} from 'mdx-bundler'
 import {remarkMdxImages} from 'remark-mdx-images'
-import gfm from 'remark-gfm'
+
+const getRehypeMdxCodeMeta = async () => {
+  const {visit} = await import('unist-util-visit')
+
+  return (options = {}) => {
+    return tree => {
+      visit(tree, 'element', visitor)
+    }
+
+    function visitor(node, index, parentNode) {
+      if (node.tagName === 'code' && node.data && node.data.meta) {
+        const blocks = node.data.meta.split(' ') as string[]
+
+        node.properties = blocks.reduce((props, block) => {
+          const [prop, value] = block.split('=')
+
+          if (typeof value === 'undefined') {
+            props.line = prop
+
+            return props
+          }
+
+          props[prop] = value
+
+          return props
+        }, node.properties)
+      }
+    }
+  }
+}
 
 export const prepareMDX = async (
   source: string,
@@ -30,14 +59,22 @@ export const prepareMDX = async (
 
   const {directory, imagesUrl} = options
 
-  const {code} = await bundleMDX(source, {
+  const gfm = (await import('remark-gfm')) as any
+
+  const rehypeMdxCodeMeta = await getRehypeMdxCodeMeta()
+
+  const {code, errors} = await bundleMDX(source, {
     cwd: directory,
     xdmOptions: options => {
       options.remarkPlugins = [
         ...(options.remarkPlugins ?? []),
-        //remarkHighlight,
         gfm,
         remarkMdxImages
+      ]
+
+      options.rehypePlugins = [
+        ...(options.rehypePlugins ?? []),
+        rehypeMdxCodeMeta
       ]
 
       return options
@@ -56,6 +93,10 @@ export const prepareMDX = async (
       return options
     }
   })
+
+  if (errors.length > 0) {
+    console.dir(errors.map(({detail}) => detail))
+  }
 
   return code
 }
