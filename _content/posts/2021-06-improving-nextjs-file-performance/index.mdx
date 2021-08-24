@@ -27,7 +27,7 @@ This felt like the right place to start and, I knew one place that was an issue.
 
 So the first problem area I want to look at is `getPostBySlug`.
 
-```ts line=5
+```ts 5
 export const getPostBySlug = async <K extends (keyof Post)[]>(
   slug: string[],
   fields: K
@@ -68,7 +68,7 @@ it in slugs or anything like that without invalidating all my current
 permalinks. So a quick rename of every folder to `year-month-slug` and
 `getPostBySlug` now looks a lot better.
 
-```ts 2-6
+```ts 2-6 filename=lib/data/posts.ts
 export const getPostFromSlug = (year: string, month: string, slug: string) => {
   const filePath = path.join(
     POSTS_DIRECTORY,
@@ -119,7 +119,7 @@ promise for a `string` or in the case of `data` an object of
 This means that the `getStaticProps` for a post is now a very clean get the
 post, bundle the post, return the post.
 
-```ts
+```ts filename=pages/[year]/[month]/[slug].tsx
 export const getStaticProps = async ({
   params
 }: GetStaticPropsContext<{year: string; month: string; slug: string}>) => {
@@ -171,7 +171,7 @@ An in memory cache has 2 problems in Next.JS.
 
 Ignoring both issues I created a simple global scope cache to hold file objects.
 
-```ts
+```ts filename=lib/data/file.ts
 const fileCache: Record<string, File<any, any>> = {}
 
 export const file = <Frontmatter extends {}, Properties extends {}>(

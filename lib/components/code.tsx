@@ -114,7 +114,8 @@ export const Code: React.FC<{
   codeString: string
   language: any
   line?: string
-}> = ({codeString, language, line}) => {
+  fileName?: string
+}> = ({codeString, language, line, fileName}) => {
   const shouldHighlightLine = calculateLinesToHighlight(line)
 
   const [show, setShow] = useState(false)
@@ -197,6 +198,18 @@ export const Code: React.FC<{
                 </div>
               )
             })}
+            <div className="border-l-4 border-gray-900 bg-gray-900">
+              <span className="ml-10 mr-4 inline-block px-2 bg-brand-dark">
+                Language {language}
+              </span>
+              {fileName ? (
+                <span className="mr-4 inline-block px-2 bg-brand-dark">
+                  {fileName}
+                </span>
+              ) : (
+                ''
+              )}
+            </div>
           </pre>
         </div>
       )}

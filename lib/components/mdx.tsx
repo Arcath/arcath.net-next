@@ -93,6 +93,7 @@ const preToCodeBlock = (
   language: string
   codeString: string
   line?: string
+  fileName?: string
   className: string
 } => {
   if (
@@ -116,6 +117,7 @@ const preToCodeBlock = (
       codeString: codeString.trim(),
       className,
       line: props.line,
+      fileName: props.filename,
       language:
         matches && matches.groups && matches.groups.lang
           ? matches.groups.lang
