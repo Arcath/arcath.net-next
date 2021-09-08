@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import Highlight, {defaultProps, PrismTheme} from 'prism-react-renderer'
 import copy from 'copy-to-clipboard'
+import {OutboundLink} from 'react-ga'
 
 const theme: PrismTheme = {
   plain: {
@@ -115,7 +116,8 @@ export const Code: React.FC<{
   language: any
   line?: string
   fileName?: string
-}> = ({codeString, language, line, fileName}) => {
+  url?: string
+}> = ({codeString, language, line, fileName, url}) => {
   const shouldHighlightLine = calculateLinesToHighlight(line)
 
   const [show, setShow] = useState(false)
@@ -205,6 +207,19 @@ export const Code: React.FC<{
               {fileName ? (
                 <span className="mr-4 inline-block px-2 bg-brand-dark">
                   {fileName}
+                </span>
+              ) : (
+                ''
+              )}
+              {url ? (
+                <span className="mr-4 inline-block px-2 bg-white">
+                  <OutboundLink
+                    to={url}
+                    eventLabel="Click Code Link"
+                    target="_BLANK"
+                  >
+                    View on Github
+                  </OutboundLink>
                 </span>
               ) : (
                 ''
