@@ -1,5 +1,4 @@
 import path from 'path'
-import {bundleMDX} from 'mdx-bundler'
 import {remarkMdxImages} from 'remark-mdx-images'
 
 const getRehypeMdxCodeMeta = async () => {
@@ -44,7 +43,7 @@ export const prepareMDX = async (
     process.env.ESBUILD_BINARY_PATH = path.join(
       process.cwd(),
       'node_modules',
-      'esbuild',
+      'esbuild-windows-64',
       'esbuild.exe'
     )
   } else {
@@ -56,6 +55,8 @@ export const prepareMDX = async (
       'esbuild'
     )
   }
+
+  const {bundleMDX} = await import('mdx-bundler')
 
   const {directory, imagesUrl} = options
 

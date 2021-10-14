@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -23,14 +19,8 @@
       "~/data/*": ["_data/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "node_modules/esbuild/lib/main.d.ts"],
   "ts-node": {
     // these options are overrides used only by ts-node
     // same as our --compilerOptions flag and our TS_NODE_COMPILER_OPTIONS environment variable
@@ -38,5 +28,5 @@
       "module": "commonjs",
       "isolatedModules": false
     }
-  },
+  }
 }
