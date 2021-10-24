@@ -5,6 +5,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import {pick} from '@arcath/utils/lib/functions/pick'
 import {asyncMap} from '@arcath/utils/lib/functions/async-map'
+import {OutboundLink} from 'react-ga'
 
 import {getBooks} from '~/lib/data/books'
 
@@ -65,7 +66,9 @@ const BooksPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 </Link>
                 <MDX source={source} />
                 <p>
-                  <a href={link}>Buy on Amazon</a>
+                  <OutboundLink eventLabel="Amazon link click" to={link}>
+                    Buy on Amazon
+                  </OutboundLink>
                 </p>
               </div>
               {i % 2 === 0 ? (

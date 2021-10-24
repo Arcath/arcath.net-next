@@ -37,7 +37,7 @@ export const getBooks = getFiles<BookFrontmatter, BookProperties>({
   defaultQueryParams: {
     limit: 5,
     orderBy: 'date',
-    order: 'ASC',
+    order: 'DESC',
     skip: 0
   }
 })

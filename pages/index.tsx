@@ -8,6 +8,7 @@ import {useInView} from 'react-intersection-observer'
 import {replaceProperty} from '@arcath/utils/lib/functions/replace-property'
 import {asyncMap} from '@arcath/utils/lib/functions/async-map'
 import {pick} from '@arcath/utils/lib/functions/pick'
+import {motion} from 'framer-motion'
 
 import {getBooks} from '~/lib/data/books'
 import {getPosts} from '~/lib/data/posts'

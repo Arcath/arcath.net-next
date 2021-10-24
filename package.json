@@ -21,6 +21,7 @@
     "date-fns": "^2.25.0",
     "esbuild": "^0.13.6",
     "fontsource-montserrat": "^4.0.0",
+    "framer-motion": "^4.1.17",
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^6.0.1",
     "next": "^11.1.2",
