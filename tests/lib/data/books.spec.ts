@@ -20,7 +20,7 @@ describe('Books', () => {
 
     const reverseSortedBooks = await getBooks({
       orderBy: 'title',
-      order: 'DESC',
+      order: 'ASC',
       limit: 1
     })
 
