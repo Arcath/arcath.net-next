@@ -27,6 +27,7 @@
     "next": "^11.1.2",
     "next-images": "^1.8.1",
     "next-pwa": "^5.3.1",
+    "octokit": "^1.7.0",
     "postcss": "^8.3.9",
     "prism-react-renderer": "^1.2.1",
     "prism-themes": "^1.9.0",
