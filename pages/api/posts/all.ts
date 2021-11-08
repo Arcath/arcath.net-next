@@ -4,6 +4,8 @@ import {asyncMap} from '@arcath/utils/lib/functions/async-map'
 import matter from 'gray-matter'
 
 const allPostsHandler: NextApiHandler = async (req, res) => {
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : 1000
+
   const octokit = new Octokit({
     auth: process.env.GH_TOKEN
   })
@@ -27,13 +29,16 @@ const allPostsHandler: NextApiHandler = async (req, res) => {
 
   const files = tree.data.tree
 
-  const postFiles = files.reduce((posts, file) => {
-    if (file.path.match('_content/posts/.*/index.mdx')) {
-      posts.push(file)
-    }
+  const postFiles = files
+    .reduce((posts, file) => {
+      if (file.path.match('_content/posts/.*/index.mdx')) {
+        posts.push(file)
+      }
 
-    return posts
-  }, [])
+      return posts
+    }, [])
+    .reverse()
+    .slice(0, limit)
 
   const posts = await asyncMap(postFiles, async postFile => {
     const postContent = await octokit.request(
@@ -51,7 +56,14 @@ const allPostsHandler: NextApiHandler = async (req, res) => {
 
     const {data} = matter(content)
 
-    return data
+    const [year, month, ...slug] = postFile.path
+      .replace('_content/posts/', '')
+      .replace('/index.mdx', '')
+      .split('-')
+
+    const uri = `/${year}/${month}/${slug.join('-')}`
+
+    return {...data, uri}
   })
 
   res.status(200).json(posts)

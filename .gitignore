@@ -3,6 +3,7 @@
 /out_publish/
 /out_functions/
 .vercel/
+.env.local
 
 ## Tests
 coverage/
