@@ -19,11 +19,6 @@ const HEIGHT = 640
 const main = async () => {
   const posts = await getPosts({limit: false})
 
-  await writeFile(
-    path.join(process.cwd(), 'pages', '_data', 'posts', 'data.json'),
-    JSON.stringify(posts)
-  )
-
   registerFont(
     path.join(process.cwd(), 'fonts', 'montserrat-latin-300-normal.ttf'),
     {family: 'Montserrat'}
